@@ -1,0 +1,1 @@
+"use strict";angular.module("angularFireHangoutApp",["ngAnimate"]),angular.module("angularFireHangoutApp").controller("MainCtrl",function(){this.awesomeThings=["HTML5 Boilerplate","AngularJS","Karma"]});

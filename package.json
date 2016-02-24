@@ -17,6 +17,7 @@
     "grunt-contrib-uglify": "^0.7.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-filerev": "^2.1.2",
+    "grunt-ftp-deploy": "^0.1.10",
     "grunt-google-cdn": "^0.4.3",
     "grunt-jscs": "^1.8.0",
     "grunt-karma": "*",
@@ -37,5 +38,9 @@
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "dependencies": {
+    "google-cdn-data": "^0.1.23",
+    "grunt-google-cdn": "^0.4.3"
   }
 }

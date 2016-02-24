@@ -9,6 +9,12 @@
 
 module.exports = function (grunt) {
 
+
+  grunt.loadNpmTasks('grunt-google-cdn');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-ftp-deploy');
+
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -30,6 +36,35 @@ module.exports = function (grunt) {
 
     // Project settings
     yeoman: appConfig,
+
+
+    concat: {
+      files: {
+        src: ['./app/scripts/*.js', './app/scripts/controllers/*.js', './app/scripts/controllers/event/*.js', './app/scripts/filters/*.js'],
+        dest: './app/script_mini/mixidea.js',
+      }
+    },
+
+    uglify: {
+      dist: {
+        files: {
+          './app/script_mini/mixidea-mini.js': './app/script_mini/mixidea.js'
+        }
+      }
+    },
+
+    'ftp-deploy': {
+      build: {
+        auth: {
+          host: 'webdemo.dac.co.jp',
+          port: 21,
+          authKey: 'key1'
+        },
+        src: './app',
+        dest: '/public_html/mixidea/angular/angular_fire_hangout/app',
+        exclusions: ['./app/.sass-cache']
+      }
+    },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -362,10 +397,14 @@ module.exports = function (grunt) {
     },
 
     // Replace Google CDN references
+
     cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
+        options: {
+            cdn: require('google-cdn-data')
+        },
+        dist: {
+            html: ['app/*.html']
+        }
     },
 
     // Copies remaining files to places other tasks can use
@@ -480,4 +519,11 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+
+  grunt.registerTask('deploy',['cdnify', 'concat','uglify','ftp-deploy']);
+
+  grunt.registerTask('run_cdnify',['cdnify']);
+
+
 };
