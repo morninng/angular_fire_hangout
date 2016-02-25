@@ -14,6 +14,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-ftp-deploy');
+  grunt.loadNpmTasks('grunt-aws-s3');
+
+  var S3_config = grunt.file.readJSON('deploy-keys.json');
+
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -65,6 +69,24 @@ module.exports = function (grunt) {
         exclusions: ['./app/.sass-cache']
       }
     },
+
+    aws_s3: {
+      options: {
+          accessKeyId: S3_config.AWSAccessKeyId,
+          secretAccessKey: S3_config.AWSSecretKey,
+          region: S3_config.AWSRegion,
+          uploadConcurrency: 5, // 5 simultaneous uploads
+      },
+      production: {
+          options: {
+              bucket: 'mixideahangoutsource',
+          },
+          files: [
+              {expand: true, cwd: 'app/', src: ['**'], dest: 'angular_fire_hangout/app/', action: 'upload'}
+          ]
+      },
+    },
+
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -522,8 +544,11 @@ module.exports = function (grunt) {
 
 
   grunt.registerTask('deploy',['cdnify', 'concat','uglify','ftp-deploy']);
+  grunt.registerTask('deploy_s3',['cdnify', 'concat','uglify','aws_s3']);
 
-  grunt.registerTask('run_cdnify',['cdnify']);
 
+  grunt.registerTask('check_s3', function(){
+    grunt.log.writeln(S3_config.AWSAccessKeyId);
+  });
 
 };

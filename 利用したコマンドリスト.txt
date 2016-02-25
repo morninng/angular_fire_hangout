@@ -1,0 +1,13 @@
+
+
+yo angular angular_fire_hangout
+
+ npm install  grunt-google-cdn google-cdn-data --save
+ npm install grunt-ftp-deploy --save-dev
+
+bower install angular-ui-router --save
+touch .ftppass
+
+ npm install grunt-aws-s3 --save-dev
+
+  yo angular:controller Title-Mgr
