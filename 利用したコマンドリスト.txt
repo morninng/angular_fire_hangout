@@ -11,3 +11,6 @@ touch .ftppass
  npm install grunt-aws-s3 --save-dev
 
   yo angular:controller Title-Mgr
+
+
+   yo angular:constant MixideaHangout-Setting

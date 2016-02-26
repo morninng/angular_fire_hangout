@@ -33,9 +33,7 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
 
-        <script src="https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/scripts/app.js"></script>
-        <script src="https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/scripts/controllers/main.js"></script>
-        <script src="https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/scripts/controllers/title-mgr.js"></script>
+        <script src="https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/script_mini/mixidea-mini.js"></script>
 
 
         <!-- endbuild -->
