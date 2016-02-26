@@ -19,10 +19,13 @@ angular
 
 
 angular.module('angularFireHangoutApp')
-  .run(['$state', function($state) {
+  .run(['$state','MixideaSetting', function($state, MixideaSetting) {
 
-  	console.log("initial state");
+  	console.log("event id:" + MixideaSetting.event_id);
+  	console.log("user id : " + MixideaSetting.own_user_id);
+  	console.log("room type : " + MixideaSetting.room_type);
 	 $state.go('main.intro');
+	
 
 }]);
  
@@ -30,7 +33,6 @@ angular.module('angularFireHangoutApp')
 angular.module('angularFireHangoutApp')
   .config(['$stateProvider','MixideaSetting', function($stateProvider, MixideaSetting ) {
 
-  	console.log("state provider is called");
 
 	$stateProvider
 	.state('main', {
@@ -85,22 +87,3 @@ angular.module('angularFireHangoutApp')
 
 
   }]);
-
-'use strict';
-
-/**
- * @ngdoc service
- * @name angularFireHangoutApp.MixideaHangoutSetting
- * @description
- * # MixideaHangoutSetting
- * Constant in the angularFireHangoutApp.
- */
-angular.module('angularFireHangoutApp')
-  .constant('MixideaSetting', {
-  	firebase_url: "https://mixidea.firebaseio.com/",
-  	teamdiscuss_app_id: '211272797315',
-  	source_domain: 'https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/',
-  	own_user_id: 'aa',
-  	event_id: 'bb'
-  });
-

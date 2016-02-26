@@ -19,10 +19,13 @@ angular
 
 
 angular.module('angularFireHangoutApp')
-  .run(['$state', function($state) {
+  .run(['$state','MixideaSetting', function($state, MixideaSetting) {
 
-  	console.log("initial state");
+  	console.log("event id:" + MixideaSetting.event_id);
+  	console.log("user id : " + MixideaSetting.own_user_id);
+  	console.log("room type : " + MixideaSetting.room_type);
 	 $state.go('main.intro');
+	
 
 }]);
  
@@ -30,7 +33,6 @@ angular.module('angularFireHangoutApp')
 angular.module('angularFireHangoutApp')
   .config(['$stateProvider','MixideaSetting', function($stateProvider, MixideaSetting ) {
 
-  	console.log("state provider is called");
 
 	$stateProvider
 	.state('main', {
