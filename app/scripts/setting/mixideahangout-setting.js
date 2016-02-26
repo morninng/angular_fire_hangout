@@ -11,6 +11,7 @@
 var global_own_user_id = null
 var global_event_id = null;
 var global_room_type = null;
+var global_own_hangout_id = null;
 
 (function () {
 
@@ -19,6 +20,13 @@ var global_room_type = null;
   global_own_user_id = appData_split[0];
   global_event_id = appData_split[1];
   global_room_type = appData_split[2];
+
+  gapi.hangout.onApiReady.add(function(e){
+    if(e.isApiReady){
+      global_own_hangout_id = gapi.hangout.getLocalParticipantId();
+      set_mapping_data(global_own_user_id, global_own_hangout_id);
+    }
+  });
 
 }());
 
@@ -32,3 +40,16 @@ angular.module('angularFireHangoutApp')
   	room_type: global_room_type
   });
 
+function set_mapping_data(user_id, hangout_id)
+{
+  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+  var mapping_data_ref = root_ref.child("hangout_dynamic_data/" + global_event_id + "/mapping_data/" + global_own_user_id)
+  mapping_data_ref.set(hangout_id, function(error) {
+    if (error) {
+      alert("mapping failed" + error);
+    } else {
+      console.log("hangout id " + hangout_id + " is set");
+    }
+  });
+
+}
