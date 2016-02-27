@@ -82,7 +82,7 @@ angular.module('angularFireHangoutApp')
 	})
 	.state('main.intro', {
 		views:{
-			"container_top":{
+			"top_left":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
 			controller: 'TitleMgrCtrl'
 			}

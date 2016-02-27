@@ -82,7 +82,7 @@ angular.module('angularFireHangoutApp')
 	})
 	.state('main.intro', {
 		views:{
-			"container_top":{
+			"top_left":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
 			controller: 'TitleMgrCtrl'
 			}
@@ -119,9 +119,41 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('TitleMgrCtrl',['$scope', function ($scope) {
+  .controller('TitleMgrCtrl',['$scope', 'MixideaSetting','$timeout', function ($scope, MixideaSetting, $timeout) {
 
-  	$scope.title="aaa";
+
+  	$scope.under_edit = false;
+  	$scope.motion = "input motion here";
+
+	var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var title_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/motion")
+
+	title_ref.on("value", function(snapshot) {
+		$timeout(function() {
+			$scope.motion = snapshot.val();
+		});
+
+	}, function (errorObject) {
+		console.log("The read failed: " + errorObject.code);
+
+	});
+
+	$scope.edit_start = function(){
+		$timeout(function() {
+			$scope.under_edit = true;
+		});
+	}
+
+	$scope.save = function(){
+		var title = document.title_form.title_textbox.value;
+		title_ref.set(title);
+		$scope.under_edit = false;
+
+	}
+
+	$scope.cancel = function(){
+		$scope.under_edit = false;
+	}
 
 
   }]);

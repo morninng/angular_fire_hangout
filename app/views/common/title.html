@@ -1,4 +1,29 @@
 
 
-{{title}}
-vv
+<div id="title_container">
+	<form name="title_form" id="title_form">
+		<div class="title_sentence">
+			<div ng-if="!under_edit">
+				<div>
+					<strong>motion:</strong>
+				</div>
+				<div>
+					<span>{{motion}}</span>
+				</div>
+			</div>
+			<div ng-if="under_edit">
+				<input type="text" ng-model="motion" id="title_textbox"  value="input motion here"  autofocus >
+				<span>{{motion}}</span>
+			</div>
+		</div>
+		<div class="title_button" >
+			<div ng-if="!under_edit">
+				<input type="button" ng-click="edit_start()" value="edit motion">
+			</div>
+			<div ng-if="under_edit">
+				<input type="button" ng-click="save(motion)" value="save">
+				<input type="button" ng-click="cancel()" value="cancel">
+			</div>
+		</div>
+	</form>
+</div>
