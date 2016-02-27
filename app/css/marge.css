@@ -1,15 +1,15 @@
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/title\.scss}line{font-family:\000032}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_title\.scss}line{font-family:\000032}}
 #title_container {
   display: flex;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/title\.scss}line{font-family:\000035}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_title\.scss}line{font-family:\000035}}
 #title_container .title_left_sentence {
   max-width: 1000px;
   min-width: 300px;
   vertical-align: text-bottom;
   display: flex;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/title\.scss}line{font-family:\0000312}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_title\.scss}line{font-family:\0000312}}
 #title_container #motion_title {
   font-weight: bold;
   margin-left: 5px;
@@ -17,7 +17,7 @@
   padding-left: 5px;
   padding-right: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/title\.scss}line{font-family:\0000320}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_title\.scss}line{font-family:\0000320}}
 #title_container .motion_sentence_Red_xlarge {
   color: red;
   margin-right: 10px;
@@ -27,7 +27,7 @@
   font-family: sans-serif;
   font-size: xx-large;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/title\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_title\.scss}line{font-family:\0000330}}
 #title_container .motion_sentence_large {
   margin-right: 10px;
   padding-right: 10px;
@@ -36,7 +36,7 @@
   font-family: sans-serif;
   font-size: x-large;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/title\.scss}line{font-family:\0000339}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_title\.scss}line{font-family:\0000339}}
 #title_container .motion_sentence_middle {
   margin-right: 8px;
   padding-right: 8px;
@@ -45,7 +45,7 @@
   font-family: sans-serif;
   font-size: large;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/title\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_title\.scss}line{font-family:\0000347}}
 #title_container .motion_sentence_small {
   margin-right: 3px;
   padding-right: 3px;
@@ -54,13 +54,97 @@
   font-family: sans-serif;
   font-size: medium;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/title\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_title\.scss}line{font-family:\0000357}}
 #title_container #title_textbox {
   /*
   min-width: 400px;
   */
   padding: 2px;
   font-size: large;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_statusbar\.scss}line{font-family:\000031}}
+#staus_bar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  border: 1px solid #000000;
+  background: #FFF5EE;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_statusbar\.scss}line{font-family:\000038}}
+.status_bar_element_last {
+  width: 15%;
+  text-align: center;
+  font-size: large;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background: #FDE4CE;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_statusbar\.scss}line{font-family:\0000316}}
+.status_bar_element {
+  width: 15%;
+  text-align: center;
+  font-size: large;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background: #FDE4CE;
+  margin-right: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_statusbar\.scss}line{font-family:\0000327}}
+.status_bar_element:after {
+  content: "";
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  border: 19px solid;
+  border-color: transparent transparent transparent #FDE4CE;
+  right: -38px;
+  top: -2px;
+  z-index: 2;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_statusbar\.scss}line{font-family:\0000340}}
+.status_bar_element_last_selected {
+  width: 15%;
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background: #4cae4c;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_statusbar\.scss}line{font-family:\0000349}}
+.status_bar_element_selected {
+  width: 15%;
+  text-align: center;
+  font-size: large;
+  font-weight: bold;
+  color: #FFFFFF;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background: #4cae4c;
+  margin-right: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_statusbar\.scss}line{font-family:\0000362}}
+.status_bar_element_selected:after {
+  content: "";
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  border: 19px solid;
+  border-color: transparent transparent transparent #4cae4c;
+  right: -38px;
+  top: -2px;
+  z-index: 2;
 }
 
 /*# sourceMappingURL=marge.css.map */

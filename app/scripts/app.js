@@ -85,6 +85,10 @@ angular.module('angularFireHangoutApp')
 			"top_left":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
 			controller: 'TitleMgrCtrl'
+			},
+			"container_second_top":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
+			controller: 'StatusbarCtrl'
 			}
 		}
 	})
