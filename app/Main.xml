@@ -23,6 +23,10 @@
       </div>
     </div>
 </div>
+
+
+    <link rel="stylesheet" href="https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/css/marge.css">
+
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.0-beta.1/angular.min.js"></script>

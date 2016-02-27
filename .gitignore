@@ -5,3 +5,5 @@
 /bower_components
 /deploy-keys.json
 /credentials*
+*~
+app/.sass-cache/*
