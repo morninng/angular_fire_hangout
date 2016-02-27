@@ -1,28 +1,26 @@
 
 
 <div id="title_container">
-	<div class="title_sentence">
-		<div ng-if="!under_edit">
-			<div>
-				<strong>motion:</strong>
+	<div>
+		<div ng-if="!under_edit" class="title_left_sentence">
+			<div id="motion_title">
+				<span>motion:</span>
 			</div>
-			<div>
-				<span>{{motion}}</span>
+			<div ng-class="motion_sentence">
+				{{data.motion}}
 			</div>
 		</div>
-		<div ng-if="under_edit">
-			<form name="title_form" id="title_form">
-				<input type="text" ng-model="motion" id="title_textbox"  value="input motion here"  autofocus >
-			</form>
-			<span>{{motion}}</span>
+		<div ng-if="under_edit" class="title_left_sentence">
+			<textarea  ng-model="data.motion" ng-change="on_motion_change()" id="title_textbox"  value="input motion here" ng-style="dynamic_width"  autofocus ></textarea>
+			
 		</div>
 	</div>
-	<div class="title_button" >
+	<div class="title_right_button" >
 		<div ng-if="!under_edit">
 			<input type="button" ng-click="edit_start()" value="edit motion">
 		</div>
 		<div ng-if="under_edit">
-			<input type="button" ng-click="save(motion)" value="save">
+			<input type="button" ng-click="save()" value="save">
 			<input type="button" ng-click="cancel()" value="cancel">
 		</div>
 	</div>
