@@ -17,3 +17,4 @@ touch .ftppass
 
 
   yo angular:controller StatusBar
+  yo angular:controller StaticVideo

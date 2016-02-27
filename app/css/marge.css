@@ -147,4 +147,84 @@
   z-index: 2;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_static-video\.scss}line{font-family:\000032}}
+#video_area_container_static {
+  background-color: #E0FFFF;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\000032}}
+#container_top {
+  width: 100%;
+  display: flex;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\000037}}
+#top_left {
+  flex: 1;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000314}}
+#container_second_top {
+  width: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000318}}
+#container_main {
+  display: table;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000322}}
+#container_main_left {
+  display: table-cell;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000325}}
+#container_main_left_above {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000330}}
+#container_main_left_above_left {
+  /*display: table-cell;*/
+  width: 300px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000334}}
+#container_main_left_above_left_up {
+  /*video area*/
+  width: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000338}}
+#container_main_left_above_left_below {
+  /*impression area*/
+  width: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000342}}
+#container_main_left_above_right {
+  /*Direction Bar*/
+  width: 300px;
+  vertical-align: top;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000347}}
+#container_main_left_below {
+  width: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000351}}
+#container_main_right {
+  display: table-cell;
+  vertical-align: top;
+  padding: 5px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000357}}
+#container_main_left_above_left {
+  width: 300px;
+}
+
 /*# sourceMappingURL=marge.css.map */
