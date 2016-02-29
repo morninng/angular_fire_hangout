@@ -43,7 +43,7 @@ angular.module('angularFireHangoutApp')
 function set_mapping_data(user_id, hangout_id)
 {
   var root_ref = new Firebase("https://mixidea.firebaseio.com/");
-  var mapping_data_ref = root_ref.child("hangout_dynamic_data/" + global_event_id + "/mapping_data/" + global_own_user_id)
+  var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + global_event_id + "/mapping_data/" + global_own_user_id)
   mapping_data_ref.set(hangout_id, function(error) {
     if (error) {
       alert("mapping failed" + error);

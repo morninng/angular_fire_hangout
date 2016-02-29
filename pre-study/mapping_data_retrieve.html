@@ -1,0 +1,29 @@
+
+
+    <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+  
+
+<script>
+
+
+  var global_event_id = "-KBIKsI_Snsx38ik0qPH";
+
+  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+  var child_path = "event_related/hangout_dynamic/" + global_event_id + "/mapping_data/";
+  var mapping_ref = root_ref.child(child_path);
+  mapping_ref.on("value", function(snapshot) {
+    var mapping_data  = snapshot.val();
+    var key  = snapshot.key();
+    if(mapping_data){
+      mapping_object = mapping_data;
+    }else{
+      mapping_object = new Object();
+    }
+    update_ParticipantMgr_Object();
+
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+
+  });
+
+ </script>

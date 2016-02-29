@@ -1,0 +1,241 @@
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.ParticipantMgrService
+ * @description
+ * # ParticipantMgrService
+ * Factory in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+.factory('ParticipantMgrService',['MixideaSetting','$timeout', function (MixideaSetting, $timeout) {
+
+
+  var root_ref = new Firebase(MixideaSetting.firebase_url);
+
+  var ParticipantMgr_Object = new Object();
+  ParticipantMgr_Object.debate_style = null;
+  ParticipantMgr_Object.participant_obj = new Object();
+  ParticipantMgr_Object.own_group = null;
+  ParticipantMgr_Object.participant_obj_bp_open = new Object();
+  ParticipantMgr_Object.participant_obj_bp_close = new Object();
+  ParticipantMgr_Object.audience_array = new Array();
+  ParticipantMgr_Object.is_audience_yourself = true;
+
+
+  var game_role_obj = new Object();
+  var user_object_data = new Object();
+  var debate_style = null;
+  var full_participants_object = new Object();
+  var mapping_object = new Object();
+  var total_number_participants = 0;
+  var role_group_name_mappin = new Object();
+
+
+
+  var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
+  deb_style_ref.on("value", function(snapshot) {
+    debate_style  = snapshot.val();
+    $timeout(function() {
+      ParticipantMgr_Object.debate_style = debate_style;
+    });
+    update_ParticipantMgr_Object();
+
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+
+  });
+
+  var full_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/full")
+  full_participants_ref.on("value", function(snapshot) {
+    var value  = snapshot.val();
+    if(value){
+      full_participants_object = value;
+    }else{
+      full_participants_object = new Object();
+    }
+    retrieve_participants_all(full_participants_object);
+
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+
+
+  function retrieve_participants_all(full_participants_object){
+
+    user_object_data= new Object();
+    total_number_participants = 0
+    for(var key in full_participants_object){
+      retrieve_participant(key);
+      total_number_participants++;
+    }
+  }
+
+  function retrieve_participant(participant_id){
+    var user_obj_ref = root_ref.child("users/user_basic/" + participant_id);
+    user_obj_ref.on("value", function(snapshot) {
+      var user_obj  = snapshot.val();
+      var user_key = snapshot.key();
+      user_object_data[user_key] = user_obj;
+      var user_object_data_len = check_object_length(user_object_data);
+      if(user_object_data_len == total_number_participants){
+        update_ParticipantMgr_Object();
+      }
+
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+  }
+
+  function check_object_length(obj){
+    var len = 0;
+    for(var key in obj){
+      len++
+    }
+    return len;
+  }
+
+
+
+  var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var mapping_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
+  mapping_ref.on("value", function(snapshot) {
+    var value  = snapshot.val();
+    var key  = snapshot.key();
+    if(value){
+      mapping_object = value;
+    }else{
+      mapping_object = new Object();
+    }
+    update_ParticipantMgr_Object();
+
+  }, function (errorObject) {
+
+    console.log("The read failed: " + errorObject.code);
+
+  });
+
+
+  var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role");
+  role_participants_ref.on("value", function(snapshot) {
+    var value  = snapshot.val();
+    if(value){
+      game_role_obj  = value;
+    }else{
+      game_role_obj = new Object()
+    }
+    update_ParticipantMgr_Object();
+
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+
+  });
+
+  function update_ParticipantMgr_Object(){
+
+    $timeout(function() {
+      var no_applicant_img = MixideaSetting.source_domain + "images/want_you.png";
+      switch(debate_style){
+        case "NA":
+          ParticipantMgr_Object.participant_obj = {
+            PM:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Gov',
+              login:false,
+              css_style:"no_applicant"
+            },
+            LO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Gov',
+              login:false,
+              css_style:"no_applicant"
+            }
+          }
+          ParticipantMgr_Object.audience_array.length=0;
+        break;
+        case "Asian":
+
+        break;
+        case "BP":
+        break;
+        default:
+          return;
+        break;
+      }
+      for( var userid_key in full_participants_object){
+        var have_role = false;
+        for(var role_key in game_role_obj){
+          if(userid_key == game_role_obj[role_key]){
+            have_role = true;
+            break;
+          }
+        }
+        if(!have_role){
+          var audience_obj = {
+              applicant:true,
+              id:userid_key,
+              team:'Aud',
+              login:false,
+              css_style:"logoff"
+          }
+          ParticipantMgr_Object.audience_array.push(audience_obj);        
+        }
+      }
+
+      for(var role_key in game_role_obj){
+        ParticipantMgr_Object.participant_obj[role_key].id = game_role_obj[role_key];
+        ParticipantMgr_Object.participant_obj[role_key].applicant = true;
+      }
+
+      for( var role_key in ParticipantMgr_Object.participant_obj){
+
+        var user_id = ParticipantMgr_Object.participant_obj[role_key].id;
+        if(user_object_data[user_id]){
+          ParticipantMgr_Object.participant_obj[role_key].user_name = user_object_data[user_id].first_name;
+          ParticipantMgr_Object.participant_obj[role_key].profile_pict = user_object_data[user_id].profile_pict;
+          ParticipantMgr_Object.participant_obj[role_key].css_style = "logoff";
+        }
+        if(mapping_object[user_id]){
+          ParticipantMgr_Object.participant_obj[role_key].css_style = "login";
+          ParticipantMgr_Object.participant_obj[role_key].login = true;
+        }
+      }
+      for( var i=0; i< ParticipantMgr_Object.audience_array.length; i++ ){
+
+        var user_id =  ParticipantMgr_Object.audience_array[i].id;
+        if(user_object_data[user_id]){
+          ParticipantMgr_Object.audience_array[i].user_name = user_object_data[user_id].first_name;
+          ParticipantMgr_Object.audience_array[i].profile_pict = user_object_data[user_id].profile_pict;
+          ParticipantMgr_Object.audience_array[i].applicant = true;
+          ParticipantMgr_Object.audience_array[i].css_style = "logoff";
+        }
+        if(mapping_object[user_id]){
+          ParticipantMgr_Object.audience_array[i].css_style = "login";
+        }
+      }
+    });
+
+  }
+
+
+
+  ParticipantMgr_Object.get_hangout_id = function(){
+
+  }
+
+  ParticipantMgr_Object.get_user_info = function(){
+
+  }
+
+
+
+
+
+    return ParticipantMgr_Object;
+}]);

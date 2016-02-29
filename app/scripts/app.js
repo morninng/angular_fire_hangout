@@ -99,7 +99,14 @@ angular.module('angularFireHangoutApp')
 			},
 			"container_main_left_below":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/info_intro.html'
+			},
+			"container_main_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/participant_table.html',
+			controller: 'ParticipantTableParentCtrl'
 			}
+			
+
+
 			
 		}
 	})

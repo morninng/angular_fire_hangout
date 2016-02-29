@@ -1,0 +1,24 @@
+full_participants_object
+  [userid]=true
+  [userid]=true
+
+user_object_data
+  [userid]: profile
+  [userid]: profile
+
+
+game_role_obj
+  [PM]: userid
+  [LO]:userid
+
+
+ParticipantMgr_Object.participant_obj 
+  [PM]: profile
+  [LO]: profile
+
+
+ParticipantMgr_Object.audience_array
+  [
+  {profile}
+  {profile}
+  ]

@@ -1,0 +1,36 @@
+
+#debater_table{
+	display:flex;
+	flex-wrap:wrap;
+
+
+	.debater_element{
+		box-sizing: border-box;
+		width:50%;
+		text-align:center;
+		border: 1px solid #000000;
+		display:flex;
+
+		input{
+			margin:auto;
+		}
+	}
+}
+
+.team_name_row{
+	display:flex;
+	flex-wrap:wrap;
+	.teame_name_element{
+		box-sizing: border-box;
+		width:50%;
+		text-align:center;
+		border: 1px solid #000000;
+	}
+	.teame_name{
+		width:80%;
+		margin:5px auto 5px auto;
+		font-weight: bold;
+		background-color: #D3D3D3
+	}
+
+}
