@@ -71,6 +71,15 @@ angular.module('angularFireHangoutApp')
     }
   }
 
+  function check_object_length(obj){
+    var len = 0;
+    for(var key in obj){
+      len++
+    }
+    return len;
+  }
+
+
   function retrieve_participant(participant_id){
     var user_obj_ref = root_ref.child("users/user_basic/" + participant_id);
     user_obj_ref.on("value", function(snapshot) {
@@ -87,13 +96,7 @@ angular.module('angularFireHangoutApp')
     });
   }
 
-  function check_object_length(obj){
-    var len = 0;
-    for(var key in obj){
-      len++
-    }
-    return len;
-  }
+
 
 
   var root_ref = new Firebase(MixideaSetting.firebase_url);
@@ -129,6 +132,33 @@ angular.module('angularFireHangoutApp')
     console.log("The read failed: " + errorObject.code);
 
   });
+
+
+
+  function adopt_ParticipantObj_BP(){
+
+    for(var key in ParticipantMgr_Object.participant_obj_bp_open){
+      delete ParticipantMgr_Object.participant_obj_bp_open[key];
+    }
+    for(var key in ParticipantMgr_Object.participant_obj_bp_close){
+      delete ParticipantMgr_Object.participant_obj_bp_close[key];
+    }
+
+    for( var role_key in ParticipantMgr_Object.participant_obj){
+      if(ParticipantMgr_Object.participant_obj[role_key].part == "Opening"){
+        ParticipantMgr_Object.participant_obj_bp_open[role_key] = ParticipantMgr_Object.participant_obj[role_key];
+      }
+      if(ParticipantMgr_Object.participant_obj[role_key].part == "Closing"){
+        ParticipantMgr_Object.participant_obj_bp_close[role_key] = ParticipantMgr_Object.participant_obj[role_key];
+      }
+    }
+    console.log("participant_obj_bp_open");
+    console.log(ParticipantMgr_Object.participant_obj_bp_open);
+    console.log("participant_obj_bp_close");
+    console.log(ParticipantMgr_Object.participant_obj_bp_close);
+
+  }
+
 
   function update_ParticipantMgr_Object(){
 
@@ -280,7 +310,96 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.audience_array.length=0;
         break;
         case "BP":
+
+          ParticipantMgr_Object.participant_obj = {
+            PM:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'OG',
+              part:'Opening',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            LO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'OO',
+              part:'Opening',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            DPM:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'OG',
+              part:'Opening',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            DLO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'OO',
+              part:'Opening',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            MG:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'CG',
+              part:'Closing',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            MO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'CO',
+              part:'Closing',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            GW:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'CG',
+              part:'Closing',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            OW:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'CO',
+              part:'Closing',
+              login:false,
+              css_style:"participant_box_default"
+            }
+          }
+          var game_role_obj = game_role_obj_all_style.BP;
+          if(!game_role_obj){
+            game_role_obj = new Object()
+          }
+          ParticipantMgr_Object.audience_array.length=0;
         break;
+
         default:
           return;
         break;
@@ -336,14 +455,19 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.audience_array[i].css_style = "participant_box_login";
         }
       }
+      if(debate_style == "BP"){
+        adopt_ParticipantObj_BP();
+      }
       console.log("participant obj");
       console.log(ParticipantMgr_Object.participant_obj);
       console.log("audience array");
       console.log(ParticipantMgr_Object.audience_array);
     });
-
   }
 
+  function set_default_participant_obj(){
+
+  }
 
 
   ParticipantMgr_Object.get_hangout_id = function(){
@@ -353,7 +477,6 @@ angular.module('angularFireHangoutApp')
   ParticipantMgr_Object.get_user_info = function(){
 
   }
-
 
 
 

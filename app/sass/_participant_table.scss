@@ -39,11 +39,10 @@
 	}
 }
 
-#debater_table{
+.debater_table{
 	display:flex;
 	flex-wrap:wrap;
  
-
 	.debater_element{
 		box-sizing: border-box;
 		width:50%;

@@ -269,69 +269,69 @@
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000342}}
-#debater_table {
+.debater_table {
   display: flex;
   flex-wrap: wrap;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000347}}
-#debater_table .debater_element {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000346}}
+.debater_table .debater_element {
   box-sizing: border-box;
   width: 50%;
   text-align: center;
   border: 1px solid #000000;
   display: flex;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000354}}
-#debater_table .debater_element input {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000353}}
+.debater_table .debater_element input {
   margin: auto;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000358}}
-#debater_table .debater_element .participant_role {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000357}}
+.debater_table .debater_element .participant_role {
   font-weight: bold;
   display: inline;
   vertical-align: middle;
   padding-top: 15px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000365}}
-#debater_table .debater_element img {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000364}}
+.debater_table .debater_element img {
   height: 50px;
   margin-top: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000369}}
-#debater_table .debater_element .participant_name {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000368}}
+.debater_table .debater_element .participant_name {
   text-align: center;
   vertical-align: middle;
   padding-top: 15px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000378}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000377}}
 .participant_box_default {
   background-color: #FFFACD;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000382}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000381}}
 .participant_box_logoff {
   background-color: #778899;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000386}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000385}}
 .participant_box_login {
   background-color: #00FF7F;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000392}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000391}}
 .team_name_row {
   display: flex;
   flex-wrap: wrap;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000395}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\0000394}}
 .team_name_row .teame_name_element {
   box-sizing: border-box;
   width: 50%;
   text-align: center;
   border: 1px solid #000000;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003101}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003100}}
 .team_name_row .teame_name {
   width: 80%;
   margin: 5px auto 5px auto;
@@ -339,7 +339,7 @@
   background-color: #D3D3D3;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003109}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003108}}
 #audience_list_title {
   text-align: center;
   font-weight: bold;
@@ -347,29 +347,29 @@
   text-decoration: underline;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003116}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003115}}
 #audience_list {
   padding: 5px;
   border: 1px solid #000000;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003120}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003119}}
 #audience_list ul {
   list-style-type: none;
   margin: 3px;
   padding-left: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003125}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003124}}
 #audience_list li {
   margin: 5px;
   display: inline-block;
   list-style-type: none;
   border: 1px solid #000000;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003132}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003131}}
 #audience_list .audience_element {
   text-align: center;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003135}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_participant_table\.scss}line{font-family:\00003134}}
 #audience_list .audience_element img {
   height: 30px;
   margin-top: 2px;

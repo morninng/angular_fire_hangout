@@ -1,0 +1,15 @@
+
+
+<script>
+  Object.prototype.reflesh = function(){
+    for(var key in this){
+      delete this[key];
+    }
+  }
+
+  var test_object = {AA:"aa", BB:"bb"};
+  test_object.reflesh();
+  test_object.CC = "cc" 
+  console.log(test_object);
+
+</script>
