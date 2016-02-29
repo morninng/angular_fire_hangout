@@ -145,7 +145,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               team:'Gov',
               login:false,
-              css_style:"no_applicant"
+              css_style:"participant_box_default"
             },
             LO:{
               user_name:'no applilcant',
@@ -154,7 +154,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               team:'Gov',
               login:false,
-              css_style:"no_applicant"
+              css_style:"participant_box_default"
             }
           }
           ParticipantMgr_Object.audience_array.length=0;
@@ -182,7 +182,7 @@ angular.module('angularFireHangoutApp')
               id:userid_key,
               team:'Aud',
               login:false,
-              css_style:"logoff"
+              css_style:"participant_box_default"
           }
           ParticipantMgr_Object.audience_array.push(audience_obj);        
         }
@@ -199,10 +199,10 @@ angular.module('angularFireHangoutApp')
         if(user_object_data[user_id]){
           ParticipantMgr_Object.participant_obj[role_key].user_name = user_object_data[user_id].first_name;
           ParticipantMgr_Object.participant_obj[role_key].profile_pict = user_object_data[user_id].profile_pict;
-          ParticipantMgr_Object.participant_obj[role_key].css_style = "logoff";
+          ParticipantMgr_Object.participant_obj[role_key].css_style = "participant_box_logoff";
         }
         if(mapping_object[user_id]){
-          ParticipantMgr_Object.participant_obj[role_key].css_style = "login";
+          ParticipantMgr_Object.participant_obj[role_key].css_style = "participant_box_login";
           ParticipantMgr_Object.participant_obj[role_key].login = true;
         }
       }
@@ -213,10 +213,10 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.audience_array[i].user_name = user_object_data[user_id].first_name;
           ParticipantMgr_Object.audience_array[i].profile_pict = user_object_data[user_id].profile_pict;
           ParticipantMgr_Object.audience_array[i].applicant = true;
-          ParticipantMgr_Object.audience_array[i].css_style = "logoff";
+          ParticipantMgr_Object.audience_array[i].css_style = "participant_box_logoff";
         }
         if(mapping_object[user_id]){
-          ParticipantMgr_Object.audience_array[i].css_style = "login";
+          ParticipantMgr_Object.audience_array[i].css_style = "participant_box_login";
         }
       }
     });
