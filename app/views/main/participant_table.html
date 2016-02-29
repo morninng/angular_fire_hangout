@@ -1,6 +1,15 @@
-<div class="participant_table_top">
- 	<span class="participant_table_title">Participant Table</span>
-	<input type="button" ng-click="change_style()" value="change style">
+<div id="participant_table_top">
+ 	<div id="debater_table_title">Participant Table</div>
+	<input id="change_style_button" type="button" ng-click="show_change_style()" value="change style">
+
+	<div id="change_style_pain" ng-if="change_shown" ng-mouseleave="mouseout_change_style()">
+		change debate style
+		<div><label><input type="radio" ng-model="participant_mgr.debate_style" ng-change="change_style()" value="NA">NA</label></div>
+		<div><label><input type="radio" ng-model="participant_mgr.debate_style" ng-change="change_style()" value="Asian">Asian</label></div>
+		<div><label><input type="radio" ng-model="participant_mgr.debate_style" ng-change="change_style()" value="BP">BP</label></div>
+		<input type="button" value="cancel" ng-click="cancel_change_style()">
+	</div>
+
 </div>
 
 <span ng-switch="participant_mgr.debate_style">
@@ -26,26 +35,56 @@
 			</div> 
 		</div>
 
-
-
-
 		<p id="audience_list_title">Audiences</p>
 		<div id="audience_list">
 			<ul>
-				<li ng-repeat="Audience in Audience_array">
-					<div class="audience_container">
-						<img ng-src="Audience.pict_src">
+				<li ng-repeat="Audience in participant_mgr.audience_array">
+					<div ng-class='Audience.css_style' class="audience_element">
+						<img ng-src="{{Audience.profile_pict}}">
 						<div class="participant_name">{{Audience.user_name}}</div>
 					</div>
-				</li>
+				</li> 
 			</ul>
 		</div>
 
 	</span>
 
 
-	<span ng-switch-when="Asian">
-	asian table
+	<span ng-switch-when="Asian" ng-controller="ParticipantTableChildCtrl">
+
+
+		<div class="team_name_row">
+			<div class="teame_name_element">
+				<div class="teame_name">Proposition</div>
+			</div>
+			<div class="teame_name_element">
+				<div class="teame_name">Opposition</div>
+			</div>
+		</div>
+		<div id="debater_table">
+			<div class="debater_element" ng-class='value.css_style' ng-repeat="(key, value) in participant_mgr.participant_obj">
+				<p class="participant_role">{{key}}</p>
+				<img ng-src={{value.profile_pict}}>
+				<div class="participant_name">{{value.user_name}}</div>
+				<input ng-if="value.id==own_user_id" type="button" value="cancel" ng-click="cancel(key)">
+				<input ng-if="value.applicant==false && (value.team==own_team || participant_mgr.is_audience_yourself)" type="button" value="join" ng-click="join(key)">
+				<input ng-if="value.applicant==true && value.login==false" type="button" value="decline" ng-click="decline(key)">
+			</div> 
+		</div>
+
+		<p id="audience_list_title">Audiences</p>
+		<div id="audience_list">
+			<ul>
+				<li ng-repeat="Audience in participant_mgr.audience_array">
+					<div ng-class='Audience.css_style' class="audience_element">
+						<img ng-src="{{Audience.profile_pict}}">
+						<div class="participant_name">{{Audience.user_name}}</div>
+					</div>
+				</li> 
+			</ul>
+		</div>
+
+
 	</span>
 	<span ng-switch-when="BP">
 	 BP table

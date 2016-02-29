@@ -1,4 +1,44 @@
 
+#participant_table_top{
+
+	position:relative;
+	height:30px;
+		vertical-align:bottom;
+
+	#debater_table_title{
+		
+		position: absolute;
+		top:0px;
+		bottom:0px;
+		right:0px;
+		left:0px;
+		height:20px;
+
+		margin:auto;
+		text-align:center;
+		vertical-align:bottom;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	#change_style_button{
+		position: absolute;
+		right:30px;
+		top:5px;
+	}
+	#change_style_pain{
+		background-color:#E0FFFF;
+		border: 2px solid #000000;
+		position: absolute;
+		width:150px;
+		top:20px;
+		right:100px;
+		padding:20px;
+		>div{
+			padding:5px;
+		}
+	}
+}
+
 #debater_table{
 	display:flex;
 	flex-wrap:wrap;
@@ -32,19 +72,22 @@
 			padding-top:15px;
 		}
 	}
-	.participant_box_default{
-		background-color: #FFFACD;
-		
-	}
-	.participant_box_logoff{
-		background-color: #778899;
-		
-	}
-	.participant_box_login{
-		background-color: #00FF7F;
-	}
 
 }
+
+.participant_box_default{
+	background-color: #FFFACD;
+	
+}
+.participant_box_logoff{
+	background-color: #778899;
+	
+}
+.participant_box_login{
+	background-color: #00FF7F;
+}
+
+
 
 .team_name_row{
 	display:flex;
@@ -61,5 +104,39 @@
 		font-weight: bold;
 		background-color: #D3D3D3
 	}
+}
+
+#audience_list_title{
+	text-align:center;
+	font-weight: bold;
+	margin-bottom:0px;
+	text-decoration: underline;
+}
+
+#audience_list{
+	padding: 5px;
+	border: 1px solid #000000;
+
+	ul{
+		list-style-type: none;
+		margin:3px;
+		padding-left:10px;
+	}
+	li{
+		margin:5px;
+		display: inline-block;
+		list-style-type: none;
+		border: 1px solid #000000;
+	}
+
+	.audience_element{
+		text-align: center; 
+
+		img{
+			height:30px;
+			margin-top:2px;	
+		}
+	}
+
 
 }

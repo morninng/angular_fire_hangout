@@ -23,7 +23,7 @@ angular.module('angularFireHangoutApp')
   ParticipantMgr_Object.is_audience_yourself = true;
 
 
-  var game_role_obj = new Object();
+  var game_role_obj_all_style = new Object();
   var user_object_data = new Object();
   var debate_style = null;
   var full_participants_object = new Object();
@@ -96,7 +96,6 @@ angular.module('angularFireHangoutApp')
   }
 
 
-
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var mapping_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
   mapping_ref.on("value", function(snapshot) {
@@ -116,13 +115,13 @@ angular.module('angularFireHangoutApp')
   });
 
 
-  var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role");
+  var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
   role_participants_ref.on("value", function(snapshot) {
     var value  = snapshot.val();
     if(value){
-      game_role_obj  = value;
+      game_role_obj_all_style = value;
     }else{
-      game_role_obj = new Object()
+      game_role_obj_all_style = new Object()
     }
     update_ParticipantMgr_Object();
 
@@ -152,15 +151,133 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
+              team:'Opp',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            MG:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
               team:'Gov',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            MO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Opp',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            PMR:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Gov',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            LOR:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Opp',
               login:false,
               css_style:"participant_box_default"
             }
           }
+          var game_role_obj = game_role_obj_all_style.NA
+          if(!game_role_obj){
+            game_role_obj = new Object()
+          }
           ParticipantMgr_Object.audience_array.length=0;
         break;
         case "Asian":
-
+          ParticipantMgr_Object.participant_obj = {
+            PM:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Prop',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            LO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Opp',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            DPM:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Prop',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            DLO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Opp',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            WG:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Prop',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            WO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Opp',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            PMR:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Prop',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            LOR:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              team:'Opp',
+              login:false,
+              css_style:"participant_box_default"
+            }
+          }
+          var game_role_obj = game_role_obj_all_style.Asian
+          if(!game_role_obj){
+            game_role_obj = new Object()
+          }
+          ParticipantMgr_Object.audience_array.length=0;
         break;
         case "BP":
         break;
@@ -219,6 +336,10 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.audience_array[i].css_style = "participant_box_login";
         }
       }
+      console.log("participant obj");
+      console.log(ParticipantMgr_Object.participant_obj);
+      console.log("audience array");
+      console.log(ParticipantMgr_Object.audience_array);
     });
 
   }
