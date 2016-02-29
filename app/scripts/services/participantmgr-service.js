@@ -465,10 +465,6 @@ angular.module('angularFireHangoutApp')
     });
   }
 
-  function set_default_participant_obj(){
-
-  }
-
 
   ParticipantMgr_Object.get_hangout_id = function(){
 
