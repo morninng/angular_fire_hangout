@@ -11,6 +11,7 @@ angular.module('angularFireHangoutApp')
   .factory('StatusMgrService',['MixideaSetting','$state', function (MixideaSetting,$state) {
 
   var StatusMgr_Object = new Object()
+  StatusMgr_Object.game_status = null;
 
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var game_status_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
@@ -21,7 +22,6 @@ angular.module('angularFireHangoutApp')
       StatusMgr_Object.game_status = value;
       $state.go('main.' + value);
     }
-
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 

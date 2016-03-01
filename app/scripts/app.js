@@ -43,7 +43,7 @@ angular.module('angularFireHangoutApp')
 			case "main":
 				switch(game_status){
 					case "introduction":
-						$state.go('main.intro');
+						$state.go('main.introduction');
 					break;
 					case "preparation":
 						$state.go('main.preparation');
@@ -80,7 +80,7 @@ angular.module('angularFireHangoutApp')
 			}
 		}
 	})
-	.state('main.intro', {
+	.state('main.introduction', {
 		views:{
 			"top_left":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
@@ -112,6 +112,10 @@ angular.module('angularFireHangoutApp')
 			"top_left":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
 			controller: 'TitleMgrCtrl'
+			},
+			"container_second_top":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
+			controller: 'StatusbarCtrl'
 			}
 		}
 	})
