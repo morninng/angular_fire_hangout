@@ -8,7 +8,7 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('StatusbarCtrl',["$scope", function ($scope) {
+  .controller('StatusbarCtrl',["$scope",'StatusMgrService', function ($scope,StatusMgrService) {
 
   	$scope.status_intro = "status_bar_element";
   	$scope.status_prep = "status_bar_element";
