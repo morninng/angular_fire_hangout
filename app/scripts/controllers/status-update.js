@@ -16,6 +16,11 @@ angular.module('angularFireHangoutApp')
   
 
   $scope.update_status = function(new_status){
+
+  	if(new_status == "preparation"){
+  		set_preparation_starttime();
+  	}
+
     console.log(new_status);
     game_status_ref.set(new_status, function(error) {
 	  if (error) {
@@ -24,6 +29,22 @@ angular.module('angularFireHangoutApp')
 	    console.log("status is updated");
 	  }
 	});
+  }
+
+
+  function set_preparation_starttime(){
+
+  	var current_time = Date.now();
+
+	  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+	  var prep_time_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
+	  prep_time_ref.set(current_time, function(error) {
+	    if (error) {
+	      console.log("setting time failed" + error);
+	    } else {
+	      console.log("set time succeed");
+	    }
+	  });
   }
 
 

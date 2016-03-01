@@ -1,0 +1,10 @@
+<div id="direction_container">
+	<div id="preparation_time" ng-controller="CountPreptimeCtrl">
+		<p>preparation time spent</p>
+		<span>{{prep_time}}</span>
+	</div>
+	<div class="direction button" ng-controller="StatusUpdateCtrl">
+		<p>Start after all attendance came back </p>
+		<input ng-click='update_status("debate")' class="btn btn-success" value="Start Debate!" type="button"> 
+	</div>
+</div>

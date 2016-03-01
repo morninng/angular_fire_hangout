@@ -116,6 +116,29 @@ angular.module('angularFireHangoutApp')
 			"container_second_top":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
 			controller: 'StatusbarCtrl'
+			},
+			"container_main_left_above_left_up":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/static_video.html',
+			controller: 'StaticvideoCtrl'
+			},
+			"container_main_left_above_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/direction_prep.html',
+			controller: 'StatusUpdateCtrl'
+			},
+			"container_main_left_below":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/info_prep.html'
+			}
+		}
+	})
+	.state('main.debate', {
+		views:{
+			"top_left":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
+			controller: 'TitleMgrCtrl'
+			},
+			"container_second_top":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
+			controller: 'StatusbarCtrl'
 			}
 		}
 	})
