@@ -126,7 +126,8 @@ angular.module('angularFireHangoutApp')
 			controller: 'StatusUpdateCtrl'
 			},
 			"container_main_left_below":{
-			templateUrl: MixideaSetting.source_domain + 'views/main/info_prep.html'
+			templateUrl: MixideaSetting.source_domain + 'views/main/info_prep.html',
+			controller: 'LinkTeamdiscussCtrl'
 			}
 		}
 	})

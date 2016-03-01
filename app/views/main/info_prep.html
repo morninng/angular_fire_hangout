@@ -1,5 +1,22 @@
  <div id="info_prep">
-   <div id="link_team_room"></div>
+     
+    <div id="link_team_room">
+      <ul>
+        <li ng-repeat = "team in team_hangout_array">
+          <div>
+            <p>
+              link to <strong> team discussion room </strong> for {{team.name}}
+            </p>
+            <a href="{{team.hangout_url }}" target="_blank">
+                <img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png" style="border:0;width:100px;height:24px;"/>
+            </a>
+          </div>
+        </li>
+      </ul>
+      <div ng-if="show_explanation">
+      </div>
+    </div>
+
    <p>What you should do before debate</p>
    <ul>
     <li>Debater should go to <strong> Team Discussion Room </strong> and construct argument with your partner</li>
@@ -11,4 +28,8 @@
     <li>Following button appear and you should chose right button "Close existing window"</li>
     <li>Wait your partner to come</li>
    </ul>
+
+
+
+
  </div>

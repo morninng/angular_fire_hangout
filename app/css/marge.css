@@ -375,4 +375,32 @@
   margin-top: 2px;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\000033}}
+#link_team_room {
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: #FFE4E1;
+  float: right;
+  width: 200px;
+  margin-left: 5px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000315}}
+#link_team_room ul {
+  padding-left: 0px;
+  list-style: none;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000318}}
+#link_team_room ul p {
+  margin: 0px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000322}}
+#link_team_room ul div {
+  padding: 5px;
+  margin: 10px;
+  background-color: #FFF8DC;
+}
+
 /*# sourceMappingURL=marge.css.map */

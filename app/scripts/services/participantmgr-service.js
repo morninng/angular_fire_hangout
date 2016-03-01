@@ -11,18 +11,23 @@ angular.module('angularFireHangoutApp')
 .factory('ParticipantMgrService',['MixideaSetting','$timeout', function (MixideaSetting, $timeout) {
 
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
-
   var ParticipantMgr_Object = new Object();
   ParticipantMgr_Object.debate_style = null;
   ParticipantMgr_Object.participant_obj = new Object();
-  ParticipantMgr_Object.own_group = null;
   ParticipantMgr_Object.participant_obj_bp_open = new Object();
   ParticipantMgr_Object.participant_obj_bp_close = new Object();
   ParticipantMgr_Object.audience_array = new Array();
-  ParticipantMgr_Object.is_audience_yourself = true;
 
 
+//public member variable 
+  ParticipantMgr_Object.own_group = null;
+  ParticipantMgr_Object.is_audience_or_debater = "Audience";
+  ParticipantMgr_Object.all_group_name = new Array();
+  ParticipantMgr_Object.own_role_array = new Array();
+
+//local variable
+
+  var root_ref = new Firebase(MixideaSetting.firebase_url);
   var game_role_obj_all_style = new Object();
   var user_object_data = new Object();
   var debate_style = null;
@@ -31,7 +36,7 @@ angular.module('angularFireHangoutApp')
   var total_number_participants = 0;
   var role_group_name_mappin = new Object();
 
-
+//debate style
 
   var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
   deb_style_ref.on("value", function(snapshot) {
@@ -45,6 +50,8 @@ angular.module('angularFireHangoutApp')
     console.log("The read failed: " + errorObject.code);
 
   });
+
+// full participants
 
   var full_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/full")
   full_participants_ref.on("value", function(snapshot) {
@@ -71,14 +78,6 @@ angular.module('angularFireHangoutApp')
     }
   }
 
-  function check_object_length(obj){
-    var len = 0;
-    for(var key in obj){
-      len++
-    }
-    return len;
-  }
-
 
   function retrieve_participant(participant_id){
     var user_obj_ref = root_ref.child("users/user_basic/" + participant_id);
@@ -97,7 +96,7 @@ angular.module('angularFireHangoutApp')
   }
 
 
-
+// mapping data
 
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var mapping_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
@@ -117,9 +116,10 @@ angular.module('angularFireHangoutApp')
 
   });
 
+// game role
 
-  var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
-  role_participants_ref.on("value", function(snapshot) {
+  var game_role_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
+  game_role_ref.on("value", function(snapshot) {
     var value  = snapshot.val();
     if(value){
       game_role_obj_all_style = value;
@@ -135,29 +135,7 @@ angular.module('angularFireHangoutApp')
 
 
 
-  function adopt_ParticipantObj_BP(){
 
-    for(var key in ParticipantMgr_Object.participant_obj_bp_open){
-      delete ParticipantMgr_Object.participant_obj_bp_open[key];
-    }
-    for(var key in ParticipantMgr_Object.participant_obj_bp_close){
-      delete ParticipantMgr_Object.participant_obj_bp_close[key];
-    }
-
-    for( var role_key in ParticipantMgr_Object.participant_obj){
-      if(ParticipantMgr_Object.participant_obj[role_key].part == "Opening"){
-        ParticipantMgr_Object.participant_obj_bp_open[role_key] = ParticipantMgr_Object.participant_obj[role_key];
-      }
-      if(ParticipantMgr_Object.participant_obj[role_key].part == "Closing"){
-        ParticipantMgr_Object.participant_obj_bp_close[role_key] = ParticipantMgr_Object.participant_obj[role_key];
-      }
-    }
-    console.log("participant_obj_bp_open");
-    console.log(ParticipantMgr_Object.participant_obj_bp_open);
-    console.log("participant_obj_bp_close");
-    console.log(ParticipantMgr_Object.participant_obj_bp_close);
-
-  }
 
 
   function update_ParticipantMgr_Object(){
@@ -172,7 +150,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Gov',
+              group:'Gov',
+              group_id:0,
               login:false,
               css_style:"participant_box_default"
             },
@@ -181,7 +160,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Opp',
+              group:'Opp',
+              group_id:1,
               login:false,
               css_style:"participant_box_default"
             },
@@ -190,7 +170,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Gov',
+              group:'Gov',
+              group_id:0,
               login:false,
               css_style:"participant_box_default"
             },
@@ -199,7 +180,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Opp',
+              group:'Opp',
+              group_id:1,
               login:false,
               css_style:"participant_box_default"
             },
@@ -208,7 +190,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Gov',
+              group:'Gov',
+              group_id:0,
               login:false,
               css_style:"participant_box_default"
             },
@@ -217,7 +200,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Opp',
+              group:'Opp',
+              group_id:1,
               login:false,
               css_style:"participant_box_default"
             }
@@ -235,7 +219,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Prop',
+              group:'Prop',
+              group_id:0,
               login:false,
               css_style:"participant_box_default"
             },
@@ -244,7 +229,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Opp',
+              group:'Opp',
+              group_id:1,
               login:false,
               css_style:"participant_box_default"
             },
@@ -253,7 +239,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Prop',
+              group:'Prop',
+              group_id:0,
               login:false,
               css_style:"participant_box_default"
             },
@@ -262,7 +249,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Opp',
+              group:'Opp',
+              group_id:1,
               login:false,
               css_style:"participant_box_default"
             },
@@ -271,7 +259,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Prop',
+              group:'Prop',
+              group_id:0,
               login:false,
               css_style:"participant_box_default"
             },
@@ -280,7 +269,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Opp',
+              group:'Opp',
+              group_id:1,
               login:false,
               css_style:"participant_box_default"
             },
@@ -289,7 +279,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Prop',
+              group:'Prop',
+              group_id:0,
               login:false,
               css_style:"participant_box_default"
             },
@@ -298,7 +289,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Opp',
+              group:'Opp',
+              group_id:1,
               login:false,
               css_style:"participant_box_default"
             }
@@ -317,7 +309,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'OG',
+              group:'OG',
+              group_id:0,
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -327,7 +320,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'OO',
+              group:'OO',
+              group_id:1,
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -337,7 +331,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'OG',
+              group:'OG',
+              group_id:0,
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -347,7 +342,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'OO',
+              group:'OO',
+              group_id:1,
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -357,7 +353,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'CG',
+              group:'CG',
+              group_id:2,
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -367,7 +364,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'CO',
+              group:'CO',
+              group_id:3,
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -377,7 +375,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'CG',
+              group:'CG',
+              group_id:2,
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -387,7 +386,8 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'CO',
+              group:'CO',
+              group_id:3,
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -416,7 +416,7 @@ angular.module('angularFireHangoutApp')
           var audience_obj = {
               applicant:true,
               id:userid_key,
-              team:'Aud',
+              group:'Aud',
               login:false,
               css_style:"participant_box_default"
           }
@@ -462,7 +462,70 @@ angular.module('angularFireHangoutApp')
       console.log(ParticipantMgr_Object.participant_obj);
       console.log("audience array");
       console.log(ParticipantMgr_Object.audience_array);
+      update_member_variable();
     });
+  }
+
+  function adopt_ParticipantObj_BP(){
+
+    for(var key in ParticipantMgr_Object.participant_obj_bp_open){
+      delete ParticipantMgr_Object.participant_obj_bp_open[key];
+    }
+    for(var key in ParticipantMgr_Object.participant_obj_bp_close){
+      delete ParticipantMgr_Object.participant_obj_bp_close[key];
+    }
+
+    for( var role_key in ParticipantMgr_Object.participant_obj){
+      if(ParticipantMgr_Object.participant_obj[role_key].part == "Opening"){
+        ParticipantMgr_Object.participant_obj_bp_open[role_key] = ParticipantMgr_Object.participant_obj[role_key];
+      }
+      if(ParticipantMgr_Object.participant_obj[role_key].part == "Closing"){
+        ParticipantMgr_Object.participant_obj_bp_close[role_key] = ParticipantMgr_Object.participant_obj[role_key];
+      }
+    }
+    console.log("participant_obj_bp_open");
+    console.log(ParticipantMgr_Object.participant_obj_bp_open);
+    console.log("participant_obj_bp_close");
+    console.log(ParticipantMgr_Object.participant_obj_bp_close);
+  }
+
+
+  function update_member_variable(){
+
+      switch(debate_style){
+        case "NA":
+          ParticipantMgr_Object.all_group_name_array = ["Gov","Opp"];
+          ParticipantMgr_Object.all_group_id = [0,1];
+        break;
+        case "Asian":
+          ParticipantMgr_Object.all_group_name_array = ["Prop","Opp"];
+          ParticipantMgr_Object.all_group_id = [0,1];
+        break;
+        case "BP":
+          ParticipantMgr_Object.all_group_name_array = ["OG","OO","CG","CO"];
+          ParticipantMgr_Object.all_group_id = [0,1,2,3];
+        break;
+      }
+
+      ParticipantMgr_Object.own_role_array.length=0;
+      ParticipantMgr_Object.own_group = "Audience"
+      ParticipantMgr_Object.is_audience_or_debater = "Audience";
+      ParticipantMgr_Object.own_group_id = null;
+
+      for( var role_key in ParticipantMgr_Object.participant_obj){
+        if(ParticipantMgr_Object.participant_obj[role_key].id == MixideaSetting.own_user_id){
+          ParticipantMgr_Object.own_role_array.push(role_key);
+          ParticipantMgr_Object.own_group = ParticipantMgr_Object.participant_obj[role_key].group;
+          ParticipantMgr_Object.own_group_id = ParticipantMgr_Object.participant_obj[role_key].group_id;
+          ParticipantMgr_Object.is_audience_or_debater = "debater";
+        }
+      }
+      console.log("update_member_variable");
+      console.log(ParticipantMgr_Object.own_role_array);
+      console.log(ParticipantMgr_Object.own_group);
+      console.log(ParticipantMgr_Object.own_group_id);
+      console.log(ParticipantMgr_Object.is_audience_or_debater);
+
   }
 
 
@@ -475,6 +538,13 @@ angular.module('angularFireHangoutApp')
   }
 
 
+  function check_object_length(obj){
+    var len = 0;
+    for(var key in obj){
+      len++
+    }
+    return len;
+  }
 
 
     return ParticipantMgr_Object;

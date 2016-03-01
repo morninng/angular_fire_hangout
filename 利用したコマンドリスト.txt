@@ -21,6 +21,7 @@ touch .ftppass
   yo angular:controller Participant-Table
   yo angular:controller Status-Update
   yo angular:controller Count-PrepTime
+  yo angular:controller Link-TeamDiscuss
 
 
  yo angular:factory ParticipantMgr-Service
