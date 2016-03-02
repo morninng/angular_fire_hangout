@@ -12,6 +12,8 @@ var global_own_user_id = null
 var global_event_id = null;
 var global_room_type = null;
 var global_own_hangout_id = null;
+var global_team_side  = null;
+var global_own_team_side = null;
 
 (function () {
 
@@ -20,6 +22,11 @@ var global_own_hangout_id = null;
   global_own_user_id = appData_split[0];
   global_event_id = appData_split[1];
   global_room_type = appData_split[2];
+
+  if(global_room_type == "team_discussion"){
+    global_team_side = appData_split[3];
+    global_own_team_side = appData_split[4];
+  }
 
   gapi.hangout.onApiReady.add(function(e){
     if(e.isApiReady){
@@ -38,7 +45,9 @@ angular.module('angularFireHangoutApp')
   	own_user_id: global_own_user_id,
   	event_id: global_event_id,
   	room_type: global_room_type,
-    hangout_appid: "211272797315"
+    hangout_appid: "211272797315",
+    team_discuss_team_side: global_team_side,
+    team_discuss_own_team: global_own_team_side
   });
 
 function set_mapping_data(user_id, hangout_id)

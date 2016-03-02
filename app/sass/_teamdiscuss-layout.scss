@@ -1,0 +1,26 @@
+  
+
+#team_discuss_first{
+  	background-color:#5F9EA0;
+}
+
+#team_discuss_second{
+	display:flex;
+
+	.second_left{
+		flex:1;
+		background-color:#F0F8FF;
+	}
+	.second_middle{
+		background-color:#FFF0F5;
+		text-align:center;
+	}
+
+	.second_right{
+		background-color:#FFF8DC;
+	}
+}
+
+#container_main{
+	background-color:#E0FFFF;
+}

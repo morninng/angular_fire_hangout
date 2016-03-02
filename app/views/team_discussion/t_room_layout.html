@@ -1,0 +1,35 @@
+<div id="whole">
+	<div id="inner_whole">
+		<div id="team_discuss_first" ng-controller="TeamdiscussRoomnameCtrl">
+			<div> team discussion_room for {{room_name}}</div>
+		</div>
+		<div id="team_discuss_second">
+			<div class="second_left" ng-controller="TitleMgrCtrl">
+				motion: {{data.motion}}
+
+			</div>
+			<div class="second_middle" ng-controller="LinkMainroomCtrl">
+				<div>
+				Go back to main debate room <br>
+				 by clicking here.
+				</div>
+				<div>
+					<a href="{{hangout_url}}" target="_blank">
+					<img src="https://ssl.gstatic.com/s2/oz/images/stars/hangout/1/gplus-hangout-24x100-normal.png" style="border:0;width:100px;height:24px;"/>
+					</a>
+				</div>
+
+
+			</div>
+			<div class="second_right" ng-controller="CountPreptimeCtrl" >
+				Preparaion<br>
+				{{prep_time}}
+			</div>
+		</div>
+		<div id="container_main">
+			aaaaaaaaaaa
+		</div>
+	</div>
+</div>
+
+<div class="absolute" ui-view="absolute_pain_1"></div>

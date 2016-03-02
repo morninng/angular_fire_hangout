@@ -22,7 +22,11 @@ touch .ftppass
   yo angular:controller Status-Update
   yo angular:controller Count-PrepTime
   yo angular:controller Link-TeamDiscuss
+  yo angular:controller Link-MainRoom
 
 
  yo angular:factory ParticipantMgr-Service
  yo angular:factory StatusMgr-Service
+
+
+  yo angular:controller TeamDiscuss-RoomName

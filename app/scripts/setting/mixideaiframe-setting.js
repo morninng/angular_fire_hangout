@@ -11,14 +11,25 @@
 var global_own_user_id = null
 var global_event_id = null;
 var global_room_type = null;
+var global_own_hangout_id = null;
+var global_team_side  = null;
+var global_own_team_side = null;
 
 (function () {
 
   global_event_id = "-KBfmi6qlYwfOrbCphoZ";
   global_own_user_id = "facebook:1520978701540732";
-  global_room_type = "main";
+  global_room_type = "team_discussion";
+  
+  if(global_room_type == "team_discussion"){
+    global_team_side = "Gov";
+    global_own_team_side = "Gov";
+  }
+
   var dummy_hangout_id = "BBCCBBBBB";
-  set_mapping_data(global_own_user_id, dummy_hangout_id)
+  set_mapping_data(global_own_user_id, dummy_hangout_id);
+
+
 
 }());
 
@@ -29,7 +40,9 @@ angular.module('angularFireHangoutApp')
   	own_user_id: global_own_user_id,
   	event_id: global_event_id,
   	room_type: global_room_type,
-    hangout_appid: "211272797315"
+    hangout_appid: "211272797315",
+    team_discuss_team_side: global_team_side,
+    team_discuss_own_team: global_own_team_side
   });
 
 

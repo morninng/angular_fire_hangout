@@ -24,6 +24,7 @@ angular.module('angularFireHangoutApp')
   ParticipantMgr_Object.is_audience_or_debater = "Audience";
   ParticipantMgr_Object.all_group_name = new Array();
   ParticipantMgr_Object.own_role_array = new Array();
+  ParticipantMgr_Object.all_group_name_array = new Array();
 
 //local variable
 

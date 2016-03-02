@@ -27,6 +27,8 @@ angular.module('angularFireHangoutApp')
 	 var event_id = MixideaSetting.event_id;
 	 var room_type = MixideaSetting.room_type;
 
+  if(room_type == "main"){
+
 	var root_ref = new Firebase(MixideaSetting.firebase_url);
 	var game_status_ref = root_ref.child("event_related/game/" + event_id + "/game_status");
 	game_status_ref.once("value", function(snapshot){
@@ -35,8 +37,13 @@ angular.module('angularFireHangoutApp')
 	}, function(error_obj){
 		alert("event is corrupted, please confirm with mixidea administrator");
 	});
+  } else if (room_type == "team_discussion"){
 
-	 
+  	console.log("team_discuss_team_side : " + MixideaSetting.team_discuss_team_side);
+  	console.log("team_discuss_own_team : " + MixideaSetting.team_discuss_own_team);
+
+	$state.go('team_discussion');
+  }
 
 	function goto_state(room_type, game_status){
 		switch(room_type){
@@ -141,6 +148,14 @@ angular.module('angularFireHangoutApp')
 			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
 			controller: 'StatusbarCtrl'
 			}
+		}
+	})
+	.state('team_discussion', {
+		views:{
+			"RootView":{
+				templateUrl: MixideaSetting.source_domain + 'views/team_discussion/t_room_layout.html'
+			}
+
 		}
 	})
 

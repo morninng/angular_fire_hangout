@@ -403,4 +403,33 @@
   background-color: #FFF8DC;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_teamdiscuss-layout\.scss}line{font-family:\000033}}
+#team_discuss_first {
+  background-color: #5F9EA0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_teamdiscuss-layout\.scss}line{font-family:\000037}}
+#team_discuss_second {
+  display: flex;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_teamdiscuss-layout\.scss}line{font-family:\0000310}}
+#team_discuss_second .second_left {
+  flex: 1;
+  background-color: #F0F8FF;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_teamdiscuss-layout\.scss}line{font-family:\0000314}}
+#team_discuss_second .second_middle {
+  background-color: #FFF0F5;
+  text-align: center;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_teamdiscuss-layout\.scss}line{font-family:\0000319}}
+#team_discuss_second .second_right {
+  background-color: #FFF8DC;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_teamdiscuss-layout\.scss}line{font-family:\0000324}}
+#container_main {
+  background-color: #E0FFFF;
+}
+
 /*# sourceMappingURL=marge.css.map */

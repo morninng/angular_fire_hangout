@@ -49,25 +49,30 @@ angular.module('angularFireHangoutApp')
     var first_query_value = MixideaSetting.own_user_id;;
     var second_query_value = MixideaSetting.event_id;
     var third_query_value = "team_discussion";
+    var fifth_query_value = $scope.participant_mgr.own_group;
 
 
   	if($scope.participant_mgr.is_audience_or_debater=="Audience"){
   		for(var i=0; i< $scope.participant_mgr.all_group_name_array.length; i++){
 			var team_obj = new Object();
 			team_obj.name = $scope.participant_mgr.all_group_name_array[i];
+      var fourth_query_value = $scope.participant_mgr.all_group_name_array[i];
 			var hangout_url = url_list_array[i];
 			team_obj.hangout_url = hangout_url + hangout_gid + 
 						            hangout_appid + hangout_query_key 
-						         + first_query_value + "^" + second_query_value + "^" + third_query_value;
+						         + first_query_value + "^" + second_query_value + "^" + third_query_value + 
+                     "^" + fourth_query_value + "^" + fifth_query_value;
 			$scope.team_hangout_array.push(team_obj);
   		}
   	}else{
   		var team_obj = new Object();
   		team_obj.name = $scope.participant_mgr.own_group;
+      var fourth_query_value = $scope.participant_mgr.own_group;
   		var hangout_url = url_list_array[$scope.participant_mgr.own_group_id];
 		team_obj.hangout_url = hangout_url + hangout_gid + 
 						         hangout_appid + hangout_query_key 
-						         + first_query_value + "^" + second_query_value + "^" + third_query_value;
+                     + first_query_value + "^" + second_query_value + "^" + third_query_value + 
+                     "^" + fourth_query_value + "^" + fifth_query_value;
   		$scope.team_hangout_array.push(team_obj);
   	}
   }

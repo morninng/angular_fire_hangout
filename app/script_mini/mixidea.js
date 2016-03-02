@@ -27,6 +27,8 @@ angular.module('angularFireHangoutApp')
 	 var event_id = MixideaSetting.event_id;
 	 var room_type = MixideaSetting.room_type;
 
+  if(room_type == "main"){
+
 	var root_ref = new Firebase(MixideaSetting.firebase_url);
 	var game_status_ref = root_ref.child("event_related/game/" + event_id + "/game_status");
 	game_status_ref.once("value", function(snapshot){
@@ -35,15 +37,20 @@ angular.module('angularFireHangoutApp')
 	}, function(error_obj){
 		alert("event is corrupted, please confirm with mixidea administrator");
 	});
+  } else if (room_type == "team_discussion"){
 
-	 
+  	console.log("team_discuss_team_side : " + MixideaSetting.team_discuss_team_side);
+  	console.log("team_discuss_own_team : " + MixideaSetting.team_discuss_own_team);
+
+	$state.go('team_discussion');
+  }
 
 	function goto_state(room_type, game_status){
 		switch(room_type){
 			case "main":
 				switch(game_status){
 					case "introduction":
-						$state.go('main.intro');
+						$state.go('main.introduction');
 					break;
 					case "preparation":
 						$state.go('main.preparation');
@@ -80,7 +87,7 @@ angular.module('angularFireHangoutApp')
 			}
 		}
 	})
-	.state('main.intro', {
+	.state('main.introduction', {
 		views:{
 			"top_left":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
@@ -95,7 +102,8 @@ angular.module('angularFireHangoutApp')
 			controller: 'StaticvideoCtrl'
 			},
 			"container_main_left_above_right":{
-			templateUrl: MixideaSetting.source_domain + 'views/main/direction_intro.html'
+			templateUrl: MixideaSetting.source_domain + 'views/main/direction_intro.html',
+			controller: 'StatusUpdateCtrl'
 			},
 			"container_main_left_below":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/info_intro.html'
@@ -103,11 +111,51 @@ angular.module('angularFireHangoutApp')
 			"container_main_right":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/participant_table.html',
 			controller: 'ParticipantTableParentCtrl'
+			}			
+		}
+	})
+	.state('main.preparation', {
+		views:{
+			"top_left":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
+			controller: 'TitleMgrCtrl'
+			},
+			"container_second_top":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
+			controller: 'StatusbarCtrl'
+			},
+			"container_main_left_above_left_up":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/static_video.html',
+			controller: 'StaticvideoCtrl'
+			},
+			"container_main_left_above_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/direction_prep.html',
+			controller: 'StatusUpdateCtrl'
+			},
+			"container_main_left_below":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/info_prep.html',
+			controller: 'LinkTeamdiscussCtrl'
 			}
-			
+		}
+	})
+	.state('main.debate', {
+		views:{
+			"top_left":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
+			controller: 'TitleMgrCtrl'
+			},
+			"container_second_top":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
+			controller: 'StatusbarCtrl'
+			}
+		}
+	})
+	.state('team_discussion', {
+		views:{
+			"RootView":{
+				templateUrl: MixideaSetting.source_domain + 'views/team_discussion/t_room_layout.html'
+			}
 
-
-			
 		}
 	})
 
@@ -117,19 +165,134 @@ angular.module('angularFireHangoutApp')
 
 /**
  * @ngdoc function
- * @name angularFireHangoutApp.controller:MainCtrl
+ * @name angularFireHangoutApp.controller:CountPreptimeCtrl
  * @description
- * # MainCtrl
+ * # CountPreptimeCtrl
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('MainCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('CountPreptimeCtrl',['$scope','MixideaSetting', '$timeout',function ($scope, MixideaSetting, $timeout) {
+
+	$scope.prep_time = "start preparation";
+	var start_time = null;
+
+	var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+	var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
+	mapping_data_ref.on("value", function(snapshot){
+		start_time = snapshot.val();
+	}, function(){
+		console.log("fail to load timer data");
+	});
+
+
+	var timer = setInterval( function(){
+
+		if(!start_time){
+			return;
+		}
+		var current_time = Date.now();
+		var elapsed_time = current_time - start_time;
+		if(elapsed_time < 0){
+			return;
+		}
+		var elapled_second = elapsed_time/1000
+		var elapsed_hour = elapled_second/60/60;
+		elapsed_hour = Math.floor(elapsed_hour);
+		var elapsed_minute = (elapled_second - elapsed_hour*60*60)/60;
+		elapsed_minute = Math.floor(elapsed_minute);
+		elapled_second = elapled_second - elapsed_hour*60*60 - elapsed_minute*60;
+		elapled_second = Math.floor(elapled_second);
+		elapled_second = ("0" + elapled_second).slice(-2);
+		elapsed_minute = ("0" + elapsed_minute).slice(-2);
+
+		$timeout(function() {
+			$scope.prep_time = elapsed_minute + ":" + elapled_second + " has passed";
+		});
+
+	}, 1000);
+
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name angularFireHangoutApp.controller:LinkTeamdiscussCtrl
+ * @description
+ * # LinkTeamdiscussCtrl
+ * Controller of the angularFireHangoutApp
+ */
+angular.module('angularFireHangoutApp')
+  .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting', function ($scope, ParticipantMgrService, MixideaSetting) {
+  	$scope.aaa = "name";
+
+  	$scope.participant_mgr = ParticipantMgrService;
+  	$scope.team_hangout_array = new Array();
+
+  	var teamlist = new Object();
+  	var url_list_array = new Array();
+
+
+  	$scope.$watch('participant_mgr.own_group', 
+  		function(newValue, oldValue){
+  			update_link();
+  		}
+  	);
+
+  var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var hangoutlist_team_ref = root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/team_discussion");
+  hangoutlist_team_ref.on("value", function(snapshot) {
+	url_list_array = snapshot.val();
+	update_link();
+    
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+
   });
+
+
+  function update_link(){
+
+  	if(url_list_array.length==0 ){
+  		return;
+  	}
+
+
+    var hangout_gid = "?gid=";
+    var hangout_appid = MixideaSetting.hangout_appid;
+    var hangout_query_key = "&gd=";
+    var first_query_value = MixideaSetting.own_user_id;;
+    var second_query_value = MixideaSetting.event_id;
+    var third_query_value = "team_discussion";
+    var fifth_query_value = $scope.participant_mgr.own_group;
+
+
+  	if($scope.participant_mgr.is_audience_or_debater=="Audience"){
+  		for(var i=0; i< $scope.participant_mgr.all_group_name_array.length; i++){
+			var team_obj = new Object();
+			team_obj.name = $scope.participant_mgr.all_group_name_array[i];
+      var fourth_query_value = $scope.participant_mgr.all_group_name_array[i];
+			var hangout_url = url_list_array[i];
+			team_obj.hangout_url = hangout_url + hangout_gid + 
+						            hangout_appid + hangout_query_key 
+						         + first_query_value + "^" + second_query_value + "^" + third_query_value + 
+                     "^" + fourth_query_value + "^" + fifth_query_value;
+			$scope.team_hangout_array.push(team_obj);
+  		}
+  	}else{
+  		var team_obj = new Object();
+  		team_obj.name = $scope.participant_mgr.own_group;
+      var fourth_query_value = $scope.participant_mgr.own_group;
+  		var hangout_url = url_list_array[$scope.participant_mgr.own_group_id];
+		team_obj.hangout_url = hangout_url + hangout_gid + 
+						         hangout_appid + hangout_query_key 
+                     + first_query_value + "^" + second_query_value + "^" + third_query_value + 
+                     "^" + fourth_query_value + "^" + fifth_query_value;
+  		$scope.team_hangout_array.push(team_obj);
+  	}
+  }
+
+  }]);
 
 'use strict';
 
@@ -143,24 +306,41 @@ angular.module('angularFireHangoutApp')
 angular.module('angularFireHangoutApp')
   .controller('ParticipantTableParentCtrl',['$scope','MixideaSetting','ParticipantMgrService',  function ($scope, MixideaSetting, ParticipantMgrService) {
 
+
+  $scope.participant_mgr = ParticipantMgrService;
+
   var root_ref = new Firebase(MixideaSetting.firebase_url);
-  	$scope.change_shown = false;
-  	$scope.debate_style = null;
-
-  	$scope.participant_mgr = ParticipantMgrService;
+  $scope.change_shown = false;
+  $scope.participant_mgr = ParticipantMgrService;
 
 
 
 
-	$scope.show_change_style = function(){
+  $scope.show_change_style = function(){
+    $scope.change_shown = true;
+  }
 
-	}
+  $scope.change_style = function(){
+    $scope.change_shown = false;
+    var style = $scope.participant_mgr.debate_style;
+    var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style");
+    deb_style_ref.set(style);
+    console.log(style);
+  }
 
-  	$scope.change_style = function(){
+  $scope.mouseout_change_style = function(){
+    remove_change_style_pain();
+  }
 
-  	}
+  $scope.cancel_change_style = function(){
+    remove_change_style_pain();
+  }
 
-  }]);
+  function remove_change_style_pain(){
+    $scope.change_shown = false;
+  }
+
+}]);
 
 
 angular.module('angularFireHangoutApp')
@@ -171,7 +351,7 @@ angular.module('angularFireHangoutApp')
   $scope.own_user_id = MixideaSetting.own_user_id
 
 	$scope.join = function(role_name){
-    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + role_name);
+    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
     role_participants_ref.transaction(function(current_value){
       if(current_value){
         alert("someone has already take this role")
@@ -190,7 +370,7 @@ angular.module('angularFireHangoutApp')
   }
 
   function remove_user(role_name){
-    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + role_name);
+    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
     role_participants_ref.set(null,  function(error) {
       if (error) {
         console.log("cannot cancel" + error);
@@ -230,21 +410,92 @@ angular.module('angularFireHangoutApp')
 
 /**
  * @ngdoc function
+ * @name angularFireHangoutApp.controller:StatusUpdateCtrl
+ * @description
+ * # StatusUpdateCtrl
+ * Controller of the angularFireHangoutApp
+ */
+angular.module('angularFireHangoutApp')
+  .controller('StatusUpdateCtrl',['$scope','MixideaSetting', function ($scope, MixideaSetting) {
+
+
+  var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var game_status_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
+  
+
+  $scope.update_status = function(new_status){
+
+  	if(new_status == "preparation"){
+  		set_preparation_starttime();
+  	}
+
+    console.log(new_status);
+    game_status_ref.set(new_status, function(error) {
+	  if (error) {
+	    console.log("saving status failed" + error);
+	  } else {
+	    console.log("status is updated");
+	  }
+	});
+  }
+
+
+  function set_preparation_starttime(){
+
+  	var current_time = Date.now();
+
+	  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+	  var prep_time_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
+	  prep_time_ref.set(current_time, function(error) {
+	    if (error) {
+	      console.log("setting time failed" + error);
+	    } else {
+	      console.log("set time succeed");
+	    }
+	  });
+  }
+
+
+}]);
+
+'use strict';
+
+/**
+ * @ngdoc function
  * @name angularFireHangoutApp.controller:StatusbarCtrl
  * @description
  * # StatusbarCtrl
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('StatusbarCtrl',["$scope", function ($scope) {
+  .controller('StatusbarCtrl',["$scope",'StatusMgrService','$timeout', function ($scope,StatusMgrService, $timeout) {
 
   	$scope.status_intro = "status_bar_element";
   	$scope.status_prep = "status_bar_element";
-  	$scope.status_debate = "status_bar_element_selected";
+  	$scope.status_debate = "status_bar_element";
   	$scope.status_reflec = "status_bar_element";
   	$scope.status_complete = "status_bar_element_last";
+  	$scope.game_status_service = StatusMgrService;
 
+  	$scope.$watch('game_status_service.game_status', function(newValue, oldValue){
+  		console.log( "status:" + newValue);
+		$scope.status_intro = "status_bar_element";
+		$scope.status_prep = "status_bar_element";
+		$scope.status_debate = "status_bar_element";
+		$scope.status_reflec = "status_bar_element";
+		$scope.status_complete = "status_bar_element_last";
 
+		$timeout(function() {
+			switch(newValue){
+				case "introduction":
+				$scope.status_intro = "status_bar_element_selected";
+				break;
+				case "preparation":
+				$scope.status_prep = "status_bar_element_selected";
+				break
+			}
+		});
+  	})
 
 
   }]);
@@ -344,19 +595,25 @@ angular.module('angularFireHangoutApp')
 .factory('ParticipantMgrService',['MixideaSetting','$timeout', function (MixideaSetting, $timeout) {
 
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
-
   var ParticipantMgr_Object = new Object();
   ParticipantMgr_Object.debate_style = null;
   ParticipantMgr_Object.participant_obj = new Object();
-  ParticipantMgr_Object.own_group = null;
   ParticipantMgr_Object.participant_obj_bp_open = new Object();
   ParticipantMgr_Object.participant_obj_bp_close = new Object();
   ParticipantMgr_Object.audience_array = new Array();
-  ParticipantMgr_Object.is_audience_yourself = true;
 
 
-  var game_role_obj = new Object();
+//public member variable 
+  ParticipantMgr_Object.own_group = null;
+  ParticipantMgr_Object.is_audience_or_debater = "Audience";
+  ParticipantMgr_Object.all_group_name = new Array();
+  ParticipantMgr_Object.own_role_array = new Array();
+  ParticipantMgr_Object.all_group_name_array = new Array();
+
+//local variable
+
+  var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var game_role_obj_all_style = new Object();
   var user_object_data = new Object();
   var debate_style = null;
   var full_participants_object = new Object();
@@ -364,7 +621,7 @@ angular.module('angularFireHangoutApp')
   var total_number_participants = 0;
   var role_group_name_mappin = new Object();
 
-
+//debate style
 
   var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
   deb_style_ref.on("value", function(snapshot) {
@@ -378,6 +635,8 @@ angular.module('angularFireHangoutApp')
     console.log("The read failed: " + errorObject.code);
 
   });
+
+// full participants
 
   var full_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/full")
   full_participants_ref.on("value", function(snapshot) {
@@ -404,6 +663,7 @@ angular.module('angularFireHangoutApp')
     }
   }
 
+
   function retrieve_participant(participant_id){
     var user_obj_ref = root_ref.child("users/user_basic/" + participant_id);
     user_obj_ref.on("value", function(snapshot) {
@@ -420,15 +680,8 @@ angular.module('angularFireHangoutApp')
     });
   }
 
-  function check_object_length(obj){
-    var len = 0;
-    for(var key in obj){
-      len++
-    }
-    return len;
-  }
 
-
+// mapping data
 
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var mapping_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
@@ -448,14 +701,15 @@ angular.module('angularFireHangoutApp')
 
   });
 
+// game role
 
-  var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role");
-  role_participants_ref.on("value", function(snapshot) {
+  var game_role_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
+  game_role_ref.on("value", function(snapshot) {
     var value  = snapshot.val();
     if(value){
-      game_role_obj  = value;
+      game_role_obj_all_style = value;
     }else{
-      game_role_obj = new Object()
+      game_role_obj_all_style = new Object()
     }
     update_ParticipantMgr_Object();
 
@@ -463,6 +717,11 @@ angular.module('angularFireHangoutApp')
     console.log("The read failed: " + errorObject.code);
 
   });
+
+
+
+
+
 
   function update_ParticipantMgr_Object(){
 
@@ -476,27 +735,256 @@ angular.module('angularFireHangoutApp')
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Gov',
+              group:'Gov',
+              group_id:0,
               login:false,
-              css_style:"no_applicant"
+              css_style:"participant_box_default"
             },
             LO:{
               user_name:'no applilcant',
               profile_pict:no_applicant_img,
               applicant:false,
               id:null,
-              team:'Gov',
+              group:'Opp',
+              group_id:1,
               login:false,
-              css_style:"no_applicant"
+              css_style:"participant_box_default"
+            },
+            MG:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Gov',
+              group_id:0,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            MO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Opp',
+              group_id:1,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            PMR:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Gov',
+              group_id:0,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            LOR:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Opp',
+              group_id:1,
+              login:false,
+              css_style:"participant_box_default"
             }
+          }
+          var game_role_obj = game_role_obj_all_style.NA
+          if(!game_role_obj){
+            game_role_obj = new Object()
           }
           ParticipantMgr_Object.audience_array.length=0;
         break;
         case "Asian":
-
+          ParticipantMgr_Object.participant_obj = {
+            PM:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Prop',
+              group_id:0,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            LO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Opp',
+              group_id:1,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            DPM:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Prop',
+              group_id:0,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            DLO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Opp',
+              group_id:1,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            WG:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Prop',
+              group_id:0,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            WO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Opp',
+              group_id:1,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            PMR:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Prop',
+              group_id:0,
+              login:false,
+              css_style:"participant_box_default"
+            },
+            LOR:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'Opp',
+              group_id:1,
+              login:false,
+              css_style:"participant_box_default"
+            }
+          }
+          var game_role_obj = game_role_obj_all_style.Asian
+          if(!game_role_obj){
+            game_role_obj = new Object()
+          }
+          ParticipantMgr_Object.audience_array.length=0;
         break;
         case "BP":
+
+          ParticipantMgr_Object.participant_obj = {
+            PM:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'OG',
+              group_id:0,
+              part:'Opening',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            LO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'OO',
+              group_id:1,
+              part:'Opening',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            DPM:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'OG',
+              group_id:0,
+              part:'Opening',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            DLO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'OO',
+              group_id:1,
+              part:'Opening',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            MG:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'CG',
+              group_id:2,
+              part:'Closing',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            MO:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'CO',
+              group_id:3,
+              part:'Closing',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            GW:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'CG',
+              group_id:2,
+              part:'Closing',
+              login:false,
+              css_style:"participant_box_default"
+            },
+            OW:{
+              user_name:'no applilcant',
+              profile_pict:no_applicant_img,
+              applicant:false,
+              id:null,
+              group:'CO',
+              group_id:3,
+              part:'Closing',
+              login:false,
+              css_style:"participant_box_default"
+            }
+          }
+          var game_role_obj = game_role_obj_all_style.BP;
+          if(!game_role_obj){
+            game_role_obj = new Object()
+          }
+          ParticipantMgr_Object.audience_array.length=0;
         break;
+
         default:
           return;
         break;
@@ -513,9 +1001,9 @@ angular.module('angularFireHangoutApp')
           var audience_obj = {
               applicant:true,
               id:userid_key,
-              team:'Aud',
+              group:'Aud',
               login:false,
-              css_style:"logoff"
+              css_style:"participant_box_default"
           }
           ParticipantMgr_Object.audience_array.push(audience_obj);        
         }
@@ -532,10 +1020,10 @@ angular.module('angularFireHangoutApp')
         if(user_object_data[user_id]){
           ParticipantMgr_Object.participant_obj[role_key].user_name = user_object_data[user_id].first_name;
           ParticipantMgr_Object.participant_obj[role_key].profile_pict = user_object_data[user_id].profile_pict;
-          ParticipantMgr_Object.participant_obj[role_key].css_style = "logoff";
+          ParticipantMgr_Object.participant_obj[role_key].css_style = "participant_box_logoff";
         }
         if(mapping_object[user_id]){
-          ParticipantMgr_Object.participant_obj[role_key].css_style = "login";
+          ParticipantMgr_Object.participant_obj[role_key].css_style = "participant_box_login";
           ParticipantMgr_Object.participant_obj[role_key].login = true;
         }
       }
@@ -546,16 +1034,84 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.audience_array[i].user_name = user_object_data[user_id].first_name;
           ParticipantMgr_Object.audience_array[i].profile_pict = user_object_data[user_id].profile_pict;
           ParticipantMgr_Object.audience_array[i].applicant = true;
-          ParticipantMgr_Object.audience_array[i].css_style = "logoff";
+          ParticipantMgr_Object.audience_array[i].css_style = "participant_box_logoff";
         }
         if(mapping_object[user_id]){
-          ParticipantMgr_Object.audience_array[i].css_style = "login";
+          ParticipantMgr_Object.audience_array[i].css_style = "participant_box_login";
         }
       }
+      if(debate_style == "BP"){
+        adopt_ParticipantObj_BP();
+      }
+      console.log("participant obj");
+      console.log(ParticipantMgr_Object.participant_obj);
+      console.log("audience array");
+      console.log(ParticipantMgr_Object.audience_array);
+      update_member_variable();
     });
-
   }
 
+  function adopt_ParticipantObj_BP(){
+
+    for(var key in ParticipantMgr_Object.participant_obj_bp_open){
+      delete ParticipantMgr_Object.participant_obj_bp_open[key];
+    }
+    for(var key in ParticipantMgr_Object.participant_obj_bp_close){
+      delete ParticipantMgr_Object.participant_obj_bp_close[key];
+    }
+
+    for( var role_key in ParticipantMgr_Object.participant_obj){
+      if(ParticipantMgr_Object.participant_obj[role_key].part == "Opening"){
+        ParticipantMgr_Object.participant_obj_bp_open[role_key] = ParticipantMgr_Object.participant_obj[role_key];
+      }
+      if(ParticipantMgr_Object.participant_obj[role_key].part == "Closing"){
+        ParticipantMgr_Object.participant_obj_bp_close[role_key] = ParticipantMgr_Object.participant_obj[role_key];
+      }
+    }
+    console.log("participant_obj_bp_open");
+    console.log(ParticipantMgr_Object.participant_obj_bp_open);
+    console.log("participant_obj_bp_close");
+    console.log(ParticipantMgr_Object.participant_obj_bp_close);
+  }
+
+
+  function update_member_variable(){
+
+      switch(debate_style){
+        case "NA":
+          ParticipantMgr_Object.all_group_name_array = ["Gov","Opp"];
+          ParticipantMgr_Object.all_group_id = [0,1];
+        break;
+        case "Asian":
+          ParticipantMgr_Object.all_group_name_array = ["Prop","Opp"];
+          ParticipantMgr_Object.all_group_id = [0,1];
+        break;
+        case "BP":
+          ParticipantMgr_Object.all_group_name_array = ["OG","OO","CG","CO"];
+          ParticipantMgr_Object.all_group_id = [0,1,2,3];
+        break;
+      }
+
+      ParticipantMgr_Object.own_role_array.length=0;
+      ParticipantMgr_Object.own_group = "Audience"
+      ParticipantMgr_Object.is_audience_or_debater = "Audience";
+      ParticipantMgr_Object.own_group_id = null;
+
+      for( var role_key in ParticipantMgr_Object.participant_obj){
+        if(ParticipantMgr_Object.participant_obj[role_key].id == MixideaSetting.own_user_id){
+          ParticipantMgr_Object.own_role_array.push(role_key);
+          ParticipantMgr_Object.own_group = ParticipantMgr_Object.participant_obj[role_key].group;
+          ParticipantMgr_Object.own_group_id = ParticipantMgr_Object.participant_obj[role_key].group_id;
+          ParticipantMgr_Object.is_audience_or_debater = "debater";
+        }
+      }
+      console.log("update_member_variable");
+      console.log(ParticipantMgr_Object.own_role_array);
+      console.log(ParticipantMgr_Object.own_group);
+      console.log(ParticipantMgr_Object.own_group_id);
+      console.log(ParticipantMgr_Object.is_audience_or_debater);
+
+  }
 
 
   ParticipantMgr_Object.get_hangout_id = function(){
@@ -567,8 +1123,105 @@ angular.module('angularFireHangoutApp')
   }
 
 
-
+  function check_object_length(obj){
+    var len = 0;
+    for(var key in obj){
+      len++
+    }
+    return len;
+  }
 
 
     return ParticipantMgr_Object;
 }]);
+
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.StatusMgrService
+ * @description
+ * # StatusMgrService
+ * Factory in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+  .factory('StatusMgrService',['MixideaSetting','$state', function (MixideaSetting,$state) {
+
+  var StatusMgr_Object = new Object()
+  StatusMgr_Object.game_status = null;
+
+  var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var game_status_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
+  game_status_ref.on("value", function(snapshot) {
+
+    var value = snapshot.val();
+    if(value !=StatusMgr_Object.game_status){
+      StatusMgr_Object.game_status = value;
+      $state.go('main.' + value);
+    }
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+
+  });
+
+
+  return StatusMgr_Object;
+    
+}]);
+
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name angularFireHangoutApp.controller:LinkMainroomCtrl
+ * @description
+ * # LinkMainroomCtrl
+ * Controller of the angularFireHangoutApp
+ */
+angular.module('angularFireHangoutApp')
+  .controller('LinkMainroomCtrl',['$scope','MixideaSetting','$timeout', function ($scope, MixideaSetting,$timeout) {
+
+
+
+	var hangout_gid = "?gid=";
+	var hangout_appid = MixideaSetting.hangout_appid;
+	var hangout_query_key = "&gd=";
+	var first_query_value = MixideaSetting.own_user_id;;
+	var second_query_value = MixideaSetting.event_id;
+	var third_query_value = "main";
+
+
+	var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var hangoutlist_team_ref = root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/main");
+	hangoutlist_team_ref.on("value", function(snapshot) {
+		$timeout(function() {
+			var hangout_url = snapshot.val();
+			$scope.hangout_url = hangout_url + hangout_gid + hangout_appid 
+							+ hangout_query_key + first_query_value + "^" 
+							+ second_query_value + "^" + third_query_value;
+		});
+	}, function (errorObject) {
+	console.log("The read failed: " + errorObject.code);
+
+	});
+
+
+
+
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name angularFireHangoutApp.controller:TeamdiscussRoomnameCtrl
+ * @description
+ * # TeamdiscussRoomnameCtrl
+ * Controller of the angularFireHangoutApp
+ */
+angular.module('angularFireHangoutApp')
+  .controller('TeamdiscussRoomnameCtrl', ['$scope','MixideaSetting',  function ($scope, MixideaSetting) {
+
+	$scope.room_name = MixideaSetting.team_discuss_team_side;
+
+  }]);
