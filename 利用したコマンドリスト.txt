@@ -33,3 +33,7 @@ yo angular:controller team-discuss-arguments
 
   yo angular:controller TeamDiscuss-RoomName
 yo angular:controller TeamDiscuss-Arguments
+
+
+yo angular:directive one-argument
+yo angular:directive one-defintro
