@@ -11,6 +11,7 @@ angular.module('angularFireHangoutApp')
   .controller('TeamdiscussArgumentsCtrl',["$scope","MixideaSetting",'$timeout', function ($scope, MixideaSetting,$timeout) {
 
   $scope.arg_list = new Array();
+  $scope.defintro_list = new Array();
 
   var team_val = MixideaSetting.team_discuss_team_side;
   var event_id_val = MixideaSetting.event_id;
@@ -55,14 +56,30 @@ angular.module('angularFireHangoutApp')
 			});
 		}
 	});
-  }
 
+	var defintro_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
+				+ deb_style_val + "/" + team_val + "/def_intro";
+	var defintro_id_ref = root_ref.child(defintro_id_path);
+	defintro_id_ref.on("child_added", function(snapshot, previousKey){
+		var defintro_id_key = snapshot.key();
+		$timeout(function(){
+			$scope.defintro_list.push({arg_id:defintro_id_key});
+		});
+	});
 
 	$scope.add_argument = function(){
 		console.log("add argument");
 		var dummy_content = {dummy:true};
 		argument_id_ref.push(dummy_content);
 	}
+
+
+
+
+  }
+
+
+
 
 
 
