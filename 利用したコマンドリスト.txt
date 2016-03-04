@@ -25,8 +25,11 @@ touch .ftppass
   yo angular:controller Link-MainRoom
 
 
+yo angular:controller team-discuss-arguments
+
  yo angular:factory ParticipantMgr-Service
  yo angular:factory StatusMgr-Service
 
 
   yo angular:controller TeamDiscuss-RoomName
+yo angular:controller TeamDiscuss-Arguments

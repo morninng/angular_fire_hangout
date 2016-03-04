@@ -14,7 +14,7 @@ var global_room_type = null;
 
 (function () {
 
-  global_event_id = "-KBfmi6qlYwfOrbCphoZ";
+  global_event_id = "-KC-oL7c0VyHS2WjHAiG";
   global_own_user_id = "facebook:997119893702319";
   global_room_type = "main";
   var dummy_hangout_id = "2222222222";

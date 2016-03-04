@@ -42,7 +42,7 @@ angular.module('angularFireHangoutApp')
   	console.log("team_discuss_team_side : " + MixideaSetting.team_discuss_team_side);
   	console.log("team_discuss_own_team : " + MixideaSetting.team_discuss_own_team);
 
-	$state.go('team_discussion');
+	$state.go('team_discussion.room');
   }
 
 	function goto_state(room_type, game_status){
@@ -68,7 +68,7 @@ angular.module('angularFireHangoutApp')
 			break;
 
 			case "team_discussion":
-					$state.go('team_discussion');
+					$state.go('team_discussion.room');
 			break;
 		}
 	}
@@ -155,7 +155,30 @@ angular.module('angularFireHangoutApp')
 			"RootView":{
 				templateUrl: MixideaSetting.source_domain + 'views/team_discussion/t_room_layout.html'
 			}
-
+		}
+	})
+	.state('team_discussion.room', {
+		views:{
+			"team_discuss_first":{
+			templateUrl: MixideaSetting.source_domain + 'views/team_discussion/room_name.html',
+			controller: 'TeamdiscussRoomnameCtrl'
+			},
+			"second_left":{
+			templateUrl: MixideaSetting.source_domain + 'views/team_discussion/t_room_motion.html',
+			controller: 'TitleMgrCtrl'
+			},
+			"second_middle":{
+			templateUrl: MixideaSetting.source_domain + 'views/team_discussion/t_room_link_main_room.html',
+			controller: 'LinkMainroomCtrl'
+			},
+			"second_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/team_discussion/t_room_count_prep_time.html',
+			controller: 'CountPreptimeCtrl'
+			},
+			"container_main":{
+			templateUrl: MixideaSetting.source_domain + 'views/team_discussion/t_room_arguments.html',
+			controller: 'TeamdiscussArgumentsCtrl'
+			}
 		}
 	})
 
