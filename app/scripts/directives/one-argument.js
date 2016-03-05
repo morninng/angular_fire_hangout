@@ -108,7 +108,6 @@ angular.module('angularFireHangoutApp')
             }
           });
         }); 
-
         var title_own_focused_ref = argument_focused_ref.child("title/" + MixideaSetting.own_user_id);
         scope.title_focused = function(){
           title_own_focused_ref.set(true);
@@ -118,11 +117,20 @@ angular.module('angularFireHangoutApp')
         }
         title_own_focused_ref.onDisconnect().remove();
 
+
+
+
         var content_focused_ref = argument_focused_ref.child("content");
         content_focused_ref.on("value", function(snapshot){
           $timeout(function(){
-            var user_id = snapshot.val();
-            if(user_id && user_id !=MixideaSetting.own_user_id){
+            var focused_user_obj = snapshot.val();
+            var others_writing = false;
+            for(var key in focused_user_obj){
+              if(key != MixideaSetting.own_user_id){
+                others_writing = true;
+              }
+            }
+            if(others_writing){
               scope.title_edit_others = true;
               scope.show_hide_content_textarea = "child_hide";
               scope.show_hide_content_content = "child_show";
@@ -133,19 +141,16 @@ angular.module('angularFireHangoutApp')
             }
           });
         }); 
-
-
+        var content_own_focused_ref = argument_focused_ref.child("content/" + MixideaSetting.own_user_id);
         scope.content_focused = function(){
-         // title_focused_ref.set(MixideaSetting.own_user_id);
-         content_focused_ref.set(MixideaSetting.own_user_id);
+         content_own_focused_ref.set(true);
          console.log("content focused")
         }
         scope.content_unfocused = function(){
-         // title_content_ref.set(null);
          console.log("content unfocused");
-         content_focused_ref.set(null);
+         content_own_focused_ref.set(null);
         }
-
+        content_own_focused_ref.onDisconnect().remove();
 
 
 
