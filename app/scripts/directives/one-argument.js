@@ -23,7 +23,6 @@ angular.module('angularFireHangoutApp')
         var deb_style = scope.argument_id_obj.deb_style;
         var team = scope.argument_id_obj.team;
         scope.element = element;
-        scope.title_edit_others = false;
 
         var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
@@ -93,26 +92,31 @@ angular.module('angularFireHangoutApp')
         var title_focused_ref = argument_focused_ref.child("title");
         title_focused_ref.on("value", function(snapshot){
           $timeout(function(){
-            var user_id = snapshot.val();
-            if(user_id && user_id !=MixideaSetting.own_user_id){
-              scope.title_edit_others = true;
+            var focused_user_obj = snapshot.val();
+            var others_writing = false;
+            for(var key in focused_user_obj){
+              if(key != MixideaSetting.own_user_id){
+                others_writing = true;
+              }
+            }
+            if(others_writing){
               scope.show_hide_title_textarea = "child_hide";
               scope.show_hide_title_content = "child_show";
             }else{
-              scope.title_edit_others = false;
               scope.show_hide_title_textarea = "child_show";
               scope.show_hide_title_content = "child_hide";
             }
           });
         }); 
 
+        var title_own_focused_ref = argument_focused_ref.child("title/" + MixideaSetting.own_user_id);
         scope.title_focused = function(){
-          title_focused_ref.set(MixideaSetting.own_user_id);
+          title_own_focused_ref.set(true);
         }
         scope.title_unfocused = function(){
-          title_focused_ref.set(null);
+          title_own_focused_ref.set(null);
         }
-
+        title_own_focused_ref.onDisconnect().remove();
 
         var content_focused_ref = argument_focused_ref.child("content");
         content_focused_ref.on("value", function(snapshot){
