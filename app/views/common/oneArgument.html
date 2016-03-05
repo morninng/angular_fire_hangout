@@ -1,10 +1,23 @@
 
 <div>
+	<div class="argument_head">
+		<span class="argument_mark">Argumet</span>
+		<input  type="button" ng-click="remove_argument()" value="remove">
+	</div>
 
-ss a ss{{argument_id_obj.id}}
-
-<input type="text" ng-model="title" ng-change="change_title()">
-<textarea type="text" ng-model="content" ng-change="change_content()"></textarea>
-<input type="button" ng-click="remove_argument()" value="remove">
-
+	<div class="argument_container">
+		title
+		<div class="title_container parent_show_hide">
+			<textarea ng-class="show_hide_title_textarea" class="title_font argument_title_css" placeholder="input title of argument" ng-model="title" ng-change="change_title()" ng-trim="false" ng-style='title_height' ng-focus="title_focused()" ng-blur="title_unfocused()"></textarea>
+			<p class="title_p" ng-class="show_hide_title_content">
+				<span class="title_font title_content">{{title}}</span>
+			</p>
+		</div>
+		content
+		<div class="mainArg_container parent_show_hide">
+			<textarea ng-class="show_hide_content_textarea" ng-style='textearea_height' class="MainArg_input_edit MainArg_font" ng-model="content" ng-change="change_content()" ng-trim="false" placeholder="input argument principle, reason, and example" ng-focus="content_focused()" ng-blur="content_unfocused()"></textarea>
+			<div class="MainArg_Content MainArg_font" ng-class="show_hide_content_content" ng-bind-html="content_div"></div>
+		</div>
+	</div>
 </div>
+

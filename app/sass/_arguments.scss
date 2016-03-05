@@ -1,0 +1,101 @@
+.argument_element{
+	display: table-cell;
+	min-width: 400px;
+	border: 1px solid #000000;
+	padding-top: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin: 4px;
+
+}
+
+
+.argument_head{
+	.argument_mark{
+		font-weight:bold;
+		font-size: large;
+	}
+	input{
+		float:right;
+		margin-right:30px;
+	}
+}
+
+.argument_content_basic{
+			margin-left:5px;
+			margin-right:5px;
+			width:95%;
+			min-height: 150px;
+			padding: 5px;
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-top:5px; 
+			padding-bottom:5px;
+
+}
+
+
+.argument_container{
+	padding: 3px;
+	width:100%;
+	background-color:#DCDCDC;
+
+
+	.title_container{
+
+		.title_font{
+			font-weight: bold; 
+			font-size: large;
+		}
+		.argument_title_css{
+			margin-right:10px;
+			margin-left:10px;
+			width:95%;
+		}
+		.title_content{
+			margin-left:10px;
+			margin-right:10px;
+			min-width:150px;
+			background-color:#FCF5F5;
+			text-align: left;
+			vertical-align:middle;
+			padding-left: 20px;
+			padding-right: 20px;
+			padding-top:5px; 
+			padding-bottom:5px; 
+			display:inline-block;
+		}
+
+		p{
+			margin-bottom:5px;
+			margin-top:5px;
+		}
+
+
+	}
+	.mainArg_container{
+
+		.MainArg_input_edit{
+			@extend .argument_content_basic;
+			background-color: #FFFFFF;
+			border-color: #D3D3D3;
+			border-style: solid;
+			border-width: medium;
+
+		}
+		.MainArg_Content{
+			@extend .argument_content_basic;
+			border-style: solid;
+			border-color:#FFFFFF ;
+			border-width: thin;
+			background-color: #FCF5F5;
+
+		}
+		.MainArg_font{
+			font-size: large;
+		}
+
+
+	}
+
+}

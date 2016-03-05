@@ -2,13 +2,14 @@ jjjjjjjjjjjjjjjjjjjjj
 
 {{name}}
 
+<input type="button" value="add argument" ng-click="add_argument()">
 
-	<div ng-repeat="def in defintro_list">
+<div>
+	<div ng-repeat="def in defintro_list" class="argument_element">
 		<one-defintro arg-id="def"></one-defintro>
 	</div>
 
-<input type="button" value="add argument" ng-click="add_argument()">
-
-	<div ng-repeat="arg in arg_list">
+	<div ng-repeat="arg in arg_list" class="argument_element">
 		<one-argument arg-id="arg"></one-argument>
 	</div>
+</div>

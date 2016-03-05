@@ -12,7 +12,8 @@ angular
   .module('angularFireHangoutApp', [
     'ngAnimate',
     'ui.router',
-    'firebase'
+    'firebase',
+    'ngSanitize'
   ]);
 
 

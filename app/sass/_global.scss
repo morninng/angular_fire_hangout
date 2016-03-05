@@ -1,0 +1,23 @@
+ textarea {
+  resize: none;
+  transition: 0.05s;
+  -moz-transition: 0.05s;
+  -webkit-transition: 0.05s;
+  -o-transition: 0.05s;
+}
+
+
+.parent_show_hide{
+	position:relative;
+}
+.child_hide{
+	position:absolute;
+	visibility:hidden;
+	top:0px;
+	left:0px;
+}
+.child_show{
+	position:relative;
+	top:0px;
+	left:0px;
+}

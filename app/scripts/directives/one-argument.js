@@ -7,10 +7,11 @@
  * # oneArgument
  */
 angular.module('angularFireHangoutApp')
-  .directive('oneArgument', function ($timeout) {
+  .directive('oneArgument',["$timeout","MixideaSetting",  function ($timeout, MixideaSetting) {
     return {
       templateUrl: 'views/common/oneArgument.html',
       restrict: 'E',
+      replace: true,
       scope: {
       	argument_id_obj: '=argId'
       },
@@ -21,9 +22,10 @@ angular.module('angularFireHangoutApp')
         var event_id = scope.argument_id_obj.event_id;
         var deb_style = scope.argument_id_obj.deb_style;
         var team = scope.argument_id_obj.team;
+        scope.element = element;
+        scope.title_edit_others = false;
 
-
-        var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+        var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
         				+ arg_id;
         var argument_content_ref = root_ref.child(argument_content_path);
@@ -33,11 +35,22 @@ angular.module('angularFireHangoutApp')
         title_ref.on("value", function(snapshot){
           $timeout(function(){
             scope.title = snapshot.val();
+            update_title_height()
           });
         }); 
+        function update_title_height(){
+            $timeout(function(){
+              var title_p_element = scope.element[0].getElementsByClassName("title_p");
+              var title_p_height = title_p_element[0].offsetHeight;
+              title_p_height = title_p_height + 5;
+              var title_p_height_str = String(title_p_height) + "px";
+              scope.title_height = {height:title_p_height_str};
+            });
+        }
         scope.change_title = function(){
           var title = scope.title;
-          title_ref.set(title);
+          scope.title = scope.title.replace(/(\r\n|\n|\r)/gm,"");
+          title_ref.set(scope.title);
         }
 
 
@@ -45,12 +58,91 @@ angular.module('angularFireHangoutApp')
         content_ref.on("value", function(snapshot){
           $timeout(function(){
             scope.content = snapshot.val();
+            scope.content_div = add_linebreak_html(scope.content);
+            update_content_height()
+
           });
         }); 
+
+        function update_content_height(){
+            $timeout(function(){
+              var content_div_element = scope.element[0].getElementsByClassName("MainArg_Content");
+              var content_div_height = content_div_element[0].offsetHeight;
+              content_div_height = content_div_height + 15;
+              content_div_height = String(content_div_height) + "px";
+              scope.textearea_height = {height:content_div_height};
+            });
+        }
+
         scope.change_content = function(){
         	var content = scope.content;
           content_ref.set(content);
         }
+
+
+
+
+
+
+        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        var argument_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
+                + arg_id;
+        var argument_focused_ref = root_ref.child(argument_focused_path);
+
+
+        var title_focused_ref = argument_focused_ref.child("title");
+        title_focused_ref.on("value", function(snapshot){
+          $timeout(function(){
+            var user_id = snapshot.val();
+            if(user_id && user_id !=MixideaSetting.own_user_id){
+              scope.title_edit_others = true;
+              scope.show_hide_title_textarea = "child_hide";
+              scope.show_hide_title_content = "child_show";
+            }else{
+              scope.title_edit_others = false;
+              scope.show_hide_title_textarea = "child_show";
+              scope.show_hide_title_content = "child_hide";
+            }
+          });
+        }); 
+
+        scope.title_focused = function(){
+          title_focused_ref.set(MixideaSetting.own_user_id);
+        }
+        scope.title_unfocused = function(){
+          title_focused_ref.set(null);
+        }
+
+
+        var content_focused_ref = argument_focused_ref.child("content");
+        content_focused_ref.on("value", function(snapshot){
+          $timeout(function(){
+            var user_id = snapshot.val();
+            if(user_id && user_id !=MixideaSetting.own_user_id){
+              scope.title_edit_others = true;
+              scope.show_hide_content_textarea = "child_hide";
+              scope.show_hide_content_content = "child_show";
+            }else{
+              scope.title_edit_others = false;
+              scope.show_hide_content_textarea = "child_show";
+              scope.show_hide_content_content = "child_hide";
+            }
+          });
+        }); 
+
+
+        scope.content_focused = function(){
+         // title_focused_ref.set(MixideaSetting.own_user_id);
+         content_focused_ref.set(MixideaSetting.own_user_id);
+         console.log("content focused")
+        }
+        scope.content_unfocused = function(){
+         // title_content_ref.set(null);
+         console.log("content unfocused");
+         content_focused_ref.set(null);
+        }
+
+
 
 
         var one_argument_id_path = "event_related/Article_Context/" + event_id + "/identifier/" 
@@ -60,6 +152,18 @@ angular.module('angularFireHangoutApp')
           console.log("remove" + arg_id);
           one_argument_id_ref.set(null);
         }
+
+        function add_linebreak_html(context){
+          if(!context){
+            return null;
+          }
+          var converted_context = context.split("<").join("&lt;");
+          converted_context = converted_context.split(">").join("&gt;");
+          converted_context = converted_context.split("\n").join("<br>");
+
+          return converted_context;
+        }
+
       }
     };
-  });
+  }]);

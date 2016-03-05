@@ -7,7 +7,7 @@
  * # oneDefintro
  */
 angular.module('angularFireHangoutApp')
-  .directive('oneDefintro', function ($timeout) {
+  .directive('oneDefintro',["$timeout","MixideaSetting",  function ($timeout,MixideaSetting) {
     return {
       templateUrl: 'views/common/oneDefintro.html',
       restrict: 'E',
@@ -21,7 +21,7 @@ angular.module('angularFireHangoutApp')
         var deb_style = scope.argument_id_obj.deb_style;
         var team = scope.argument_id_obj.team;
 
-        var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+        var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
         				+ arg_id;
         var argument_content_ref = root_ref.child(argument_content_path);
@@ -38,4 +38,4 @@ angular.module('angularFireHangoutApp')
         }
       }
     };
-  });
+  }]);

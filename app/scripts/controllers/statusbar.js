@@ -4,11 +4,11 @@
  * @ngdoc function
  * @name angularFireHangoutApp.controller:StatusbarCtrl
  * @description
- * # StatusbarCtrl
+ * # StatusbarCtrl 
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('StatusbarCtrl',["$scope",'StatusMgrService','$timeout', function ($scope,StatusMgrService, $timeout) {
+  .controller('StatusbarCtrl',["$scope",'StatusMgrService','$timeout', function ($scope, StatusMgrService, $timeout) {
 
   	$scope.status_intro = "status_bar_element";
   	$scope.status_prep = "status_bar_element";
