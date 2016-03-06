@@ -547,12 +547,19 @@ angular.module('angularFireHangoutApp')
 	title_ref.on("value", function(snapshot) {
 		$timeout(function() {
 			$scope.data.motion = snapshot.val();
-			var title_len = $scope.data.motion.length;
+
+			if(!$scope.data.motion){
+				$scope.motion_sentence = "motion_sentence_Red_xlarge";
+  				$scope.data.motion = "input motion here";
+  				$scope.data.motion_exist = false;
+  				return;	
+			}
+			var title_len = $scope.data.motion.length;			
 			if(title_len == 0){
 				$scope.motion_sentence = "motion_sentence_Red_xlarge";
   				$scope.data.motion = "input motion here";
   				$scope.data.motion_exist = false;
-			}else if(title_len < 60 ){
+			}if(title_len < 60 ){
 				$scope.motion_sentence = "motion_sentence_large";
   				$scope.data.motion_exist = true;
 			}else if (title_len < 100){
@@ -604,6 +611,486 @@ angular.module('angularFireHangoutApp')
 	}
 
 
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.MixideaHangoutSetting
+ * @description
+ * # MixideaHangoutSetting
+ * Constant in the angularFireHangoutApp.
+ */
+
+var global_own_user_id = null
+var global_event_id = null;
+var global_room_type = null;
+var global_own_hangout_id = null;
+var global_team_side  = null;
+var global_own_team_side = null;
+
+(function () {
+
+  var appData = gadgets.views.getParams()['appData']; 
+  var appData_split = appData.split("^");
+  global_own_user_id = appData_split[0];
+  global_event_id = appData_split[1];
+  global_room_type = appData_split[2];
+
+  if(global_room_type == "team_discussion"){
+    global_team_side = appData_split[3];
+    global_own_team_side = appData_split[4];
+  }
+
+  gapi.hangout.onApiReady.add(function(e){
+    if(e.isApiReady){
+      global_own_hangout_id = gapi.hangout.getLocalParticipantId();
+      set_mapping_data(global_own_user_id, global_own_hangout_id);
+    }
+  });
+
+}());
+
+
+angular.module('angularFireHangoutApp')
+  .constant('MixideaSetting', {
+  	firebase_url: "https://mixidea.firebaseio.com/",
+  	source_domain: 'https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/',
+  	own_user_id: global_own_user_id,
+  	event_id: global_event_id,
+  	room_type: global_room_type,
+    hangout_appid: "211272797315",
+    team_discuss_team_side: global_team_side,
+    team_discuss_own_team: global_own_team_side
+  });
+
+function set_mapping_data(user_id, hangout_id)
+{
+  
+  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+  var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + global_event_id + "/mapping_data/" + global_own_user_id)
+  mapping_data_ref.set(hangout_id, function(error) {
+    if (error) {
+      alert("mapping failed" + error);
+    } else {
+      console.log("hangout id " + hangout_id + " is set");
+    }
+  });
+
+}
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.MixideaHangoutSetting
+ * @description
+ * # MixideaHangoutSetting
+ * Constant in the angularFireHangoutApp.
+ */
+
+var global_own_user_id = null
+var global_event_id = null;
+var global_room_type = null;
+var global_team_side  = null;
+var global_own_team_side = null;
+
+(function () {
+
+  global_event_id = "-KC-oL7c0VyHS2WjHAiG";
+  global_own_user_id = "facebook:1520978701540732";
+  global_room_type = "team_discussion";
+
+  if(global_room_type == "team_discussion"){
+    global_team_side = "Gov";
+    global_own_team_side = "Gov";
+  }
+
+  
+  var dummy_hangout_id = "11111111111";
+  set_mapping_data(global_own_user_id, dummy_hangout_id)
+
+}());
+
+angular.module('angularFireHangoutApp')
+  .constant('MixideaSetting', {
+  	firebase_url: "https://mixidea.firebaseio.com/",
+  	source_domain: 'https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/',
+  	own_user_id: global_own_user_id,
+  	event_id: global_event_id,
+  	room_type: global_room_type,
+    hangout_appid: "211272797315",
+    team_discuss_team_side: global_team_side,
+    team_discuss_own_team: global_own_team_side
+  });
+
+
+function set_mapping_data(user_id, hangout_id)
+{
+  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+  var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + global_event_id + "/mapping_data/" + global_own_user_id)
+  mapping_data_ref.set(hangout_id, function(error) {
+    if (error) {
+      alert("mapping failed" + error);
+    } else {
+      console.log("hangout id " + hangout_id + " is set");
+    }
+  });
+
+  mapping_data_ref.onDisconnect().remove();
+}
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.MixideaHangoutSetting
+ * @description
+ * # MixideaHangoutSetting
+ * Constant in the angularFireHangoutApp.
+ */
+
+var global_own_user_id = null
+var global_event_id = null;
+var global_room_type = null;
+var global_team_side  = null;
+var global_own_team_side = null;
+
+(function () {
+
+  global_event_id = "-KC-oL7c0VyHS2WjHAiG";
+  global_own_user_id = "facebook:997119893702319";
+  global_room_type = "team_discussion";
+
+  if(global_room_type == "team_discussion"){
+    global_team_side = "Gov";
+    global_own_team_side = "Gov";
+  }
+
+  var dummy_hangout_id = "2222222222";
+  set_mapping_data(global_own_user_id, dummy_hangout_id)
+
+}());
+
+angular.module('angularFireHangoutApp')
+  .constant('MixideaSetting', {
+  	firebase_url: "https://mixidea.firebaseio.com/",
+  	source_domain: 'https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/',
+  	own_user_id: global_own_user_id,
+  	event_id: global_event_id,
+  	room_type: global_room_type,
+    hangout_appid: "211272797315",
+    team_discuss_team_side: global_team_side,
+    team_discuss_own_team: global_own_team_side
+  });
+
+
+function set_mapping_data(user_id, hangout_id)
+{
+  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+  var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + global_event_id + "/mapping_data/" + global_own_user_id)
+  mapping_data_ref.set(hangout_id, function(error) {
+    if (error) {
+      alert("mapping failed" + error);
+    } else {
+      console.log("hangout id " + hangout_id + " is set");
+    }
+  });
+
+  mapping_data_ref.onDisconnect().remove();
+}
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.MixideaHangoutSetting
+ * @description
+ * # MixideaHangoutSetting
+ * Constant in the angularFireHangoutApp.
+ */
+
+var global_own_user_id = null
+var global_event_id = null;
+var global_room_type = null;
+var global_own_hangout_id = null;
+var global_team_side  = null;
+var global_own_team_side = null;
+
+(function () {
+
+  global_event_id = "-KC9WfxpLwKbaWiSjqg6";
+  global_own_user_id = "facebook:1520978701540732";
+  global_room_type = "team_discussion";
+  //global_room_type = "main";
+  
+  
+  if(global_room_type == "team_discussion"){
+    global_team_side = "Gov";
+    global_own_team_side = "Gov";
+  }
+
+  var dummy_hangout_id = "BBCCBBBBB";
+  set_mapping_data(global_own_user_id, dummy_hangout_id);
+
+
+
+}());
+
+angular.module('angularFireHangoutApp')
+  .constant('MixideaSetting', {
+  	firebase_url: "https://mixidea.firebaseio.com/",
+  	source_domain: '/',
+  	own_user_id: global_own_user_id,
+  	event_id: global_event_id,
+  	room_type: global_room_type,
+    hangout_appid: "211272797315",
+    team_discuss_team_side: global_team_side,
+    team_discuss_own_team: global_own_team_side
+  });
+
+
+function set_mapping_data(user_id, hangout_id)
+{
+  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+  var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + global_event_id + "/mapping_data/" + global_own_user_id)
+  mapping_data_ref.set(hangout_id, function(error) {
+    if (error) {
+      alert("mapping failed" + error);
+    } else {
+      console.log("hangout id " + hangout_id + " is set");
+    }
+  });
+
+  mapping_data_ref.onDisconnect().remove();
+
+
+
+}
+
+
+
+
+'use strict';
+
+/**
+ * @ngdoc directive
+ * @name angularFireHangoutApp.directive:oneArgument
+ * @description
+ * # oneArgument
+ */
+angular.module('angularFireHangoutApp')
+  .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce",  function ($timeout, MixideaSetting,ParticipantMgrService, $sce) {
+    return {
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/oneArgument.html'),
+      restrict: 'E',
+      replace: true,
+      scope: {
+      	argument_id_obj: '=argId'
+      },
+      link: function postLink(scope, element, attrs) {
+        console.log("link is called");
+        console.log(scope.argument_id_obj);
+        var arg_id = scope.argument_id_obj.arg_id;
+        var event_id = scope.argument_id_obj.event_id;
+        var deb_style = scope.argument_id_obj.deb_style;
+        var team = scope.argument_id_obj.team;
+        scope.element = element;
+        scope.participant_mgr = ParticipantMgrService;
+        scope.others_writing = false;
+        scope.others_writing_content = false;
+
+        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
+        				+ arg_id;
+        var argument_content_ref = root_ref.child(argument_content_path);
+
+
+        var title_ref = argument_content_ref.child("title");
+        title_ref.on("value", function(snapshot){
+          $timeout(function(){
+            scope.title = snapshot.val();
+            update_title_height()
+          });
+        }); 
+        function update_title_height(){
+            $timeout(function(){
+              var title_p_element = scope.element[0].getElementsByClassName("title_p");
+              var title_p_height = title_p_element[0].offsetHeight;
+              title_p_height = title_p_height + 5;
+              var title_p_height_str = String(title_p_height) + "px";
+              scope.title_height = {height:title_p_height_str};
+            });
+        }
+        scope.change_title = function(){
+          var title = scope.title;
+          scope.title = scope.title.replace(/(\r\n|\n|\r)/gm,"");
+          title_ref.set(scope.title);
+        }
+
+
+        var content_ref = argument_content_ref.child("content");
+        content_ref.on("value", function(snapshot){
+          $timeout(function(){
+            scope.content = snapshot.val();
+            scope.content_div = add_linebreak_html(scope.content);
+            update_content_height()
+
+          });
+        }); 
+
+        function update_content_height(){
+            $timeout(function(){
+              var content_div_element = scope.element[0].getElementsByClassName("MainArg_Content");
+              var content_div_height = content_div_element[0].offsetHeight;
+              content_div_height = content_div_height + 15;
+              content_div_height = String(content_div_height) + "px";
+              scope.textearea_height = {height:content_div_height};
+            });
+        }
+
+        scope.change_content = function(){
+        	var content = scope.content;
+          content_ref.set(content);
+        }
+
+
+
+
+
+
+        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        var argument_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
+                + arg_id;
+        var argument_focused_ref = root_ref.child(argument_focused_path);
+
+
+        var title_focused_ref = argument_focused_ref.child("title");
+        title_focused_ref.on("value", function(snapshot){
+          $timeout(function(){
+            var focused_user_obj = snapshot.val();
+            scope.others_writing_title = false;
+            for(var key in focused_user_obj){
+              if(key != MixideaSetting.own_user_id){
+                scope.others_writing_title = true;
+                scope.others_id_title = key;
+              }
+            }
+            if(scope.others_writing_title){
+              scope.show_hide_title_textarea = "child_hide";
+              scope.show_hide_title_content = "child_show";
+            }else{
+              scope.show_hide_title_textarea = "child_show";
+              scope.show_hide_title_content = "child_hide";
+            }
+          });
+        }); 
+        var title_own_focused_ref = argument_focused_ref.child("title/" + MixideaSetting.own_user_id);
+        scope.title_focused = function(){
+          title_own_focused_ref.set(true);
+        }
+        scope.title_unfocused = function(){
+          title_own_focused_ref.set(null);
+        }
+        title_own_focused_ref.onDisconnect().remove();
+
+
+
+
+        var content_focused_ref = argument_focused_ref.child("content");
+        content_focused_ref.on("value", function(snapshot){
+          $timeout(function(){
+            var focused_user_obj = snapshot.val();
+            scope.others_writing_content = false;
+            for(var key in focused_user_obj){
+              if(key != MixideaSetting.own_user_id){
+                scope.others_writing_content = true;
+                scope.others_id_content = key;
+              }
+            }
+            if(scope.others_writing_content){
+              scope.show_hide_content_textarea = "child_hide";
+              scope.show_hide_content_content = "child_show";
+            }else{
+              scope.show_hide_content_textarea = "child_show";
+              scope.show_hide_content_content = "child_hide";
+            }
+          });
+        }); 
+        var content_own_focused_ref = argument_focused_ref.child("content/" + MixideaSetting.own_user_id);
+        scope.content_focused = function(){
+         content_own_focused_ref.set(true);
+         console.log("content focused")
+        }
+        scope.content_unfocused = function(){
+         console.log("content unfocused");
+         content_own_focused_ref.set(null);
+        }
+        content_own_focused_ref.onDisconnect().remove();
+
+
+
+        var one_argument_id_path = "event_related/Article_Context/" + event_id + "/identifier/" 
+                + deb_style + "/" + team + "/arguments/" + arg_id;
+        var one_argument_id_ref = root_ref.child(one_argument_id_path);
+        scope.remove_argument = function(){
+          console.log("remove" + arg_id);
+          one_argument_id_ref.set(null);
+        }
+
+        function add_linebreak_html(context){
+          if(!context){
+            return null;
+          }
+          var converted_context = context.split("<").join("&lt;");
+          converted_context = converted_context.split(">").join("&gt;");
+          converted_context = converted_context.split("\n").join("<br>");
+
+          return converted_context;
+        }
+
+      }
+    };
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc directive
+ * @name angularFireHangoutApp.directive:oneDefintro
+ * @description
+ * # oneDefintro
+ */
+angular.module('angularFireHangoutApp')
+  .directive('oneDefintro',["$timeout","MixideaSetting","$sce",  function ($timeout,MixideaSetting, $sce) {
+    return {
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain + 'views/directive/oneDefintro.html'),
+      restrict: 'E',
+      scope: {
+      	argument_id_obj: '=argId'
+      },
+      link: function postLink(scope, element, attrs) {
+      	
+        var arg_id = scope.argument_id_obj.arg_id;
+        var event_id = scope.argument_id_obj.event_id;
+        var deb_style = scope.argument_id_obj.deb_style;
+        var team = scope.argument_id_obj.team;
+
+        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
+        				+ arg_id;
+        var argument_content_ref = root_ref.child(argument_content_path);
+
+        var content_ref = argument_content_ref.child("content");
+        content_ref.on("value", function(snapshot){
+          $timeout(function(){
+            scope.content = snapshot.val();
+          });
+        }); 
+        scope.change_content = function(){
+        	var content = scope.content;
+          content_ref.set(content);
+        }
+      }
+    };
   }]);
 
 'use strict';

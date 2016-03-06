@@ -7,9 +7,9 @@
  * # oneArgument
  */
 angular.module('angularFireHangoutApp')
-  .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService",  function ($timeout, MixideaSetting,ParticipantMgrService) {
+  .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce",  function ($timeout, MixideaSetting,ParticipantMgrService, $sce) {
     return {
-      templateUrl: 'views/common/oneArgument.html',
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/oneArgument.html'),
       restrict: 'E',
       replace: true,
       scope: {

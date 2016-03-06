@@ -21,12 +21,19 @@ angular.module('angularFireHangoutApp')
 	title_ref.on("value", function(snapshot) {
 		$timeout(function() {
 			$scope.data.motion = snapshot.val();
-			var title_len = $scope.data.motion.length;
+
+			if(!$scope.data.motion){
+				$scope.motion_sentence = "motion_sentence_Red_xlarge";
+  				$scope.data.motion = "input motion here";
+  				$scope.data.motion_exist = false;
+  				return;	
+			}
+			var title_len = $scope.data.motion.length;			
 			if(title_len == 0){
 				$scope.motion_sentence = "motion_sentence_Red_xlarge";
   				$scope.data.motion = "input motion here";
   				$scope.data.motion_exist = false;
-			}else if(title_len < 60 ){
+			}if(title_len < 60 ){
 				$scope.motion_sentence = "motion_sentence_large";
   				$scope.data.motion_exist = true;
 			}else if (title_len < 100){
