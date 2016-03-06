@@ -1,11 +1,22 @@
-<div >
+<div class="def_intro_container">
 
 
-ss a ss{{argument_id_obj.id}}
-<div>
+<div class="description">
 Definition, teamstance, introduction message should be written here
 </div>
-
-<textarea type="text" ng-model="content" ng-change="change_content()"></textarea>
+<div class="parent_show_hide">
+	<textarea class="defintro_textarea" ng-class="show_hide_textarea" ng-model="content" ng-change="change_content()"placeholder="Definition: &#13;&#10;TeamStance: &#13;&#10;Social Background: " ng-focus="content_focused()" ng-blur="content_unfocused()"></textarea>
+	<div ng-class="show_hide_content" class="defintro_Content_container">
+		<div class="defintro_content defintro_font"  ng-bind-html="content_div"></div>
+		<div ng-if="others_writing">
+			<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id].profile_pict}}">
+			<div class="loader">
+			    <div class="bar"></div>
+			    <div class="bar"></div>
+			    <div class="bar"></div>
+			</div>
+		</div>
+	</div>
+</div>
 
 </div>

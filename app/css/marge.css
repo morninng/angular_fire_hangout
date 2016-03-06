@@ -455,11 +455,10 @@
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000324}}
-.argument_content_basic, .argument_container .mainArg_container .MainArg_input_edit, .argument_container .mainArg_container .MainArg_Content {
+.argument_content_basic, .argument_container .mainArg_container .MainArg_input_edit, .argument_container .mainArg_container .MainArg_Content, .def_intro_container .defintro_textarea, .def_intro_container .defintro_content {
   margin-left: 5px;
   margin-right: 5px;
   width: 95%;
-  min-height: 150px;
   padding: 5px;
   padding-left: 5px;
   padding-right: 5px;
@@ -467,30 +466,30 @@
   padding-bottom: 5px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000337}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000336}}
 .editinguser_img {
   width: 20px;
   height: 20px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000341}}
 .argument_container {
   padding: 3px;
   width: 100%;
   background-color: #DCDCDC;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000350}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000349}}
 .argument_container .title_container .title_font {
   font-weight: bold;
   font-size: large;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000354}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000353}}
 .argument_container .title_container .argument_title_css {
   margin-right: 10px;
   margin-left: 10px;
   width: 95%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000358}}
 .argument_container .title_container .title_content {
   margin-left: 10px;
   margin-right: 10px;
@@ -504,19 +503,20 @@
   padding-bottom: 5px;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000371}}
 .argument_container .title_container .title_p {
   display: flex;
   margin-bottom: 5px;
   margin-top: 5px;
   min-height: 40px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000381}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000380}}
 .argument_container .MainArg_Content_container {
   display: flex;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000387}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000386}}
 .argument_container .mainArg_container .MainArg_input_edit {
+  min-height: 250px;
   background-color: #FFFFFF;
   border-color: #D3D3D3;
   border-style: solid;
@@ -524,12 +524,13 @@
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\0000395}}
 .argument_container .mainArg_container .MainArg_Content {
+  min-height: 250px;
   border-style: solid;
   border-color: #FFFFFF;
   border-width: thin;
   background-color: #FCF5F5;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\00003103}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\00003104}}
 .argument_container .mainArg_container .MainArg_font {
   font-size: large;
 }
@@ -630,6 +631,31 @@ textarea {
     height: 5px;
   }
   /* Missing frames will cause the extra delay */
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_room_defintro\.scss}line{font-family:\000033}}
+.defintro_Content_container {
+  display: flex;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_room_defintro\.scss}line{font-family:\000039}}
+.def_intro_container .defintro_textarea {
+  min-height: 150px;
+  background-color: #FFFFFF;
+  border-color: #D3D3D3;
+  border-style: solid;
+  border-width: medium;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_room_defintro\.scss}line{font-family:\0000318}}
+.def_intro_container .defintro_content {
+  min-height: 150px;
+  border-style: solid;
+  border-color: #FFFFFF;
+  border-width: thin;
+  background-color: #FCF5F5;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_room_defintro\.scss}line{font-family:\0000326}}
+.def_intro_container .defintro_font {
+  font-size: large;
 }
 
 /*# sourceMappingURL=marge.css.map */

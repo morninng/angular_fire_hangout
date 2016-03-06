@@ -24,7 +24,7 @@ angular.module('angularFireHangoutApp')
         var team = scope.argument_id_obj.team;
         scope.element = element;
         scope.participant_mgr = ParticipantMgrService;
-        scope.others_writing = false;
+        scope.others_writing_title = false;
         scope.others_writing_content = false;
 
         var root_ref = new Firebase(MixideaSetting.firebase_url);
@@ -54,6 +54,8 @@ angular.module('angularFireHangoutApp')
           scope.title = scope.title.replace(/(\r\n|\n|\r)/gm,"");
           title_ref.set(scope.title);
         }
+
+
 
 
         var content_ref = argument_content_ref.child("content");
