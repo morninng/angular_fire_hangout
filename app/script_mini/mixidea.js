@@ -633,12 +633,12 @@ angular.module('angularFireHangoutApp')
   ParticipantMgr_Object.all_group_name = new Array();
   ParticipantMgr_Object.own_role_array = new Array();
   ParticipantMgr_Object.all_group_name_array = new Array();
+  ParticipantMgr_Object.user_object_data = new Object();
 
 //local variable
 
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var game_role_obj_all_style = new Object();
-  var user_object_data = new Object();
   var debate_style = null;
   var full_participants_object = new Object();
   var mapping_object = new Object();
@@ -679,8 +679,10 @@ angular.module('angularFireHangoutApp')
 
   function retrieve_participants_all(full_participants_object){
 
-    user_object_data= new Object();
-    total_number_participants = 0
+    for(key in ParticipantMgr_Object.user_object_data){
+      delete ParticipantMgr_Object.user_object_data[key]
+    }
+    total_number_participants = 0;
     for(var key in full_participants_object){
       retrieve_participant(key);
       total_number_participants++;
@@ -693,8 +695,8 @@ angular.module('angularFireHangoutApp')
     user_obj_ref.on("value", function(snapshot) {
       var user_obj  = snapshot.val();
       var user_key = snapshot.key();
-      user_object_data[user_key] = user_obj;
-      var user_object_data_len = check_object_length(user_object_data);
+      ParticipantMgr_Object.user_object_data[user_key] = user_obj;
+      var user_object_data_len = check_object_length(ParticipantMgr_Object.user_object_data);
       if(user_object_data_len == total_number_participants){
         update_ParticipantMgr_Object();
       }
@@ -1041,9 +1043,9 @@ angular.module('angularFireHangoutApp')
       for( var role_key in ParticipantMgr_Object.participant_obj){
 
         var user_id = ParticipantMgr_Object.participant_obj[role_key].id;
-        if(user_object_data[user_id]){
-          ParticipantMgr_Object.participant_obj[role_key].user_name = user_object_data[user_id].first_name;
-          ParticipantMgr_Object.participant_obj[role_key].profile_pict = user_object_data[user_id].profile_pict;
+        if(ParticipantMgr_Object.user_object_data[user_id]){
+          ParticipantMgr_Object.participant_obj[role_key].user_name = ParticipantMgr_Object.user_object_data[user_id].first_name;
+          ParticipantMgr_Object.participant_obj[role_key].profile_pict = ParticipantMgr_Object.user_object_data[user_id].profile_pict;
           ParticipantMgr_Object.participant_obj[role_key].css_style = "participant_box_logoff";
         }
         if(mapping_object[user_id]){
@@ -1054,9 +1056,9 @@ angular.module('angularFireHangoutApp')
       for( var i=0; i< ParticipantMgr_Object.audience_array.length; i++ ){
 
         var user_id =  ParticipantMgr_Object.audience_array[i].id;
-        if(user_object_data[user_id]){
-          ParticipantMgr_Object.audience_array[i].user_name = user_object_data[user_id].first_name;
-          ParticipantMgr_Object.audience_array[i].profile_pict = user_object_data[user_id].profile_pict;
+        if(ParticipantMgr_Object.user_object_data[user_id]){
+          ParticipantMgr_Object.audience_array[i].user_name = ParticipantMgr_Object.user_object_data[user_id].first_name;
+          ParticipantMgr_Object.audience_array[i].profile_pict = ParticipantMgr_Object.user_object_data[user_id].profile_pict;
           ParticipantMgr_Object.audience_array[i].applicant = true;
           ParticipantMgr_Object.audience_array[i].css_style = "participant_box_logoff";
         }
@@ -1138,14 +1140,16 @@ angular.module('angularFireHangoutApp')
   }
 
 
-  ParticipantMgr_Object.get_hangout_id = function(){
+  ParticipantMgr_Object.get_hangout_id = function(user_id){
 
   }
 
-  ParticipantMgr_Object.get_user_info = function(){
+  ParticipantMgr_Object.get_user_info = function(user_id){
 
   }
-
+  ParticipantMgr_Object.get_user_pict = function(user_id){
+    ParticipantMgr_Object.user_object_data[user_id].profile_pict;
+  }
 
   function check_object_length(obj){
     var len = 0;

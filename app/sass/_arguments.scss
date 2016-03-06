@@ -34,6 +34,10 @@
 
 }
 
+.editinguser_img{
+	width:20px;
+	height:20px;
+}
 
 .argument_container{
 	padding: 3px;
@@ -65,14 +69,19 @@
 			padding-bottom:5px; 
 			display:inline-block;
 		}
-
-		p{
+		.title_p {
+			display:flex;
 			margin-bottom:5px;
 			margin-top:5px;
+			min-height:40px;
 		}
 
-
 	}
+
+	.MainArg_Content_container{
+		display:flex;
+	}
+
 	.mainArg_container{
 
 		.MainArg_input_edit{

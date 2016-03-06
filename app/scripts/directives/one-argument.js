@@ -7,7 +7,7 @@
  * # oneArgument
  */
 angular.module('angularFireHangoutApp')
-  .directive('oneArgument',["$timeout","MixideaSetting",  function ($timeout, MixideaSetting) {
+  .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService",  function ($timeout, MixideaSetting,ParticipantMgrService) {
     return {
       templateUrl: 'views/common/oneArgument.html',
       restrict: 'E',
@@ -23,6 +23,9 @@ angular.module('angularFireHangoutApp')
         var deb_style = scope.argument_id_obj.deb_style;
         var team = scope.argument_id_obj.team;
         scope.element = element;
+        scope.participant_mgr = ParticipantMgrService;
+        scope.others_writing = false;
+        scope.others_writing_content = false;
 
         var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
@@ -93,13 +96,14 @@ angular.module('angularFireHangoutApp')
         title_focused_ref.on("value", function(snapshot){
           $timeout(function(){
             var focused_user_obj = snapshot.val();
-            var others_writing = false;
+            scope.others_writing_title = false;
             for(var key in focused_user_obj){
               if(key != MixideaSetting.own_user_id){
-                others_writing = true;
+                scope.others_writing_title = true;
+                scope.others_id_title = key;
               }
             }
-            if(others_writing){
+            if(scope.others_writing_title){
               scope.show_hide_title_textarea = "child_hide";
               scope.show_hide_title_content = "child_show";
             }else{
@@ -124,18 +128,17 @@ angular.module('angularFireHangoutApp')
         content_focused_ref.on("value", function(snapshot){
           $timeout(function(){
             var focused_user_obj = snapshot.val();
-            var others_writing = false;
+            scope.others_writing_content = false;
             for(var key in focused_user_obj){
               if(key != MixideaSetting.own_user_id){
-                others_writing = true;
+                scope.others_writing_content = true;
+                scope.others_id_content = key;
               }
             }
-            if(others_writing){
-              scope.title_edit_others = true;
+            if(scope.others_writing_content){
               scope.show_hide_content_textarea = "child_hide";
               scope.show_hide_content_content = "child_show";
             }else{
-              scope.title_edit_others = false;
               scope.show_hide_content_textarea = "child_show";
               scope.show_hide_content_content = "child_hide";
             }

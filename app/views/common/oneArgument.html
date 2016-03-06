@@ -9,14 +9,33 @@
 		title
 		<div class="title_container parent_show_hide">
 			<textarea ng-class="show_hide_title_textarea" class="title_font argument_title_css" placeholder="input title of argument" ng-model="title" ng-change="change_title()" ng-trim="false" ng-style='title_height' ng-focus="title_focused()" ng-blur="title_unfocused()"></textarea>
-			<p class="title_p" ng-class="show_hide_title_content">
+			<div class="title_p" ng-class="show_hide_title_content">
 				<span class="title_font title_content">{{title}}</span>
-			</p>
+				<div ng-if="others_writing_title">
+					<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_title].profile_pict}}">
+					<div class="loader">
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					</div>
+				</div>
+			</div>
 		</div>
+
 		content
 		<div class="mainArg_container parent_show_hide">
 			<textarea ng-class="show_hide_content_textarea" ng-style='textearea_height' class="MainArg_input_edit MainArg_font" ng-model="content" ng-change="change_content()" ng-trim="false" placeholder="input argument principle, reason, and example" ng-focus="content_focused()" ng-blur="content_unfocused()"></textarea>
-			<div class="MainArg_Content MainArg_font" ng-class="show_hide_content_content" ng-bind-html="content_div"></div>
+			<div ng-class="show_hide_content_content" class="MainArg_Content_container">
+				<div class="MainArg_Content MainArg_font"  ng-bind-html="content_div"></div>
+				<div ng-if="others_writing_content">
+					<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_content].profile_pict}}">
+					<div class="loader">
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
