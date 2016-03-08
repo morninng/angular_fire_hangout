@@ -30,6 +30,7 @@ yo angular:controller team-discuss-arguments
 
  yo angular:factory ParticipantMgr-Service
  yo angular:factory StatusMgr-Service
+ yo angular:service SoundPlay-Service
 
 
   yo angular:controller TeamDiscuss-RoomName

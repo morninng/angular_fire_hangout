@@ -8,7 +8,7 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout) {
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
 
@@ -52,6 +52,7 @@ angular.module('angularFireHangoutApp')
   			return own_speaker_obj;
   		});
   		speaker_ref_own.onDisconnect().set(null);
+      SoundPlayService.SpeechStart();
   	}
 
   	speaker_ref.on("value", function(snapshot){
@@ -88,6 +89,7 @@ angular.module('angularFireHangoutApp')
 		poi_candidate_ref_own.set(own_group);
 		poi_candidate_ref_own.onDisconnect().set(null);
     poi_taken_ref_own.onDisconnect().set(null);
+    SoundPlayService.PinOne();
 	}
 	poi_candidate_ref.on("value", function(snapshot){
 		var poi_obj = snapshot.val();
