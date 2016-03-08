@@ -148,6 +148,10 @@ angular.module('angularFireHangoutApp')
 			"container_second_top":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
 			controller: 'StatusbarCtrl'
+			},
+			"container_main_left_above_left_up":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/video_debate.html',
+			controller: 'VideodebateCtrl'		
 			}
 		}
 	})

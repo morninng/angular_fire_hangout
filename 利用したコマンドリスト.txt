@@ -18,6 +18,7 @@ touch .ftppass
 
   yo angular:controller StatusBar
   yo angular:controller StaticVideo
+  yo angular:controller VideoDebate
   yo angular:controller Participant-Table
   yo angular:controller Status-Update
   yo angular:controller Count-PrepTime

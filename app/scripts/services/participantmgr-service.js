@@ -22,6 +22,8 @@ angular.module('angularFireHangoutApp')
 //public member variable 
   ParticipantMgr_Object.own_group = null;
   ParticipantMgr_Object.is_audience_or_debater = "Audience";
+  ParticipantMgr_Object.own_first_name = null;
+  ParticipantMgr_Object.own_last_name = null;
   ParticipantMgr_Object.all_group_name = new Array();
   ParticipantMgr_Object.own_role_array = new Array();
   ParticipantMgr_Object.all_group_name_array = new Array();
@@ -89,6 +91,10 @@ angular.module('angularFireHangoutApp')
       var user_key = snapshot.key();
       ParticipantMgr_Object.user_object_data[user_key] = user_obj;
       var user_object_data_len = check_object_length(ParticipantMgr_Object.user_object_data);
+      if(user_key == MixideaSetting.own_user_id){
+        ParticipantMgr_Object.own_first_name = user_obj.first_name;
+        ParticipantMgr_Object.own_last_name = user_obj.last_name;
+      }
       if(user_object_data_len == total_number_participants){
         update_ParticipantMgr_Object();
       }
@@ -155,6 +161,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Gov',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -165,6 +172,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             },
@@ -175,6 +183,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Gov',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -185,6 +194,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             },
@@ -195,6 +205,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Gov',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -205,6 +216,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             }
@@ -224,6 +236,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Prop',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -233,6 +246,7 @@ angular.module('angularFireHangoutApp')
               applicant:false,
               id:null,
               group:'Opp',
+              side:'right',
               group_id:1,
               login:false,
               css_style:"participant_box_default"
@@ -244,6 +258,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Prop',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -254,6 +269,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             },
@@ -264,6 +280,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Prop',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -274,6 +291,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             },
@@ -284,6 +302,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Prop',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -294,6 +313,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             }
@@ -314,6 +334,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'OG',
               group_id:0,
+              side:'left',
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -325,6 +346,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'OO',
               group_id:1,
+              side:'right',
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -336,6 +358,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'OG',
               group_id:0,
+              side:'left',
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -347,6 +370,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'OO',
               group_id:1,
+              side:'right',
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -358,6 +382,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'CG',
               group_id:2,
+              side:'left',
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -369,6 +394,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'CO',
               group_id:3,
+              side:'right',
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -380,6 +406,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'CG',
               group_id:2,
+              side:'left',
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -391,6 +418,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'CO',
               group_id:3,
+              side:'right',
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -513,6 +541,9 @@ angular.module('angularFireHangoutApp')
       ParticipantMgr_Object.own_role_array.length=0;
       ParticipantMgr_Object.own_group = "Audience"
       ParticipantMgr_Object.is_audience_or_debater = "Audience";
+      ParticipantMgr_Object.own_side = "Audience";
+
+
       ParticipantMgr_Object.own_group_id = null;
 
       for( var role_key in ParticipantMgr_Object.participant_obj){
@@ -521,6 +552,7 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.own_group = ParticipantMgr_Object.participant_obj[role_key].group;
           ParticipantMgr_Object.own_group_id = ParticipantMgr_Object.participant_obj[role_key].group_id;
           ParticipantMgr_Object.is_audience_or_debater = "debater";
+          ParticipantMgr_Object.own_side = ParticipantMgr_Object.participant_obj[role_key].side;
         }
       }
       console.log("update_member_variable");

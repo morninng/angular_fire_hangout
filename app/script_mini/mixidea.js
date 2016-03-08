@@ -148,6 +148,10 @@ angular.module('angularFireHangoutApp')
 			"container_second_top":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
 			controller: 'StatusbarCtrl'
+			},
+			"container_main_left_above_left_up":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/video_debate.html',
+			controller: 'VideodebateCtrl'		
 			}
 		}
 	})
@@ -517,6 +521,9 @@ angular.module('angularFireHangoutApp')
 				case "preparation":
 				$scope.status_prep = "status_bar_element_selected";
 				break
+				case "debate":
+				$scope.status_debate = "status_bar_element_selected";
+				break
 			}
 		});
   	})
@@ -616,6 +623,201 @@ angular.module('angularFireHangoutApp')
 'use strict';
 
 /**
+ * @ngdoc function
+ * @name angularFireHangoutApp.controller:VideodebateCtrl
+ * @description
+ * # VideodebateCtrl
+ * Controller of the angularFireHangoutApp
+ */
+angular.module('angularFireHangoutApp')
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout) {
+
+  	$scope.name = "sss";
+  	$scope.participant_mgr = ParticipantMgrService;
+  	$scope.status = "break";
+  	$scope.speaker_obj = new Object();
+  	$scope.poi_speaker_obj = new Object();
+  	$scope.actual_speaker_obj = new Object();
+  	$scope.poi_candidate_userobj_array = new Array();
+  	$scope.timer_value = null;
+
+	var root_ref = new Firebase(MixideaSetting.firebase_url);
+
+	var video_status_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
+	var speaker_ref = video_status_ref.child("speaker");
+	var speaker_ref_own = video_status_ref.child("speaker/" + MixideaSetting.own_user_id);
+	var poi_ref = video_status_ref.child("poi");
+	var poi_candidate_ref = video_status_ref.child("poi/candidate");
+	var poi_candidate_ref_own = video_status_ref.child("poi/candidate/" + MixideaSetting.own_user_id);
+	var poi_taken_ref = video_status_ref.child("poi/taken");
+	var poi_taken_ref_own = video_status_ref.child("poi/taken/" + MixideaSetting.own_user_id);
+
+  	$scope.speech_start = function(role){
+  		var own_side = $scope.participant_mgr.own_side;
+  		var own_name = $scope.participant_mgr.own_first_name;
+  		var full_role_name = get_full_role_name(role);
+
+
+  		var speaker_obj = {
+  			role: role,
+  			name:own_name,
+  			side: own_side,
+  			full_role_name: full_role_name
+  		}
+  		var own_speaker_obj = new Object();
+  		own_speaker_obj[MixideaSetting.own_user_id] = speaker_obj;
+  		speaker_ref.transaction(function(current_value){
+  			if(current_value){
+  				return;
+  			}
+  			return own_speaker_obj;
+  		});
+  		speaker_ref_own.onDisconnect().set(null);
+  	}
+
+  	speaker_ref.on("value", function(snapshot){
+  		var updated_speaker_obj = snapshot.val();
+
+  		if(!updated_speaker_obj){
+  			for(var key in $scope.speaker_obj){
+  				delete $scope.speaker_obj[key]
+  			}
+  		}else{
+			var obj = new Object();
+			for(var key in updated_speaker_obj){
+				var speaker_user_id = key;
+				$scope.speaker_obj.id = speaker_user_id;
+				var obj = updated_speaker_obj[speaker_user_id];
+				$scope.speaker_obj.name = obj.name;
+				$scope.speaker_obj.role = obj.role;
+				$scope.speaker_obj.side = obj.side;
+				$scope.speaker_obj.full_role_name = obj.full_role_name;
+			}
+		}
+		update_video_status()
+
+  	}, function(error){
+  		console.log("fail while to retrieve speaker obj" + error);
+  	})
+
+	$scope.complete_speech = function(){
+		video_status_ref.set(null)
+	}
+
+	$scope.poi = function(){
+    var own_group = $scope.participant_mgr.own_group
+		poi_candidate_ref_own.set(own_group);
+		poi_candidate_ref_own.onDisconnect().set(null);
+	}
+	poi_candidate_ref.on("value", function(snapshot){
+		var poi_obj = snapshot.val();
+		$scope.poi_candidate_userobj_array.length=0;
+		$timeout(function() {
+			for (var key in poi_obj){
+        var obj = {id: key, group:poi_obj[key]};
+				$scope.poi_candidate_userobj_array.push(obj);
+			}
+		});
+	});
+	$scope.finish_poi = function(){
+		poi_ref.set(null);
+	}
+
+	$scope.cancel_poi = function(){
+		poi_candidate_ref_own.set(null);
+	}
+  
+	$scope.take_poi = function(user_id, group){
+		var poi_taken_obj = new Object();
+		poi_taken_obj[user_id] = group;
+		poi_taken_ref.transaction(function(current_value){
+  			if(current_value){
+  				return;
+  			}
+  			return poi_taken_obj;
+  		});
+    poi_candidate_ref.set(null);
+	}
+
+	poi_taken_ref.on("value", function(snapshot){
+  		var poi_taken_obj = snapshot.val();
+  		var poi_user_id = null;
+      var poi_user_group = null;
+  		for(var key in poi_taken_obj){
+  			poi_user_id = key;
+        poi_user_group = poi_taken_obj[key]
+  		}
+		if(poi_user_id){
+			$scope.poi_speaker_obj.id = poi_user_id;
+			$scope.poi_speaker_obj.speaker_group = 'Poi from' + poi_user_group;
+		//	$scope.poi_speaker_obj.name = $scope.participant_mgr.user_object_data[poi_user_id].first_name;
+		}else{
+			for(var key in $scope.poi_speaker_obj){
+				delete $scope.poi_speaker_obj[key]
+			}
+		}
+		
+  		update_video_status();
+  	});
+
+  	function update_video_status(){
+
+  		$timeout(function() {
+  			if($scope.poi_speaker_obj.id){
+  				$scope.status = "poi";
+  			}else if ($scope.speaker_obj.id){
+  				$scope.status = "speech";
+  			}else{
+  				$scope.status = "break";
+  			}
+  		});
+
+
+
+  	}
+
+  	function get_full_role_name(role){
+
+  		switch (role){
+  			case "PM":
+  			return "Prime Minister";
+  			break;
+
+  			case "LO":
+  			return "Leader Opposition";
+  			break;
+
+  			case "MG":
+  			return "Member Government";
+  			break;
+
+  			case "MO":
+  			return "Member Opposition";
+  			break;
+
+  			case "PMR":
+  			return "Prime Minister Reply";
+  			break;
+
+  			case "LOR":
+  			return "Leader Opposition Reply";
+  			break;
+
+  			case "":
+  			return "";
+  			break;
+
+  			case "":
+  			return "";
+  			break;
+  		}
+  	}
+
+  }]);
+
+'use strict';
+
+/**
  * @ngdoc service
  * @name angularFireHangoutApp.MixideaHangoutSetting
  * @description
@@ -699,7 +901,7 @@ var global_own_team_side = null;
 
   global_event_id = "-KC9WfxpLwKbaWiSjqg6";
   global_own_user_id = "facebook:1520978701540732";
-  global_room_type = "team_discussion";
+  global_room_type = "main";
 
   if(global_room_type == "team_discussion"){
     global_team_side = "Gov";
@@ -759,7 +961,7 @@ var global_own_team_side = null;
 
   global_event_id = "-KC9WfxpLwKbaWiSjqg6";
   global_own_user_id = "facebook:997119893702319";
-  global_room_type = "team_discussion";
+  global_room_type = "main";
 
   if(global_room_type == "team_discussion"){
     global_team_side = "Gov";
@@ -819,8 +1021,8 @@ var global_own_team_side = null;
 
   global_event_id = "-KC9WfxpLwKbaWiSjqg6";
   global_own_user_id = "facebook:1520978701540732";
-  global_room_type = "team_discussion";
-  //global_room_type = "main";
+  //global_room_type = "team_discussion";
+  global_room_type = "main";
   
   
   if(global_room_type == "team_discussion"){
@@ -1175,6 +1377,8 @@ angular.module('angularFireHangoutApp')
 //public member variable 
   ParticipantMgr_Object.own_group = null;
   ParticipantMgr_Object.is_audience_or_debater = "Audience";
+  ParticipantMgr_Object.own_first_name = null;
+  ParticipantMgr_Object.own_last_name = null;
   ParticipantMgr_Object.all_group_name = new Array();
   ParticipantMgr_Object.own_role_array = new Array();
   ParticipantMgr_Object.all_group_name_array = new Array();
@@ -1242,6 +1446,10 @@ angular.module('angularFireHangoutApp')
       var user_key = snapshot.key();
       ParticipantMgr_Object.user_object_data[user_key] = user_obj;
       var user_object_data_len = check_object_length(ParticipantMgr_Object.user_object_data);
+      if(user_key == MixideaSetting.own_user_id){
+        ParticipantMgr_Object.own_first_name = user_obj.first_name;
+        ParticipantMgr_Object.own_last_name = user_obj.last_name;
+      }
       if(user_object_data_len == total_number_participants){
         update_ParticipantMgr_Object();
       }
@@ -1308,6 +1516,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Gov',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1318,6 +1527,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1328,6 +1538,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Gov',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1338,6 +1549,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1348,6 +1560,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Gov',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1358,6 +1571,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             }
@@ -1377,6 +1591,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Prop',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1386,6 +1601,7 @@ angular.module('angularFireHangoutApp')
               applicant:false,
               id:null,
               group:'Opp',
+              side:'right',
               group_id:1,
               login:false,
               css_style:"participant_box_default"
@@ -1397,6 +1613,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Prop',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1407,6 +1624,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1417,6 +1635,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Prop',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1427,6 +1646,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1437,6 +1657,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Prop',
               group_id:0,
+              side:'left',
               login:false,
               css_style:"participant_box_default"
             },
@@ -1447,6 +1668,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'Opp',
               group_id:1,
+              side:'right',
               login:false,
               css_style:"participant_box_default"
             }
@@ -1467,6 +1689,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'OG',
               group_id:0,
+              side:'left',
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -1478,6 +1701,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'OO',
               group_id:1,
+              side:'right',
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -1489,6 +1713,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'OG',
               group_id:0,
+              side:'left',
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -1500,6 +1725,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'OO',
               group_id:1,
+              side:'right',
               part:'Opening',
               login:false,
               css_style:"participant_box_default"
@@ -1511,6 +1737,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'CG',
               group_id:2,
+              side:'left',
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -1522,6 +1749,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'CO',
               group_id:3,
+              side:'right',
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -1533,6 +1761,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'CG',
               group_id:2,
+              side:'left',
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -1544,6 +1773,7 @@ angular.module('angularFireHangoutApp')
               id:null,
               group:'CO',
               group_id:3,
+              side:'right',
               part:'Closing',
               login:false,
               css_style:"participant_box_default"
@@ -1666,6 +1896,9 @@ angular.module('angularFireHangoutApp')
       ParticipantMgr_Object.own_role_array.length=0;
       ParticipantMgr_Object.own_group = "Audience"
       ParticipantMgr_Object.is_audience_or_debater = "Audience";
+      ParticipantMgr_Object.own_side = "Audience";
+
+
       ParticipantMgr_Object.own_group_id = null;
 
       for( var role_key in ParticipantMgr_Object.participant_obj){
@@ -1674,6 +1907,7 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.own_group = ParticipantMgr_Object.participant_obj[role_key].group;
           ParticipantMgr_Object.own_group_id = ParticipantMgr_Object.participant_obj[role_key].group_id;
           ParticipantMgr_Object.is_audience_or_debater = "debater";
+          ParticipantMgr_Object.own_side = ParticipantMgr_Object.participant_obj[role_key].side;
         }
       }
       console.log("update_member_variable");

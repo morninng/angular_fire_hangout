@@ -18,7 +18,7 @@ var global_own_team_side = null;
 
   global_event_id = "-KC9WfxpLwKbaWiSjqg6";
   global_own_user_id = "facebook:997119893702319";
-  global_room_type = "team_discussion";
+  global_room_type = "main";
 
   if(global_room_type == "team_discussion"){
     global_team_side = "Gov";
