@@ -630,16 +630,17 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout) {
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService) {
 
-  	$scope.name = "sss";
   	$scope.participant_mgr = ParticipantMgrService;
+
+/*******ui related part****************/
   	$scope.status = "break";
   	$scope.speaker_obj = new Object();
   	$scope.poi_speaker_obj = new Object();
-  	$scope.actual_speaker_obj = new Object();
   	$scope.poi_candidate_userobj_array = new Array();
   	$scope.timer_value = null;
+    $scope.speech_start_time = 0;
 
 	var root_ref = new Firebase(MixideaSetting.firebase_url);
 
@@ -652,17 +653,19 @@ angular.module('angularFireHangoutApp')
 	var poi_taken_ref = video_status_ref.child("poi/taken");
 	var poi_taken_ref_own = video_status_ref.child("poi/taken/" + MixideaSetting.own_user_id);
 
+
   	$scope.speech_start = function(role){
   		var own_side = $scope.participant_mgr.own_side;
   		var own_name = $scope.participant_mgr.own_first_name;
   		var full_role_name = get_full_role_name(role);
-
+      var speech_start_time_value = Date.now();
 
   		var speaker_obj = {
   			role: role,
   			name:own_name,
   			side: own_side,
-  			full_role_name: full_role_name
+  			full_role_name: full_role_name,
+        speech_start_time: speech_start_time_value
   		}
   		var own_speaker_obj = new Object();
   		own_speaker_obj[MixideaSetting.own_user_id] = speaker_obj;
@@ -673,6 +676,7 @@ angular.module('angularFireHangoutApp')
   			return own_speaker_obj;
   		});
   		speaker_ref_own.onDisconnect().set(null);
+      SoundPlayService.SpeechStart();
   	}
 
   	speaker_ref.on("value", function(snapshot){
@@ -692,6 +696,7 @@ angular.module('angularFireHangoutApp')
 				$scope.speaker_obj.role = obj.role;
 				$scope.speaker_obj.side = obj.side;
 				$scope.speaker_obj.full_role_name = obj.full_role_name;
+        $scope.speech_start_time = obj.speech_start_time;
 			}
 		}
 		update_video_status()
@@ -701,13 +706,16 @@ angular.module('angularFireHangoutApp')
   	})
 
 	$scope.complete_speech = function(){
-		video_status_ref.set(null)
+		video_status_ref.set(null);
+
 	}
 
 	$scope.poi = function(){
     var own_group = $scope.participant_mgr.own_group
 		poi_candidate_ref_own.set(own_group);
 		poi_candidate_ref_own.onDisconnect().set(null);
+    poi_taken_ref_own.onDisconnect().set(null);
+    SoundPlayService.Poi();
 	}
 	poi_candidate_ref.on("value", function(snapshot){
 		var poi_obj = snapshot.val();
@@ -721,12 +729,13 @@ angular.module('angularFireHangoutApp')
 	});
 	$scope.finish_poi = function(){
 		poi_ref.set(null);
+    SoundPlayService.PoiFinish();
 	}
 
 	$scope.cancel_poi = function(){
 		poi_candidate_ref_own.set(null);
 	}
-  
+
 	$scope.take_poi = function(user_id, group){
 		var poi_taken_obj = new Object();
 		poi_taken_obj[user_id] = group;
@@ -737,6 +746,7 @@ angular.module('angularFireHangoutApp')
   			return poi_taken_obj;
   		});
     poi_candidate_ref.set(null);
+    SoundPlayService.Taken();
 	}
 
 	poi_taken_ref.on("value", function(snapshot){
@@ -749,7 +759,7 @@ angular.module('angularFireHangoutApp')
   		}
 		if(poi_user_id){
 			$scope.poi_speaker_obj.id = poi_user_id;
-			$scope.poi_speaker_obj.speaker_group = 'Poi from' + poi_user_group;
+			$scope.poi_speaker_obj.speaker_group = 'Poi from ' + poi_user_group;
 		//	$scope.poi_speaker_obj.name = $scope.participant_mgr.user_object_data[poi_user_id].first_name;
 		}else{
 			for(var key in $scope.poi_speaker_obj){
@@ -764,17 +774,111 @@ angular.module('angularFireHangoutApp')
 
   		$timeout(function() {
   			if($scope.poi_speaker_obj.id){
+          manage_speaker($scope.poi_speaker_obj.id, "poi");
   				$scope.status = "poi";
+
   			}else if ($scope.speaker_obj.id){
+          if($scope.status=="break"){
+            speech_execution_start();
+          }
+          manage_speaker($scope.speaker_obj.id, "speech");
   				$scope.status = "speech";
   			}else{
+          if($scope.status !="break"){
+            speech_execution_stop();
+          }
+          manage_speaker(null, "break");
   				$scope.status = "break";
   			}
   		});
-
-
-
   	}
+
+
+    function speech_execution_start(){
+      StartTimer()
+      //sound_mgr.play_sound_speech_start()
+    }
+
+    function speech_execution_stop(){
+      StopTimer()
+      //sound_mgr.play_sound_speech_stop()
+    }
+
+/*******time count********/
+
+    var timer = null;
+    var speech_duration = 0;
+    $scope.timer_value = null;
+
+    function StartTimer(){
+
+      $scope.timer_value = "speech start";
+      if(!timer ){
+        speech_duration = 0;
+        timer = setInterval( function(){countTimer()},1000);
+      }
+    }
+    function StopTimer(){
+      speech_duration = 0;
+      $timeout(function() {
+        $scope.timer_value = null;
+      });
+      clearInterval(timer);
+      timer = null;
+    }
+
+    function countTimer(){
+      speech_duration++;
+      var duration_mod = speech_duration % 60;
+      var minutes = (speech_duration - duration_mod)/60;
+      var second = duration_mod;
+      var timer_str = minutes + "min " + second + "sec";
+
+      if(minutes == 1 && second == 0|| minutes ==6 && second == 0){
+        //sound_mgr.play_sound_PinOne();
+        console.log("one minutes");
+      }else if(minutes ==6 && second == 0){
+        //sound_mgr.play_sound_PinOne();
+        console.log("two minutes");
+      }else if(minutes == 7  && second == 0){
+        //sound_mgr.play_sound_PinTwo();
+        console.log("seven minutes");
+      }else if(minutes == 7  && second == 30){
+        //sound_mgr.play_sound_PinThree();
+        console.log("seven and half minutes");
+      }
+      $timeout(function() {
+        $scope.timer_value = timer_str;
+      });
+    }
+
+/*************speaker related part****************/
+
+    $scope.current_speaker = null;
+
+    function manage_speaker(speaker_id, type){
+
+      if(speaker_id == MixideaSetting.own_user_id){
+        //Recording.start();
+        RecognitionService.start(type, $scope.speaker_obj.role  ,$scope.speech_start_time);
+        //microphone.enable();
+
+      }else if(speaker_id){
+        RecognitionService.stop();
+        //Recording.stop();
+        //Recognition.stop();
+        //microphone.disabled();
+
+      }else{
+        RecognitionService.stop();
+        //Recording.stop();
+        //Recognition.stop();
+        //microphone.enable();
+      }
+
+      $scope.current_speaker == speaker_id;
+
+    }
 
   	function get_full_role_name(role){
 
@@ -812,6 +916,8 @@ angular.module('angularFireHangoutApp')
   			break;
   		}
   	}
+
+
 
   }]);
 
@@ -1940,6 +2046,339 @@ angular.module('angularFireHangoutApp')
 
 
     return ParticipantMgr_Object;
+}]);
+
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.RecognitionService
+ * @description
+ * # RecognitionService
+ * Service in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+  .service('RecognitionService',["MixideaSetting", function (MixideaSetting) {
+    // AngularJS will instantiate a singleton by calling "new" on this function
+
+    var under_recording = false;
+    var available=true;
+    var short_split_id_value="aaaa";
+    var root_ref = new Firebase(MixideaSetting.firebase_url);
+    var transcription_ref = null;
+    var speech_type=null;
+    var speech_start_time = 0;
+
+	if(!window.webkitSpeechRecognition){
+		available = false;
+		return;
+	}
+	var recognition = new webkitSpeechRecognition();
+	recognition.continuous = true;
+	recognition.lang = "en-US";  /*should use mixidea setting*/
+
+	recognition.onresult = function(e){
+		var results = e.results;
+		for(var i = e.resultIndex; i<results.length; i++){
+			if(results[i].isFinal){
+				StoreData(results[i][0].transcript);
+			}
+		}
+	};
+
+    this.start = function(type, speaker_role, time_value){
+    	if(!available){
+    		return;
+    	}
+    	speech_start_time = time_value;
+      	short_split_id_value = Date.now();
+    	
+    	speech_type = type;
+    	transcription_ref = root_ref.child("event_related/audio_transcript/" + 
+    						MixideaSetting.event_id + "/" + speaker_role + 
+    						"/spech_context/" + String(speech_start_time));
+    	if(under_recording){
+    		return;
+    	}else{
+    		recognition.start();
+    		under_recording = true;
+    	}
+
+    }
+
+    this.stop = function(){
+    	if(!available || !under_recording){
+    		return;
+    	}
+    	recognition.stop();
+    	var under_recording = false;
+    }
+
+    function StoreData(text){
+    	console.log(text);
+        var current_time_value = Date.now();	
+    	var audio_time =  current_time_value - speech_start_time;
+
+    	var speech_obj = {
+    		user: MixideaSetting.own_user_id,
+    		type: speech_type,
+    		context: text,
+    		short_split_id: short_split_id_value,
+    		audio_time: audio_time
+    	}
+    	transcription_ref.push(speech_obj);
+    }
+
+
+
+
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.SoundPlayService
+ * @description
+ * # SoundPlayService
+ * Service in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+  .service('SoundPlayService',['MixideaSetting', function (MixideaSetting) {
+    // AngularJS will instantiate a singleton by calling "new" on this function
+
+
+	this.Poi = function(){
+		console.log("pin one");
+		if(!sound_mgr.PinOne_sound){
+			return;
+		}
+		sound_mgr.Poi_sound.start(0);
+		sound_mgr.Poi_sound = audio_context.createBufferSource();
+		sound_mgr.Poi_sound.buffer = sound_mgr.Poi_sound_persisted_buffer;
+		sound_mgr.Poi_sound.connect(audio_context.destination);
+	}
+
+	this.HearHear = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.HearHear_sound.start(0);
+		sound_mgr.HearHear_sound = audio_context.createBufferSource();
+		sound_mgr.HearHear_sound.buffer = sound_mgr.HearHear_sound_persisted_buffer;
+		sound_mgr.HearHear_sound.connect(audio_context.destination);
+	}
+	this.BooBoo = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.BooBoo_sound.start(0);
+		sound_mgr.BooBoo_sound = audio_context.createBufferSource();
+		sound_mgr.BooBoo_sound.buffer = sound_mgr.BooBoo_sound_persisted_buffer;
+		sound_mgr.BooBoo_sound.connect(audio_context.destination);
+	}
+	this.Taken = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.Taken_sound.start(0);
+		sound_mgr.Taken_sound = audio_context.createBufferSource();
+		sound_mgr.Taken_sound.buffer = sound_mgr.Taken_sound_persisted_buffer;
+		sound_mgr.Taken_sound.connect(audio_context.destination);
+	}
+	this.PoiFinish = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.PoiFinish_sound.start(0);
+		sound_mgr.PoiFinish_sound = audio_context.createBufferSource();
+		sound_mgr.PoiFinish_sound.buffer = sound_mgr.PoiFinish_sound_persisted_buffer;
+		sound_mgr.PoiFinish_sound.connect(audio_context.destination);
+	}
+	this.PinOne = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.PinOne_sound.start(0);
+		sound_mgr.PinOne_sound = audio_context.createBufferSource();
+		sound_mgr.PinOne_sound.buffer = sound_mgr.PinOne_sound_persisted_buffer;
+		sound_mgr.PinOne_sound.connect(audio_context.destination);
+	}
+	this.PinTwo = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.PinTwo_sound.start(0);
+		sound_mgr.PinTwo_sound = audio_context.createBufferSource();
+		sound_mgr.PinTwo_sound.buffer = sound_mgr.PinTwo_sound_persisted_buffer;
+		sound_mgr.PinTwo_sound.connect(audio_context.destination);
+	}
+	this.PinThree = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.PinThree_sound.start(0);
+		sound_mgr.PinThree_sound = audio_context.createBufferSource();
+		sound_mgr.PinThree_sound.buffer = sound_mgr.PinThree_sound_persisted_buffer;
+		sound_mgr.PinThree_sound.connect(audio_context.destination);
+	}
+	this.Cursol = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.Cursol_sound.start(0);
+		sound_mgr.Cursol_sound = audio_context.createBufferSource();
+		sound_mgr.Cursol_sound.buffer = sound_mgr.Cursol_sound_persisted_buffer;
+		sound_mgr.Cursol_sound.connect(audio_context.destination);
+	}
+
+	this.SpeechStart = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.SpeechStart_sound.start(0);
+		sound_mgr.SpeechStart_sound = audio_context.createBufferSource();
+		sound_mgr.SpeechStart_sound.buffer = sound_mgr.SpeechStart_sound_persisted_buffer;
+		sound_mgr.SpeechStart_sound.connect(audio_context.destination);
+	}
+
+
+	function BufferLoader(context, urlList, callback) {
+	  this.context = context;
+	  this.urlList = urlList;
+	  this.onload = callback;
+	  this.bufferList = new Array();
+	  this.loadCount = 0;
+	}
+
+	BufferLoader.prototype.loadBuffer = function(url, index) {
+	  // Load buffer asynchronously
+	  var request = new XMLHttpRequest();
+	  request.open("GET", url, true);
+	  request.responseType = "arraybuffer";
+
+	  var loader = this;
+
+	  request.onload = function() {
+	    // Asynchronously decode the audio file data in request.response
+	    loader.context.decodeAudioData(
+	      request.response,
+	      function(buffer) {
+	        if (!buffer) {
+	          alert('error decoding file data: ' + url);
+	          return;
+	        }
+	        loader.bufferList[index] = buffer;
+	        if (++loader.loadCount == loader.urlList.length)
+	          loader.onload(loader.bufferList);
+	      },
+	      function(error) {
+	        console.error('decodeAudioData error', error);
+	      }
+	    );
+	  }
+
+	  request.onerror = function() {
+	    alert('BufferLoader: XHR error');
+	  }
+
+	  request.send();
+	};
+
+	BufferLoader.prototype.load = function() {
+	  for (var i = 0; i < this.urlList.length; ++i)
+	  this.loadBuffer(this.urlList[i], i);
+	};
+
+
+
+	var bufferLoader = null;
+	window.AudioContext = window.AudioContext || window.webkitAudioContext;
+	var audio_context = new AudioContext();
+	var sound_mgr = new Object();
+	loadSounds();
+
+	function loadSounds(obj, soundMap) {
+
+	  bufferLoader = new BufferLoader(
+	  	audio_context,
+	    [
+	    MixideaSetting.source_domain + 'audio/pointofinformation.mp3',
+	    MixideaSetting.source_domain + 'audio/hearhear.mp3',
+	    MixideaSetting.source_domain + 'audio/shame.mp3',
+	    MixideaSetting.source_domain + 'audio/taken.mp3',
+	    MixideaSetting.source_domain + 'audio/gobacktospeaker.mp3',
+	    MixideaSetting.source_domain + 'audio/OnePin.mp3',
+	    MixideaSetting.source_domain + 'audio/TwoPin.mp3',
+	    MixideaSetting.source_domain + 'audio/ThreePin.mp3',
+	    MixideaSetting.source_domain + 'audio/cursor1.mp3',
+	    MixideaSetting.source_domain + 'audio/speech_start.mp3',
+	     ],
+	    finishedLoading
+	  );
+	  bufferLoader.load();
+	}
+
+	function finishedLoading(bufferList){
+		sound_mgr.Poi_sound = audio_context.createBufferSource();
+		sound_mgr.Poi_sound.buffer = bufferList[0];
+		sound_mgr.Poi_sound_persisted_buffer = bufferList[0];
+		sound_mgr.Poi_sound.connect(audio_context.destination);
+
+		sound_mgr.HearHear_sound = audio_context.createBufferSource();
+		sound_mgr.HearHear_sound.buffer = bufferList[1];
+		sound_mgr.HearHear_sound_persisted_buffer = bufferList[1];
+		sound_mgr.HearHear_sound.connect(audio_context.destination);
+
+		sound_mgr.BooBoo_sound = audio_context.createBufferSource();
+		sound_mgr.BooBoo_sound.buffer = bufferList[2];
+		sound_mgr.BooBoo_sound_persisted_buffer = bufferList[2];
+		sound_mgr.BooBoo_sound.connect(audio_context.destination);
+
+		sound_mgr.Taken_sound = audio_context.createBufferSource();
+		sound_mgr.Taken_sound.buffer = bufferList[3];
+		sound_mgr.Taken_sound_persisted_buffer = bufferList[3];
+		sound_mgr.Taken_sound.connect(audio_context.destination);
+
+		sound_mgr.PoiFinish_sound = audio_context.createBufferSource();
+		sound_mgr.PoiFinish_sound.buffer = bufferList[4];
+		sound_mgr.PoiFinish_sound_persisted_buffer = bufferList[4];
+		sound_mgr.PoiFinish_sound.connect(audio_context.destination);
+
+		sound_mgr.PinOne_sound = audio_context.createBufferSource();
+		sound_mgr.PinOne_sound.buffer = bufferList[5];
+		sound_mgr.PinOne_sound_persisted_buffer = bufferList[5];
+		sound_mgr.PinOne_sound.connect(audio_context.destination);
+
+		sound_mgr.PinTwo_sound = audio_context.createBufferSource();
+		sound_mgr.PinTwo_sound.buffer = bufferList[6];
+		sound_mgr.PinTwo_sound_persisted_buffer = bufferList[6];
+		sound_mgr.PinTwo_sound.connect(audio_context.destination);
+
+		sound_mgr.PinThree_sound = audio_context.createBufferSource();
+		sound_mgr.PinThree_sound.buffer = bufferList[7];
+		sound_mgr.PinThree_sound_persisted_buffer = bufferList[7];
+		sound_mgr.PinThree_sound.connect(audio_context.destination);
+
+		sound_mgr.Cursol_sound = audio_context.createBufferSource();
+		sound_mgr.Cursol_sound.buffer = bufferList[8];
+		sound_mgr.Cursol_sound_persisted_buffer = bufferList[8];
+		sound_mgr.Cursol_sound.connect(audio_context.destination);
+
+		sound_mgr.SpeechStart_sound = audio_context.createBufferSource();
+		sound_mgr.SpeechStart_sound.buffer = bufferList[9];
+		sound_mgr.SpeechStart_sound_persisted_buffer = bufferList[9];
+		sound_mgr.SpeechStart_sound.connect(audio_context.destination);
+	}
 }]);
 
 'use strict';

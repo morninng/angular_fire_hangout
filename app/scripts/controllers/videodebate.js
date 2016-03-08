@@ -8,7 +8,7 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService) {
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
 
@@ -18,6 +18,7 @@ angular.module('angularFireHangoutApp')
   	$scope.poi_speaker_obj = new Object();
   	$scope.poi_candidate_userobj_array = new Array();
   	$scope.timer_value = null;
+    $scope.speech_start_time = 0;
 
 	var root_ref = new Firebase(MixideaSetting.firebase_url);
 
@@ -35,13 +36,14 @@ angular.module('angularFireHangoutApp')
   		var own_side = $scope.participant_mgr.own_side;
   		var own_name = $scope.participant_mgr.own_first_name;
   		var full_role_name = get_full_role_name(role);
-
+      var speech_start_time_value = Date.now();
 
   		var speaker_obj = {
   			role: role,
   			name:own_name,
   			side: own_side,
-  			full_role_name: full_role_name
+  			full_role_name: full_role_name,
+        speech_start_time: speech_start_time_value
   		}
   		var own_speaker_obj = new Object();
   		own_speaker_obj[MixideaSetting.own_user_id] = speaker_obj;
@@ -72,6 +74,7 @@ angular.module('angularFireHangoutApp')
 				$scope.speaker_obj.role = obj.role;
 				$scope.speaker_obj.side = obj.side;
 				$scope.speaker_obj.full_role_name = obj.full_role_name;
+        $scope.speech_start_time = obj.speech_start_time;
 			}
 		}
 		update_video_status()
@@ -149,20 +152,20 @@ angular.module('angularFireHangoutApp')
 
   		$timeout(function() {
   			if($scope.poi_speaker_obj.id){
-          manage_speaker($scope.poi_speaker_obj.id);
+          manage_speaker($scope.poi_speaker_obj.id, "poi");
   				$scope.status = "poi";
 
   			}else if ($scope.speaker_obj.id){
           if($scope.status=="break"){
             speech_execution_start();
           }
-          manage_speaker($scope.speaker_obj.id);
+          manage_speaker($scope.speaker_obj.id, "speech");
   				$scope.status = "speech";
   			}else{
           if($scope.status !="break"){
             speech_execution_stop();
           }
-          manage_speaker(null);
+          manage_speaker(null, "break");
   				$scope.status = "break";
   			}
   		});
@@ -231,19 +234,21 @@ angular.module('angularFireHangoutApp')
 
     $scope.current_speaker = null;
 
-    function manage_speaker(speaker_id){
+    function manage_speaker(speaker_id, type){
 
       if(speaker_id == MixideaSetting.own_user_id){
         //Recording.start();
-        //Recognition.start();
+        RecognitionService.start(type, $scope.speaker_obj.role  ,$scope.speech_start_time);
         //microphone.enable();
 
       }else if(speaker_id){
+        RecognitionService.stop();
         //Recording.stop();
         //Recognition.stop();
         //microphone.disabled();
 
       }else{
+        RecognitionService.stop();
         //Recording.stop();
         //Recognition.stop();
         //microphone.enable();
@@ -289,5 +294,7 @@ angular.module('angularFireHangoutApp')
   			break;
   		}
   	}
+
+
 
   }]);
