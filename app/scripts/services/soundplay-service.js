@@ -12,13 +12,60 @@ angular.module('angularFireHangoutApp')
     // AngularJS will instantiate a singleton by calling "new" on this function
 
 
-
-
-
-
-	this.PinOne = function(){
+	this.Poi = function(){
 		console.log("pin one");
 		if(!sound_mgr.PinOne_sound){
+			return;
+		}
+		sound_mgr.Poi_sound.start(0);
+		sound_mgr.Poi_sound = audio_context.createBufferSource();
+		sound_mgr.Poi_sound.buffer = sound_mgr.Poi_sound_persisted_buffer;
+		sound_mgr.Poi_sound.connect(audio_context.destination);
+	}
+
+	this.HearHear = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.HearHear_sound.start(0);
+		sound_mgr.HearHear_sound = audio_context.createBufferSource();
+		sound_mgr.HearHear_sound.buffer = sound_mgr.HearHear_sound_persisted_buffer;
+		sound_mgr.HearHear_sound.connect(audio_context.destination);
+	}
+	this.BooBoo = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.BooBoo_sound.start(0);
+		sound_mgr.BooBoo_sound = audio_context.createBufferSource();
+		sound_mgr.BooBoo_sound.buffer = sound_mgr.BooBoo_sound_persisted_buffer;
+		sound_mgr.BooBoo_sound.connect(audio_context.destination);
+	}
+	this.Taken = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.Taken_sound.start(0);
+		sound_mgr.Taken_sound = audio_context.createBufferSource();
+		sound_mgr.Taken_sound.buffer = sound_mgr.Taken_sound_persisted_buffer;
+		sound_mgr.Taken_sound.connect(audio_context.destination);
+	}
+	this.PoiFinish = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.PoiFinish_sound.start(0);
+		sound_mgr.PoiFinish_sound = audio_context.createBufferSource();
+		sound_mgr.PoiFinish_sound.buffer = sound_mgr.PoiFinish_sound_persisted_buffer;
+		sound_mgr.PoiFinish_sound.connect(audio_context.destination);
+	}
+	this.PinOne = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
 		sound_mgr.PinOne_sound.start(0);
@@ -26,7 +73,36 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinOne_sound.buffer = sound_mgr.PinOne_sound_persisted_buffer;
 		sound_mgr.PinOne_sound.connect(audio_context.destination);
 	}
-
+	this.PinTwo = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.PinTwo_sound.start(0);
+		sound_mgr.PinTwo_sound = audio_context.createBufferSource();
+		sound_mgr.PinTwo_sound.buffer = sound_mgr.PinTwo_sound_persisted_buffer;
+		sound_mgr.PinTwo_sound.connect(audio_context.destination);
+	}
+	this.PinThree = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.PinThree_sound.start(0);
+		sound_mgr.PinThree_sound = audio_context.createBufferSource();
+		sound_mgr.PinThree_sound.buffer = sound_mgr.PinThree_sound_persisted_buffer;
+		sound_mgr.PinThree_sound.connect(audio_context.destination);
+	}
+	this.Cursol = function(){
+		console.log("speech start");
+		if(!sound_mgr.SpeechStart_sound){
+			return;
+		}
+		sound_mgr.Cursol_sound.start(0);
+		sound_mgr.Cursol_sound = audio_context.createBufferSource();
+		sound_mgr.Cursol_sound.buffer = sound_mgr.Cursol_sound_persisted_buffer;
+		sound_mgr.Cursol_sound.connect(audio_context.destination);
+	}
 
 	this.SpeechStart = function(){
 		console.log("speech start");

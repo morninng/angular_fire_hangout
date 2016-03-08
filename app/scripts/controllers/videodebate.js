@@ -81,7 +81,8 @@ angular.module('angularFireHangoutApp')
   	})
 
 	$scope.complete_speech = function(){
-		video_status_ref.set(null)
+		video_status_ref.set(null);
+
 	}
 
 	$scope.poi = function(){
@@ -89,7 +90,7 @@ angular.module('angularFireHangoutApp')
 		poi_candidate_ref_own.set(own_group);
 		poi_candidate_ref_own.onDisconnect().set(null);
     poi_taken_ref_own.onDisconnect().set(null);
-    SoundPlayService.PinOne();
+    SoundPlayService.Poi();
 	}
 	poi_candidate_ref.on("value", function(snapshot){
 		var poi_obj = snapshot.val();
@@ -103,6 +104,7 @@ angular.module('angularFireHangoutApp')
 	});
 	$scope.finish_poi = function(){
 		poi_ref.set(null);
+    SoundPlayService.PoiFinish();
 	}
 
 	$scope.cancel_poi = function(){
@@ -119,6 +121,7 @@ angular.module('angularFireHangoutApp')
   			return poi_taken_obj;
   		});
     poi_candidate_ref.set(null);
+    SoundPlayService.Taken();
 	}
 
 	poi_taken_ref.on("value", function(snapshot){
