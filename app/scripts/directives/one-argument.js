@@ -7,7 +7,7 @@
  * # oneArgument
  */
 angular.module('angularFireHangoutApp')
-  .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce",  function ($timeout, MixideaSetting,ParticipantMgrService, $sce) {
+  .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService",  function ($timeout, MixideaSetting,ParticipantMgrService, $sce, UtilService) {
     return {
       templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/oneArgument.html'),
       restrict: 'E',
@@ -62,7 +62,7 @@ angular.module('angularFireHangoutApp')
         content_ref.on("value", function(snapshot){
           $timeout(function(){
             scope.content = snapshot.val();
-            scope.content_div = add_linebreak_html(scope.content);
+            scope.content_div = UtilService.add_linebreak_html(scope.content);
             update_content_height()
 
           });
@@ -167,16 +167,6 @@ angular.module('angularFireHangoutApp')
           one_argument_id_ref.set(null);
         }
 
-        function add_linebreak_html(context){
-          if(!context){
-            return null;
-          }
-          var converted_context = context.split("<").join("&lt;");
-          converted_context = converted_context.split(">").join("&gt;");
-          converted_context = converted_context.split("\n").join("<br>");
-
-          return converted_context;
-        }
 
       }
     };

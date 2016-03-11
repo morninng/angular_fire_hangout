@@ -46,7 +46,7 @@ angular.module('angularFireHangoutApp')
     	speech_type = type;
     	transcription_ref = root_ref.child("event_related/audio_transcript/" + 
     						MixideaSetting.event_id + "/" + speaker_role + 
-    						"/spech_context/" + String(speech_start_time));
+    						"/" + String(speech_start_time) + "/spech_context");
     	if(under_recording){
     		return;
     	}else{
@@ -79,7 +79,8 @@ angular.module('angularFireHangoutApp')
     	transcription_ref.push(speech_obj);
     }
 
-
+    // it might be better to save it with audio_time as a key and rest are the values
+    //so it is ordered by the audio time order
 
 
   }]);

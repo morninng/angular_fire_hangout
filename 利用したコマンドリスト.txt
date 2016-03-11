@@ -33,6 +33,8 @@ yo angular:controller team-discuss-arguments
  yo angular:service SoundPlay-Service
  yo angular:service Recognition-Service
 
+ yo angular:service Util-Service
+
 
   yo angular:controller TeamDiscuss-RoomName
 yo angular:controller TeamDiscuss-Arguments

@@ -17,15 +17,15 @@ var global_own_team_side = null;
 
 (function () {
 
-  global_event_id = "-KC9WfxpLwKbaWiSjqg6";
+  global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:1520978701540732";
-  //global_room_type = "team_discussion";
-  global_room_type = "main";
+  global_room_type = "team_discussion";
+  //global_room_type = "main";
   
   
   if(global_room_type == "team_discussion"){
-    global_team_side = "Gov";
-    global_own_team_side = "Gov";
+    global_team_side = "Prop";
+    global_own_team_side = "Prop";
   }
 
   var dummy_hangout_id = "BBCCBBBBB";

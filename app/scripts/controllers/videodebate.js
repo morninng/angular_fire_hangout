@@ -8,7 +8,7 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService) {
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
 
@@ -35,7 +35,7 @@ angular.module('angularFireHangoutApp')
   	$scope.speech_start = function(role){
   		var own_side = $scope.participant_mgr.own_side;
   		var own_name = $scope.participant_mgr.own_first_name;
-  		var full_role_name = get_full_role_name(role);
+  		var full_role_name = UtilService.get_full_role_name(role);
       var speech_start_time_value = Date.now();
 
   		var speaker_obj = {
@@ -257,43 +257,6 @@ angular.module('angularFireHangoutApp')
       $scope.current_speaker == speaker_id;
 
     }
-
-  	function get_full_role_name(role){
-
-  		switch (role){
-  			case "PM":
-  			return "Prime Minister";
-  			break;
-
-  			case "LO":
-  			return "Leader Opposition";
-  			break;
-
-  			case "MG":
-  			return "Member Government";
-  			break;
-
-  			case "MO":
-  			return "Member Opposition";
-  			break;
-
-  			case "PMR":
-  			return "Prime Minister Reply";
-  			break;
-
-  			case "LOR":
-  			return "Leader Opposition Reply";
-  			break;
-
-  			case "":
-  			return "";
-  			break;
-
-  			case "":
-  			return "";
-  			break;
-  		}
-  	}
 
 
 

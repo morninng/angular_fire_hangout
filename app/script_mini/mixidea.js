@@ -630,7 +630,7 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService) {
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
 
@@ -657,7 +657,7 @@ angular.module('angularFireHangoutApp')
   	$scope.speech_start = function(role){
   		var own_side = $scope.participant_mgr.own_side;
   		var own_name = $scope.participant_mgr.own_first_name;
-  		var full_role_name = get_full_role_name(role);
+  		var full_role_name = UtilService.get_full_role_name(role);
       var speech_start_time_value = Date.now();
 
   		var speaker_obj = {
@@ -880,43 +880,6 @@ angular.module('angularFireHangoutApp')
 
     }
 
-  	function get_full_role_name(role){
-
-  		switch (role){
-  			case "PM":
-  			return "Prime Minister";
-  			break;
-
-  			case "LO":
-  			return "Leader Opposition";
-  			break;
-
-  			case "MG":
-  			return "Member Government";
-  			break;
-
-  			case "MO":
-  			return "Member Opposition";
-  			break;
-
-  			case "PMR":
-  			return "Prime Minister Reply";
-  			break;
-
-  			case "LOR":
-  			return "Leader Opposition Reply";
-  			break;
-
-  			case "":
-  			return "";
-  			break;
-
-  			case "":
-  			return "";
-  			break;
-  		}
-  	}
-
 
 
   }]);
@@ -1005,13 +968,14 @@ var global_own_team_side = null;
 
 (function () {
 
-  global_event_id = "-KC9WfxpLwKbaWiSjqg6";
+  global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:1520978701540732";
-  global_room_type = "main";
+  global_room_type = "team_discussion";
+  //global_room_type = "main";
 
   if(global_room_type == "team_discussion"){
-    global_team_side = "Gov";
-    global_own_team_side = "Gov";
+    global_team_side = "Prop";
+    global_own_team_side = "Prop";
   }
 
   
@@ -1065,13 +1029,14 @@ var global_own_team_side = null;
 
 (function () {
 
-  global_event_id = "-KC9WfxpLwKbaWiSjqg6";
+  global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:997119893702319";
-  global_room_type = "main";
+  global_room_type = "team_discussion";
+  //global_room_type = "main";
 
   if(global_room_type == "team_discussion"){
-    global_team_side = "Gov";
-    global_own_team_side = "Gov";
+    global_team_side = "Prop";
+    global_own_team_side = "Prop";
   }
 
   var dummy_hangout_id = "2222222222";
@@ -1125,15 +1090,15 @@ var global_own_team_side = null;
 
 (function () {
 
-  global_event_id = "-KC9WfxpLwKbaWiSjqg6";
+  global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:1520978701540732";
-  //global_room_type = "team_discussion";
-  global_room_type = "main";
+  global_room_type = "team_discussion";
+  //global_room_type = "main";
   
   
   if(global_room_type == "team_discussion"){
-    global_team_side = "Gov";
-    global_own_team_side = "Gov";
+    global_team_side = "Prop";
+    global_own_team_side = "Prop";
   }
 
   var dummy_hangout_id = "BBCCBBBBB";
@@ -1186,7 +1151,7 @@ function set_mapping_data(user_id, hangout_id)
  * # oneArgument
  */
 angular.module('angularFireHangoutApp')
-  .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce",  function ($timeout, MixideaSetting,ParticipantMgrService, $sce) {
+  .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService",  function ($timeout, MixideaSetting,ParticipantMgrService, $sce, UtilService) {
     return {
       templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/oneArgument.html'),
       restrict: 'E',
@@ -1241,7 +1206,7 @@ angular.module('angularFireHangoutApp')
         content_ref.on("value", function(snapshot){
           $timeout(function(){
             scope.content = snapshot.val();
-            scope.content_div = add_linebreak_html(scope.content);
+            scope.content_div = UtilService.add_linebreak_html(scope.content);
             update_content_height()
 
           });
@@ -1346,16 +1311,6 @@ angular.module('angularFireHangoutApp')
           one_argument_id_ref.set(null);
         }
 
-        function add_linebreak_html(context){
-          if(!context){
-            return null;
-          }
-          var converted_context = context.split("<").join("&lt;");
-          converted_context = converted_context.split(">").join("&gt;");
-          converted_context = converted_context.split("\n").join("<br>");
-
-          return converted_context;
-        }
 
       }
     };
@@ -1370,7 +1325,7 @@ angular.module('angularFireHangoutApp')
  * # oneDefintro
  */
 angular.module('angularFireHangoutApp')
-  .directive('oneDefintro',["$timeout","MixideaSetting","ParticipantMgrService","$sce",  function ($timeout,MixideaSetting,ParticipantMgrService ,$sce) {
+  .directive('oneDefintro',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService",  function ($timeout,MixideaSetting,ParticipantMgrService ,$sce, UtilService) {
     return {
       templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain + 'views/directive/oneDefintro.html'),
       restrict: 'E',
@@ -1396,7 +1351,7 @@ angular.module('angularFireHangoutApp')
         content_ref.on("value", function(snapshot){
           $timeout(function(){
             scope.content = snapshot.val();
-            scope.content_div = add_linebreak_html(scope.content);
+            scope.content_div = UtilService.add_linebreak_html(scope.content);
           });
         }); 
 
@@ -1444,16 +1399,6 @@ angular.module('angularFireHangoutApp')
         content_own_focused_ref.onDisconnect().remove();
 
 
-        function add_linebreak_html(context){
-          if(!context){
-            return null;
-          }
-          var converted_context = context.split("<").join("&lt;");
-          converted_context = converted_context.split(">").join("&gt;");
-          converted_context = converted_context.split("\n").join("<br>");
-
-          return converted_context;
-        }
 
       }
     };
@@ -2096,7 +2041,7 @@ angular.module('angularFireHangoutApp')
     	speech_type = type;
     	transcription_ref = root_ref.child("event_related/audio_transcript/" + 
     						MixideaSetting.event_id + "/" + speaker_role + 
-    						"/spech_context/" + String(speech_start_time));
+    						"/" + String(speech_start_time) + "/spech_context");
     	if(under_recording){
     		return;
     	}else{
@@ -2111,7 +2056,7 @@ angular.module('angularFireHangoutApp')
     		return;
     	}
     	recognition.stop();
-    	var under_recording = false;
+    	under_recording = false;
     }
 
     function StoreData(text){
@@ -2129,7 +2074,8 @@ angular.module('angularFireHangoutApp')
     	transcription_ref.push(speech_obj);
     }
 
-
+    // it might be better to save it with audio_time as a key and rest are the values
+    //so it is ordered by the audio time order
 
 
   }]);
@@ -2414,6 +2360,98 @@ angular.module('angularFireHangoutApp')
   return StatusMgr_Object;
     
 }]);
+
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.UtilService
+ * @description
+ * # UtilService
+ * Service in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+  .service('UtilService', function () {
+    // AngularJS will instantiate a singleton by calling "new" on this function
+
+
+  	this.get_full_role_name = function(role){
+
+  		switch (role){
+  			case "PM":
+  			return "Prime Minister";
+  			break;
+
+  			case "LO":
+  			return "Leader Opposition";
+  			break;
+
+  			case "MG":
+  			return "Member Government";
+  			break;
+
+  			case "MO":
+  			return "Member Opposition";
+  			break;
+
+  			case "PMR":
+  			return "Prime Minister Reply";
+  			break;
+
+  			case "LOR":
+  			return "Leader Opposition Reply";
+  			break;
+
+
+  			case "DPM":
+  			return "Depty Prime Minister";
+  			break;
+
+  			case "DLO":
+  			return "Depty Leader Opposition";
+  			break;
+
+  			case "WG":
+  			return "Whip Government";
+  			break;
+
+  			case "WO":
+  			return "Whip Opposition";
+  			break;
+
+  			case "GW":
+  			return "Govenment Whip";
+  			break;
+
+  			case "OW":
+  			return "Opposition Whip";
+  			break;
+
+
+  			default: 
+          	return ""
+          	break;
+  		}
+  	};
+
+
+    this.add_linebreak_html = function(context){
+      if(!context){
+        return null;
+      }
+      var converted_context = context.split("<").join("&lt;");
+      converted_context = converted_context.split(">").join("&gt;");
+      converted_context = converted_context.split("\n").join("<br>");
+
+      return converted_context;
+    }
+
+
+
+
+
+
+  });
 
 'use strict';
 
