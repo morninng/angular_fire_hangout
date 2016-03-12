@@ -46,10 +46,20 @@ angular.module('angularFireHangoutApp')
     	speech_type = type;
     	transcription_ref = root_ref.child("event_related/audio_transcript/" + 
     						MixideaSetting.event_id + "/" + speaker_role + 
-    						"/" + String(speech_start_time) + "/spech_context");
+    						"/" + String(speech_start_time) + "/spech_context/" + short_split_id_value);
+
+        //set user data and speech type to short split context
+        var speech_initial_obj = {
+            user: MixideaSetting.own_user_id,
+            type: speech_type
+        }
+        transcription_ref.update(speech_initial_obj);
+
+
     	if(under_recording){
     		return;
     	}else{
+            console.log("recognition start")
     		recognition.start();
     		under_recording = true;
     	}
@@ -57,6 +67,7 @@ angular.module('angularFireHangoutApp')
     }
 
     this.stop = function(){
+        console.log("record stop")
     	if(!available || !under_recording){
     		return;
     	}
@@ -68,15 +79,10 @@ angular.module('angularFireHangoutApp')
     	console.log(text);
         var current_time_value = Date.now();	
     	var audio_time =  current_time_value - speech_start_time;
-
-    	var speech_obj = {
-    		user: MixideaSetting.own_user_id,
-    		type: speech_type,
-    		context: text,
-    		short_split_id: short_split_id_value,
-    		audio_time: audio_time
-    	}
-    	transcription_ref.push(speech_obj);
+        var transcription_context_ref = transcription_ref.child("context");
+    	var speech_obj = new Object();
+        speech_obj[audio_time]=text
+    	transcription_context_ref.update(speech_obj);
     }
 
     // it might be better to save it with audio_time as a key and rest are the values
