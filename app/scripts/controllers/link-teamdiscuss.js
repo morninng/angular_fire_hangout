@@ -10,7 +10,7 @@
 angular.module('angularFireHangoutApp')
   .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting', function ($scope, ParticipantMgrService, MixideaSetting) {
   	$scope.aaa = "name";
-
+ 
   	$scope.participant_mgr = ParticipantMgrService;
   	$scope.team_hangout_array = new Array();
 
@@ -41,6 +41,7 @@ angular.module('angularFireHangoutApp')
   	if(url_list_array.length==0 ){
   		return;
   	}
+    $scope.team_hangout_array.length=0;
 
 
     var hangout_gid = "?gid=";
@@ -51,7 +52,7 @@ angular.module('angularFireHangoutApp')
     var third_query_value = "team_discussion";
     var fifth_query_value = $scope.participant_mgr.own_group;
 
-
+ 
   	if($scope.participant_mgr.is_audience_or_debater=="Audience"){
   		for(var i=0; i< $scope.participant_mgr.all_group_name_array.length; i++){
 			var team_obj = new Object();
@@ -75,6 +76,7 @@ angular.module('angularFireHangoutApp')
                      "^" + fourth_query_value + "^" + fifth_query_value;
   		$scope.team_hangout_array.push(team_obj);
   	}
+    $timeout(function() {});
   }
 
   }]);

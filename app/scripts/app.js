@@ -137,7 +137,11 @@ angular.module('angularFireHangoutApp')
 			"container_main_left_below":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/info_prep.html',
 			controller: 'LinkTeamdiscussCtrl'
-			}
+			},
+			"container_main_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/participant_table.html',
+			controller: 'ParticipantTableParentCtrl'
+			}	
 		}
 	})
 	.state('main.debate', {
