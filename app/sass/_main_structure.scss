@@ -2,14 +2,12 @@
 #container_top {
 	width:100%;
 	display:flex;
+	.top_left{
+		flex:1;
+	}
 }
 
-#top_left{
-	flex:1;
-}
-#top_right{
-	
-}
+
 
 #container_second_top {
 	width:100%;

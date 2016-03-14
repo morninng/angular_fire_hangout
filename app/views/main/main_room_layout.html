@@ -1,24 +1,24 @@
 
-
+ 
 <div id="whole">
 	<div id="inner_whole">
 		<div id="container_top">
-			<div ui-view="top_left"></div>
-			<div ui-view="top_right"></div>
+			<div class="top_left" ui-view="top_left"></div>
+			<div ng-style="top_right_width" ui-view="top_right"></div>
 		</div>
 		<div ui-view="container_second_top"></div>
-		<div id="container_main">
-			<div id="container_main_left">
+		<div ng-style="main_width" id="container_main">
+			<div  id="container_main_left">
 				<div id="container_main_left_above">
-					<div id="container_main_left_above_left">
+					<div ng-style="main_left_above_left_width" id="container_main_left_above_left">
 						<div ui-view="container_main_left_above_left_up"></div>
 						<div ui-view="container_main_left_above_left_below"></div>
 					</div>
-					<div ui-view="container_main_left_above_right"></div>
+					<div ng-style="main_left_above_right_width" ui-view="container_main_left_above_right"></div>
 				</div>
-				<div ui-view="container_main_left_below"></div>
+				<div ng-style="main_left_below_width" ui-view="container_main_left_below"></div>
 			</div>
-			<div ui-view="container_main_right"></div>
+			<div ng-style="main_right_width" ui-view="container_main_right"></div>
 		</div>
 	</div>
 </div>

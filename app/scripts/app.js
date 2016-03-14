@@ -84,7 +84,8 @@ angular.module('angularFireHangoutApp')
 	.state('main', {
 		views:{
 			"RootView":{
-				templateUrl: MixideaSetting.source_domain + 'views/main/main_room_layout.html'
+				templateUrl: MixideaSetting.source_domain + 'views/main/main_room_layout.html',
+				controller: 'MainlayoutSizeadjustCtrl'
 			}
 		}
 	})
