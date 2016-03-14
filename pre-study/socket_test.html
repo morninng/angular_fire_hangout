@@ -1,0 +1,42 @@
+<html>
+<head>
+	
+
+<script src="http://127.0.0.1:3000/socket.io.js"></script>
+
+</head>
+
+<body>
+<script>
+
+	socket_io = io.connect('http://127.0.0.1:3000');
+
+	socket_io.on('connect', function(){
+		
+		socket_available = true;
+
+		socket_io.emit('join_room', {'room_name':"XXXXXXXXXXXXXXXXXX"});
+
+		socket_io.on('audio_saved', function(data){
+			console.log('record complete ' + data.file_saved);
+			audio_transcript_obj.update();
+		});
+
+		socket_io.on('disconnect', function(){
+			console.log('disconnected');
+			socket_available = false;
+			if(stream){
+				console.log("disconnected");
+				under_recording = false;
+				stream.end();
+				stream = null;
+			}
+		});
+		
+	});
+</script>
+
+
+</body>
+</html>
+

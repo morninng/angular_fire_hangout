@@ -142,8 +142,12 @@ angular.module('angularFireHangoutApp')
 	.state('main.debate', {
 		views:{
 			"top_left":{
-			templateUrl: MixideaSetting.source_domain + 'views/common/title.html',
+			templateUrl: MixideaSetting.source_domain + 'views/common/title_fix.html',
 			controller: 'TitleMgrCtrl'
+			},
+			"top_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/direction_debate.html',
+			controller: 'StatusUpdateCtrl'		
 			},
 			"container_second_top":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
@@ -152,6 +156,38 @@ angular.module('angularFireHangoutApp')
 			"container_main_left_above_left_up":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/video_debate.html',
 			controller: 'VideodebateCtrl'		
+			}
+		}
+	})
+	.state('main.reflection', {
+		views:{
+			"top_left":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/title_fix.html',
+			controller: 'TitleMgrCtrl'
+			},
+			"top_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/direction_reflection.html',
+			controller: 'StatusUpdateCtrl'		
+			},
+			"container_second_top":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
+			controller: 'StatusbarCtrl'
+			}
+		}
+	})
+	.state('main.complete', {
+		views:{
+			"top_left":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/title_fix.html',
+			controller: 'TitleMgrCtrl'
+			},
+			"top_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/direction_complete.html',
+			controller: 'StatusUpdateCtrl'		
+			},
+			"container_second_top":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
+			controller: 'StatusbarCtrl'
 			}
 		}
 	})

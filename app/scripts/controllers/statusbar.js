@@ -32,9 +32,15 @@ angular.module('angularFireHangoutApp')
 				break;
 				case "preparation":
 				$scope.status_prep = "status_bar_element_selected";
-				break
+				break;
 				case "debate":
 				$scope.status_debate = "status_bar_element_selected";
+				break;
+				case "reflection":
+				$scope.status_reflec = "status_bar_element_selected";
+				break;
+				case "complete":
+				$scope.status_complete = "status_bar_element_selected";
 				break
 			}
 		});

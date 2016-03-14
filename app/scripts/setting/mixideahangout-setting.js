@@ -47,7 +47,8 @@ angular.module('angularFireHangoutApp')
   	room_type: global_room_type,
     hangout_appid: "211272797315",
     team_discuss_team_side: global_team_side,
-    team_discuss_own_team: global_own_team_side
+    team_discuss_own_team: global_own_team_side,
+    recording_domain: 'https://recording.mixidea.org:3000/'
   });
 
 function set_mapping_data(user_id, hangout_id)

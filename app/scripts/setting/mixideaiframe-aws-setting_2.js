@@ -18,8 +18,8 @@ var global_own_team_side = null;
 
   global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:997119893702319";
-  global_room_type = "team_discussion";
-  //global_room_type = "main";
+  //global_room_type = "team_discussion";
+  global_room_type = "main";
 
   if(global_room_type == "team_discussion"){
     global_team_side = "Prop";
@@ -40,7 +40,8 @@ angular.module('angularFireHangoutApp')
   	room_type: global_room_type,
     hangout_appid: "211272797315",
     team_discuss_team_side: global_team_side,
-    team_discuss_own_team: global_own_team_side
+    team_discuss_own_team: global_own_team_side,
+    recording_domain: 'https://recording.mixidea.org:3000/'
   });
 
 

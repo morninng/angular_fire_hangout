@@ -8,7 +8,7 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService) {
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService","RecordingService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService, RecordingService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
 
@@ -31,6 +31,7 @@ angular.module('angularFireHangoutApp')
 	var poi_taken_ref = video_status_ref.child("poi/taken");
 	var poi_taken_ref_own = video_status_ref.child("poi/taken/" + MixideaSetting.own_user_id);
 
+  var current_speaker = null;
 
   	$scope.speech_start = function(role){
   		var own_side = $scope.participant_mgr.own_side;
@@ -72,6 +73,7 @@ angular.module('angularFireHangoutApp')
 				var obj = updated_speaker_obj[speaker_user_id];
 				$scope.speaker_obj.name = obj.name;
 				$scope.speaker_obj.role = obj.role;
+        current_speaker = obj.role;
 				$scope.speaker_obj.side = obj.side;
 				$scope.speaker_obj.full_role_name = obj.full_role_name;
         $scope.speech_start_time = obj.speech_start_time;
@@ -238,22 +240,18 @@ angular.module('angularFireHangoutApp')
 
       if(speaker_id == MixideaSetting.own_user_id){
         //Recording.start();
-        RecognitionService.start(type, $scope.speaker_obj.role  ,$scope.speech_start_time);
+        RecognitionService.start(type, current_speaker  ,$scope.speech_start_time);
+        RecordingService.record_start_api(type, current_speaker, $scope.speech_start_time);
         //microphone.enable();
-
       }else if(speaker_id){
         RecognitionService.stop();
-        //Recording.stop();
-        //Recognition.stop();
+        RecordingService.record_finish_api("other", current_speaker, $scope.speech_start_time);
         //microphone.disabled();
-
       }else{
         RecognitionService.stop();
-        //Recording.stop();
-        //Recognition.stop();
+        RecordingService.record_finish_api("break", current_speaker, $scope.speech_start_time);
         //microphone.enable();
       }
-
       $scope.current_speaker == speaker_id;
 
     }

@@ -630,7 +630,7 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService) {
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService","RecordingService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService, RecordingService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
 
@@ -653,6 +653,7 @@ angular.module('angularFireHangoutApp')
 	var poi_taken_ref = video_status_ref.child("poi/taken");
 	var poi_taken_ref_own = video_status_ref.child("poi/taken/" + MixideaSetting.own_user_id);
 
+  var current_speaker = null;
 
   	$scope.speech_start = function(role){
   		var own_side = $scope.participant_mgr.own_side;
@@ -694,6 +695,7 @@ angular.module('angularFireHangoutApp')
 				var obj = updated_speaker_obj[speaker_user_id];
 				$scope.speaker_obj.name = obj.name;
 				$scope.speaker_obj.role = obj.role;
+        current_speaker = obj.role;
 				$scope.speaker_obj.side = obj.side;
 				$scope.speaker_obj.full_role_name = obj.full_role_name;
         $scope.speech_start_time = obj.speech_start_time;
@@ -860,22 +862,18 @@ angular.module('angularFireHangoutApp')
 
       if(speaker_id == MixideaSetting.own_user_id){
         //Recording.start();
-        RecognitionService.start(type, $scope.speaker_obj.role  ,$scope.speech_start_time);
+        RecognitionService.start(type, current_speaker  ,$scope.speech_start_time);
+        RecordingService.record_start_api(type, current_speaker, $scope.speech_start_time);
         //microphone.enable();
-
       }else if(speaker_id){
         RecognitionService.stop();
-        //Recording.stop();
-        //Recognition.stop();
+        RecordingService.record_finish_api("other", current_speaker, $scope.speech_start_time);
         //microphone.disabled();
-
       }else{
         RecognitionService.stop();
-        //Recording.stop();
-        //Recognition.stop();
+        RecordingService.record_finish_api("break", current_speaker, $scope.speech_start_time);
         //microphone.enable();
       }
-
       $scope.current_speaker == speaker_id;
 
     }
@@ -933,7 +931,8 @@ angular.module('angularFireHangoutApp')
   	room_type: global_room_type,
     hangout_appid: "211272797315",
     team_discuss_team_side: global_team_side,
-    team_discuss_own_team: global_own_team_side
+    team_discuss_own_team: global_own_team_side,
+    recording_domain: 'https://recording.mixidea.org:3000/'
   });
 
 function set_mapping_data(user_id, hangout_id)
@@ -970,8 +969,8 @@ var global_own_team_side = null;
 
   global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:1520978701540732";
-  global_room_type = "team_discussion";
-  //global_room_type = "main";
+  //global_room_type = "team_discussion";
+  global_room_type = "main";
 
   if(global_room_type == "team_discussion"){
     global_team_side = "Prop";
@@ -993,7 +992,8 @@ angular.module('angularFireHangoutApp')
   	room_type: global_room_type,
     hangout_appid: "211272797315",
     team_discuss_team_side: global_team_side,
-    team_discuss_own_team: global_own_team_side
+    team_discuss_own_team: global_own_team_side,
+    recording_domain: 'https://recording.mixidea.org:3000/'
   });
 
 
@@ -1011,6 +1011,7 @@ function set_mapping_data(user_id, hangout_id)
 
   mapping_data_ref.onDisconnect().remove();
 }
+
 'use strict';
 
 /**
@@ -1031,8 +1032,8 @@ var global_own_team_side = null;
 
   global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:997119893702319";
-  global_room_type = "team_discussion";
-  //global_room_type = "main";
+  //global_room_type = "team_discussion";
+  global_room_type = "main";
 
   if(global_room_type == "team_discussion"){
     global_team_side = "Prop";
@@ -1053,7 +1054,8 @@ angular.module('angularFireHangoutApp')
   	room_type: global_room_type,
     hangout_appid: "211272797315",
     team_discuss_team_side: global_team_side,
-    team_discuss_own_team: global_own_team_side
+    team_discuss_own_team: global_own_team_side,
+    recording_domain: 'https://recording.mixidea.org:3000/'
   });
 
 
@@ -1092,8 +1094,8 @@ var global_own_team_side = null;
 
   global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:1520978701540732";
-  global_room_type = "team_discussion";
-  //global_room_type = "main";
+  //global_room_type = "team_discussion";
+  global_room_type = "main";
   
   
   if(global_room_type == "team_discussion"){
@@ -1117,7 +1119,8 @@ angular.module('angularFireHangoutApp')
   	room_type: global_room_type,
     hangout_appid: "211272797315",
     team_discuss_team_side: global_team_side,
-    team_discuss_own_team: global_own_team_side
+    team_discuss_own_team: global_own_team_side,
+    recording_domain: 'https://recording.mixidea.org:3000/'
   });
 
 
@@ -2041,10 +2044,20 @@ angular.module('angularFireHangoutApp')
     	speech_type = type;
     	transcription_ref = root_ref.child("event_related/audio_transcript/" + 
     						MixideaSetting.event_id + "/" + speaker_role + 
-    						"/" + String(speech_start_time) + "/spech_context");
+    						"/" + String(speech_start_time) + "/spech_context/" + short_split_id_value);
+
+        //set user data and speech type to short split context
+        var speech_initial_obj = {
+            user: MixideaSetting.own_user_id,
+            type: speech_type
+        }
+        transcription_ref.update(speech_initial_obj);
+
+
     	if(under_recording){
     		return;
     	}else{
+            console.log("recognition start")
     		recognition.start();
     		under_recording = true;
     	}
@@ -2052,6 +2065,7 @@ angular.module('angularFireHangoutApp')
     }
 
     this.stop = function(){
+        console.log("record stop")
     	if(!available || !under_recording){
     		return;
     	}
@@ -2063,20 +2077,245 @@ angular.module('angularFireHangoutApp')
     	console.log(text);
         var current_time_value = Date.now();	
     	var audio_time =  current_time_value - speech_start_time;
-
-    	var speech_obj = {
-    		user: MixideaSetting.own_user_id,
-    		type: speech_type,
-    		context: text,
-    		short_split_id: short_split_id_value,
-    		audio_time: audio_time
-    	}
-    	transcription_ref.push(speech_obj);
+        var transcription_context_ref = transcription_ref.child("context");
+    	var speech_obj = new Object();
+        speech_obj[audio_time]=text
+    	transcription_context_ref.update(speech_obj);
     }
 
     // it might be better to save it with audio_time as a key and rest are the values
     //so it is ordered by the audio time order
 
+
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.RecordingService
+ * @description
+ * # RecordingService
+ * Service in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+  .service('RecordingService',['MixideaSetting', function (MixideaSetting) {
+    // AngularJS will instantiate a singleton by calling "new" on this function
+
+	var audio_available = false;
+	var socket_available = false;
+	var stored_speech_id = null;
+	var socket_io = null;
+	var stream = null;
+	var context = null;
+	var sample_rate_value = null;
+	var scriptNode = null;
+
+    var under_recording = false;
+
+    this.record_start_api = function(type, speaker_role_name, speech_id){
+    	console.log("record start");
+
+		if(!audio_available || !socket_available){
+			return;
+		}
+
+		under_recording = true;
+		var file_name = MixideaSetting.event_id + "_" + speaker_role_name + "_" + speech_id;
+		switch(type){
+			case "speech":
+				if(stored_speech_id == speech_id){
+					resume_record(file_name);
+				}else{
+					start_record(file_name);
+				}
+			break;
+			case "poi":
+				resume_record(file_name);
+			break;
+		}
+		stored_speech_id = speech_id;
+
+    }
+
+    this.record_finish_api = function(type, speaker_role_name, speech_id){
+		if(!audio_available || !socket_available || !under_recording){
+			return;
+		}
+		under_recording = false;
+		
+		var file_name = MixideaSetting.event_id + "_" + speaker_role_name + "_" + speech_id;
+		switch(type){
+			case "break":
+				stop_record_save(file_name, speaker_role_name, speech_id);
+			break;
+			case "other":
+				suspend_record(file_name);
+			break;
+		}
+    }
+
+
+    function sockt_initialize(){
+
+		socket_io = io.connect(MixideaSetting.recording_domain);
+
+		socket_io.on('connect', function(){
+			console.log("connect socket id=" + socket_io.id);
+			socket_available = true;
+
+			socket_io.emit('join_room', {'room_name':MixideaSetting.event_id});
+
+			socket_io.on('audio_saved', function(data){
+				console.log('record complete ' + data.file_saved);
+				audio_transcript_obj.update();
+			});
+			
+
+			socket_io.on('disconnect', function(){
+				console.log('disconnected');
+				socket_available = false;
+				if(stream){
+					console.log("disconnected");
+					under_recording = false;
+					stream.end();
+					stream = null;
+				}
+			});
+		});
+    }
+
+    function recording_initialize(){
+		if (!navigator.getUserMedia){
+			navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+			navigator.mozGetUserMedia || navigator.msGetUserMedia;
+		}
+
+		if (navigator.getUserMedia) {
+			console.log("get user media");
+			navigator.getUserMedia(
+				{audio:true},
+				function(local_media_stream){
+					audio_available = true;
+				 	start_audio_polling(local_media_stream);
+				},
+				function(e) {console.log('Error'); } );
+		} else{
+			console.log('getUserMedia not supported');
+		}
+
+    }
+
+    function start_record(in_file_name){
+		if(!socket_available || !audio_available){
+			return;
+		}
+
+		if(!stream){
+			console.log(" start record socket id=" + socket_io.id);
+			console.log("start recording");
+			stream = ss.createStream();
+			console.log("audio polling stream id " + stream.id);
+			var start_emit_obj = {filename:in_file_name,sample_rate:sample_rate_value};
+			console.log(start_emit_obj);
+			ss(socket_io).emit('audio_record_start', stream, start_emit_obj );
+		}else{
+			console.log("recording is already on going");
+		}
+    }
+
+    function resume_record(in_file_name){
+
+		if(!socket_available || !audio_available){
+			return;
+		}
+
+		if(!stream){
+			console.log("resume recording");
+			stream = ss.createStream();
+			console.log("audio polling stream id " + stream.id)
+			ss(socket_io).emit('audio_record_resume', stream, {filename:in_file_name,sample_rate:sample_rate_value} );
+		}else{
+			console.log("recording is already on going");
+		}
+    }
+
+    function suspend_record(in_file_name){
+		if(!socket_available || !audio_available){
+			return;
+		}
+		console.log("suspend recording");
+		if(stream){
+			stream.end();
+			stream = null;
+			socket_io.emit('audio_record_suspend', {filename:in_file_name});
+		} 	
+    }
+
+    function stop_record_save(in_file_name, in_role_name, speech_id_val){
+
+		var self = this;
+		if(!socket_available || !audio_available){
+			return;
+		}
+		console.log("stop recording");
+		if(stream){
+			console.log("stop record socket id=" + socket_io.id);
+			stream.end();
+			stream = null;
+			var room_name_val = MixideaSetting.event_id;
+			var stop_emit_obj = {filename:in_file_name, role_name: in_role_name, room_name: room_name_val, speech_id: speech_id_val }
+			console.log(stop_emit_obj);
+			socket_io.emit('audio_record_end', stop_emit_obj);
+		}
+    }
+
+    function start_audio_polling(local_media_stream){
+		var audioContext = window.AudioContext || window.webkitAudioContext;
+		context = new audioContext();
+		sample_rate_value = context.sampleRate;
+		var audioInput = context.createMediaStreamSource(local_media_stream);
+		var bufferSize = 4096;
+		
+		scriptNode = context.createScriptProcessor(bufferSize, 1, 1);
+		audioInput.connect(scriptNode)
+		scriptNode.connect(context.destination); 
+
+		scriptNode.onaudioprocess = function(audioProcessingEvent){
+		  if(!under_recording || !socket_io ){
+		   return;
+		  }
+		  var left = audioProcessingEvent.inputBuffer.getChannelData(0);
+		  var audio_array_buffer = convertoFloat32ToInt16(left);
+		  var stream_buffer = new ss.Buffer(audio_array_buffer);
+		  stream.write(stream_buffer, 'buffer');
+		}
+    }
+
+    function finish_audio_polling(){
+	  scriptNode.disconnect(context.destination);
+	  context.close();
+	  context = null;
+    }
+
+	function convertoFloat32ToInt16(buffer) {
+	  var len = buffer.length;
+
+	  var double_len = len*2;
+	  var unit8_buf = new Uint8Array(double_len);
+	  var int16_variable = new Int16Array(1);
+	  for (var i=0; i< len; i++) {
+	    int16_variable[0] = buffer[i]*0x7FFF;    //convert to 16 bit PCM
+	    unit8_buf[2*i] = int16_variable[0] & 0x00FF; //convert to uint8 for stream buffer
+	    unit8_buf[2*i+1] = (int16_variable[0] & 0xFF00) >> 8;
+	  }
+	  return unit8_buf.buffer
+	}
+
+	// initial execution
+
+	sockt_initialize();
+	recording_initialize();
 
   }]);
 
