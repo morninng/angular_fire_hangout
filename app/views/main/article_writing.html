@@ -1,1 +1,39 @@
-article writing
+
+
+
+
+<span ng-switch="participant_mgr.debate_style">
+
+
+	<span ng-switch-when="NA" >
+	<div class="article_writing_container">
+		<div class="article_writing_left">
+			Government
+
+			<div ng-repeat="arg in NA_Gov_arguments">
+				<div class="each_element">
+				<writing-argument arg-id="arg"></writing-argument>
+				</div>
+			</div>
+
+		</div>
+		<div class="article_writing_right">
+			Opposition
+		</div>
+	</div>
+	</span>
+
+
+	<span ng-switch-when="Asian">
+	asian
+	</span>
+
+	<span ng-switch-when="BP">
+	bp
+	</span>
+
+	<spang ng-switch-default>
+	 no style info
+	</spang>
+
+</span>

@@ -1,0 +1,31 @@
+
+
+
+.article_writing_container{
+
+	display:flex;
+
+	.article_writing_left{
+		width:50%;
+		box-sizing: border-box;
+		border: medium solid #E0FFFF;
+		background-color: #98FB98;
+	}
+	.article_writing_right{
+		width:50%;
+		box-sizing: border-box;
+		border: medium solid #E0FFFF;
+		background-color: #FFF0F5;
+	}
+
+	.each_element{
+		width:90%;
+		margin-right:auto;
+		margin-left:auto;
+		margin-top:5px;
+		margin-bottom:30px;
+	}
+}
+
+
+

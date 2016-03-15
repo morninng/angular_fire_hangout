@@ -729,4 +729,31 @@ textarea {
   background-color: #E0FFFF;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_article_writing\.scss}line{font-family:\000034}}
+.article_writing_container {
+  display: flex;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_article_writing\.scss}line{font-family:\000038}}
+.article_writing_container .article_writing_left {
+  width: 50%;
+  box-sizing: border-box;
+  border: medium solid #E0FFFF;
+  background-color: #98FB98;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_article_writing\.scss}line{font-family:\0000314}}
+.article_writing_container .article_writing_right {
+  width: 50%;
+  box-sizing: border-box;
+  border: medium solid #E0FFFF;
+  background-color: #FFF0F5;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_article_writing\.scss}line{font-family:\0000321}}
+.article_writing_container .each_element {
+  width: 90%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
 /*# sourceMappingURL=marge.css.map */

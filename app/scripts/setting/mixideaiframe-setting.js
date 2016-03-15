@@ -24,8 +24,8 @@ var global_own_team_side = null;
   
   
   if(global_room_type == "team_discussion"){
-    global_team_side = "Prop";
-    global_own_team_side = "Prop";
+    global_team_side = "Gov";
+    global_own_team_side = "Opp";
   }
 
   var dummy_hangout_id = "BBCCBBBBB";
