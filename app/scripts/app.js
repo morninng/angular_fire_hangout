@@ -84,7 +84,7 @@ angular.module('angularFireHangoutApp')
 	.state('main', {
 		views:{
 			"RootView":{
-				templateUrl: MixideaSetting.source_domain + 'views/main/main_room_layout.html',
+				templateUrl: MixideaSetting.source_domain + 'views/main/layout_main_room.html',
 				controller: 'MainlayoutSizeadjustCtrl'
 			}
 		}
@@ -100,7 +100,7 @@ angular.module('angularFireHangoutApp')
 			controller: 'StatusbarCtrl'
 			},
 			"container_main_left_above_left_up":{
-			templateUrl: MixideaSetting.source_domain + 'views/main/static_video.html',
+			templateUrl: MixideaSetting.source_domain + 'views/main/video_static.html',
 			controller: 'StaticvideoCtrl'
 			},
 			"container_main_left_above_right":{
@@ -127,7 +127,7 @@ angular.module('angularFireHangoutApp')
 			controller: 'StatusbarCtrl'
 			},
 			"container_main_left_above_left_up":{
-			templateUrl: MixideaSetting.source_domain + 'views/main/static_video.html',
+			templateUrl: MixideaSetting.source_domain + 'views/main/video_static.html',
 			controller: 'StaticvideoCtrl'
 			},
 			"container_main_left_above_right":{
@@ -177,6 +177,29 @@ angular.module('angularFireHangoutApp')
 			"container_second_top":{
 			templateUrl: MixideaSetting.source_domain + 'views/common/status-bar.html',
 			controller: 'StatusbarCtrl'
+			},
+			"container_main_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/layout_reflec_tab.html',
+			controller: 'ReflecTabCtrl'
+			}
+		}
+	})
+	.state('main.reflection.write_article', {
+		views:{
+			"reflec_tab_first":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/url_sharing.html',
+			controller: 'UrlSharingCtrl'
+			},
+			"reflec_tab_second":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/article_writing.html',
+			controller: 'ArticleWritingCtrl'
+			}
+		}
+	})
+	.state('main.reflection.own_note', {
+		views:{
+			"reflec_tab_first":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/own_note.html',
 			}
 		}
 	})

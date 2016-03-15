@@ -8,7 +8,7 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting', function ($scope, ParticipantMgrService, MixideaSetting) {
+  .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout', function ($scope, ParticipantMgrService, MixideaSetting, $timeout) {
   	$scope.aaa = "name";
  
   	$scope.participant_mgr = ParticipantMgrService;

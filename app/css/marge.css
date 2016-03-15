@@ -426,11 +426,6 @@
   background-color: #FFF8DC;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_teamdiscuss-layout\.scss}line{font-family:\0000324}}
-#container_main {
-  background-color: #E0FFFF;
-}
-
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_arguments\.scss}line{font-family:\000031}}
 .argument_element {
   display: table-cell;
@@ -655,6 +650,83 @@ textarea {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_room_defintro\.scss}line{font-family:\0000326}}
 .def_intro_container .defintro_font {
   font-size: large;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\000032}}
+.nav_tabs_custom {
+  border-bottom: 3px solid #ddd;
+  padding-left: 0px;
+  margin-bottom: 0px;
+  list-style: none;
+  margin-top: 4px;
+  box-sizing: border-box;
+  display: block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\0000311}}
+.nav_tabs_custom > div {
+  float: left;
+  margin-bottom: -3px;
+  position: relative;
+  display: block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\0000318}}
+.nav_tabs_custom > div a {
+  position: relative;
+  margin-right: 3px;
+  border: 3px solid transparent;
+  border-radius: 8px 8px 0 0;
+  border: 3px solid #ddd;
+  display: block;
+  padding-top: 10px;
+  padding-right: 15px;
+  padding-left: 5px;
+  margin-left: 20px;
+  color: #337aa7;
+  background-color: transparent;
+  font-weight: bold;
+  font-style: italic;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\0000334}}
+.nav_tabs_custom > div a:hover {
+  text-decoration: underline;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\0000342}}
+.nav_tabs_custom > div.active a {
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border: 3px solid #ddd;
+  border-bottom-color: transparent;
+  margin-right: 2px;
+  padding-top: 10px;
+  padding-right: 15px;
+  margin-left: 20px;
+  background-color: #E0FFFF;
+  font-weight: bold;
+  font-style: italic;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\0000357}}
+.nav_tabs_custom > div.active a:hover {
+  text-decoration: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\0000365}}
+.nav_tabs_custom:before {
+  display: table;
+  content: ' ';
+  box-sizing: border-box;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\0000371}}
+.nav_tabs_custom:after {
+  display: table;
+  content: ' ';
+  clear: both;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\0000377}}
+.tab_content {
+  background-color: #E0FFFF;
 }
 
 /*# sourceMappingURL=marge.css.map */

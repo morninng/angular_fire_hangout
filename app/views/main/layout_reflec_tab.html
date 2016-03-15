@@ -1,0 +1,16 @@
+<div id="reflec_tab_container">
+
+	<div class="nav_tabs_custom">
+		<div ui-sref-active="active">
+			<a ui-sref="main.reflection.own_note">Check_own_note</a>
+		</div>
+		<div ui-sref-active="active">
+			<a ui-sref="main.reflection.write_article">Write article</a>
+		</div>
+	</div>
+	<div class="tab_content">
+		<div ui-view="reflec_tab_first"></div>
+		<div ui-view="reflec_tab_second"></div>
+	</div>
+
+</div>

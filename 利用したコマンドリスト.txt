@@ -24,6 +24,7 @@ touch .ftppass
   yo angular:controller Count-PrepTime
   yo angular:controller Link-TeamDiscuss
   yo angular:controller Link-MainRoom
+  yo angular:controller Reflec-Tab
 
 
 yo angular:controller team-discuss-arguments
@@ -40,6 +41,10 @@ yo angular:controller team-discuss-arguments
   yo angular:controller TeamDiscuss-RoomName
 yo angular:controller TeamDiscuss-Arguments
 yo angular:controller MainLayout-SizeAdjust
+yo angular:controller Article-Writing
+yo angular:controller URL-Sharing
+
+
 
 
 yo angular:directive one-argument

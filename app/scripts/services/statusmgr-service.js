@@ -20,7 +20,11 @@ angular.module('angularFireHangoutApp')
     var value = snapshot.val();
     if(value !=StatusMgr_Object.game_status){
       StatusMgr_Object.game_status = value;
-      $state.go('main.' + value);
+      if(value=="reflection"){
+        $state.go('main.reflection.write_article');
+      }else{
+        $state.go('main.' + value);
+      }
     }
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
