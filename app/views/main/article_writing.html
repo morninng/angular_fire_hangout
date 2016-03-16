@@ -5,12 +5,16 @@
 <span ng-switch="participant_mgr.debate_style">
 
 
+
+
 	<span ng-switch-when="NA" >
 	<div class="article_writing_container">
 		<div class="article_writing_left">
-			Government
+			<p>Government</p>
+			<div>debater info</div>
 
 			<div ng-repeat="arg in NA_Gov_arguments">
+
 				<div class="each_element">
 				<writing-argument arg-id="arg"></writing-argument>
 				</div>
