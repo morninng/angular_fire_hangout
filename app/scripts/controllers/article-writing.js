@@ -15,8 +15,8 @@ angular.module('angularFireHangoutApp')
 	$scope.debate_style = $scope.participant_mgr.debate_style;
 	$scope.argument_id_data = null;
 	$scope.NA_Gov_def_intro = null;
-	$scope.NA_Gov_arguments = new Array();
-	$scope.NA_Opp_arguments = new Array();
+	$scope.NA_Gov_arguments = [];
+	$scope.NA_Opp_arguments = [];
 
 	var event_id_val = MixideaSetting.event_id;
 
@@ -47,7 +47,7 @@ angular.module('angularFireHangoutApp')
 		var dummy_content = {dummy:true};
 		argument_id_ref.push(dummy_content);
 
-	}
+	};
 
 	function construct_argument_structure(){
 
@@ -63,7 +63,7 @@ angular.module('angularFireHangoutApp')
 				var arguments_array = Object.keys($scope.argument_id_data.NA.Gov.arguments);
 				for(var i=0; i<arguments_array.length; i++){
 					var obj = {arg_id:arguments_array[i],event_id:event_id_val,team:"Gov",deb_style:"NA"};
-					$scope.NA_Gov_arguments.push(obj)
+					$scope.NA_Gov_arguments.push(obj);
 				}
 				//$scope.NA_Gov_summary = $scope.argument_id_data.NA.Gov.summary.keys();
 				$scope.NA_Opp_arguments = Object.keys($scope.argument_id_data.NA.Opp.arguments);
@@ -80,6 +80,6 @@ angular.module('angularFireHangoutApp')
 	}
 
 
-
+ 
 
   }]);
