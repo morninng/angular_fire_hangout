@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc directive
- * @name angularFireHangoutApp.directive:writingArgument
+ * @name angularFireHangoutApp.directive:oneArgument
  * @description
- * # writingArgument
+ * # oneArgument
  */
 angular.module('angularFireHangoutApp')
-  .directive('writingArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService", function ($timeout, MixideaSetting,ParticipantMgrService, $sce, UtilService) {
+  .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService",  function ($timeout, MixideaSetting,ParticipantMgrService, $sce, UtilService) {
     return {
-      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/writingArgument.html'),
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/oneArgument_directive.html'),
       restrict: 'E',
       replace: true,
       scope: {
@@ -55,9 +55,7 @@ angular.module('angularFireHangoutApp')
           title_ref.set(scope.title);
         }
 
-        scope.edit_title = function(){
-          title_own_focused_ref.set(true);
-        }
+
 
 
         var content_ref = argument_content_ref.child("content");
@@ -82,12 +80,10 @@ angular.module('angularFireHangoutApp')
 
         scope.change_content = function(){
         	var content = scope.content;
-        	content_ref.set(content);
+          content_ref.set(content);
         }
 
-        scope.edit_content = function(){
-          content_own_focused_ref.set(true);
-        }
+
 
 
 
@@ -102,30 +98,28 @@ angular.module('angularFireHangoutApp')
         title_focused_ref.on("value", function(snapshot){
           $timeout(function(){
             var focused_user_obj = snapshot.val();
-            scope.writing_title_bymyself = false;
-            scope.writing_title_byothers = false;
+            scope.others_writing_title = false;
             for(var key in focused_user_obj){
-              if(key == MixideaSetting.own_user_id){
-                scope.writing_title_bymyself = true;
-              }else{
-                scope.writing_title_byothers = true;
+              if(key != MixideaSetting.own_user_id){
+                scope.others_writing_title = true;
                 scope.others_id_title = key;
               }
             }
-            if(scope.writing_title_bymyself){
-              scope.show_hide_title_textarea = "child_show";
-              scope.show_hide_title_content = "child_hide";
-            }else{
+            if(scope.others_writing_title){
               scope.show_hide_title_textarea = "child_hide";
               scope.show_hide_title_content = "child_show";
+            }else{
+              scope.show_hide_title_textarea = "child_show";
+              scope.show_hide_title_content = "child_hide";
             }
           });
         }); 
         var title_own_focused_ref = argument_focused_ref.child("title/" + MixideaSetting.own_user_id);
-
+        scope.title_focused = function(){
+          title_own_focused_ref.set(true);
+        }
         scope.title_unfocused = function(){
           title_own_focused_ref.set(null);
-          console.log("title unfocused");
         }
         title_own_focused_ref.onDisconnect().remove();
 
@@ -134,32 +128,32 @@ angular.module('angularFireHangoutApp')
 
         var content_focused_ref = argument_focused_ref.child("content");
         content_focused_ref.on("value", function(snapshot){
-         $timeout(function(){
+          $timeout(function(){
             var focused_user_obj = snapshot.val();
-            scope.writing_content_byothers = false;
-            scope.writing_content_bymyself = false;
+            scope.others_writing_content = false;
             for(var key in focused_user_obj){
               if(key != MixideaSetting.own_user_id){
-                scope.writing_content_byothers = true;
+                scope.others_writing_content = true;
                 scope.others_id_content = key;
-              }else{
-            	scope.writing_content_bymyself = true;
               }
             }
-            if(scope.writing_content_bymyself){
-              scope.show_hide_content_textarea = "child_show";
-              scope.show_hide_content_content = "child_hide";
-            }else{
+            if(scope.others_writing_content){
               scope.show_hide_content_textarea = "child_hide";
               scope.show_hide_content_content = "child_show";
+            }else{
+              scope.show_hide_content_textarea = "child_show";
+              scope.show_hide_content_content = "child_hide";
             }
           });
         }); 
         var content_own_focused_ref = argument_focused_ref.child("content/" + MixideaSetting.own_user_id);
-
+        scope.content_focused = function(){
+         content_own_focused_ref.set(true);
+         console.log("content focused")
+        }
         scope.content_unfocused = function(){
-         content_own_focused_ref.set(null);
          console.log("content unfocused");
+         content_own_focused_ref.set(null);
         }
         content_own_focused_ref.onDisconnect().remove();
 
@@ -177,4 +171,3 @@ angular.module('angularFireHangoutApp')
       }
     };
   }]);
-

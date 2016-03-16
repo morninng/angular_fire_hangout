@@ -1,4 +1,4 @@
-  
+   
 
 #team_discuss_first{
   	background-color:#5F9EA0;
@@ -21,5 +21,17 @@
 	}
 }
 
-#container_main{
+.argument_element{
+	display: table-cell;
+	min-width: 400px;
+	border: 1px solid #000000;
+	padding-top: 5px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin: 4px;
+
 }
+
+
+
+

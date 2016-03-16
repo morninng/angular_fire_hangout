@@ -1349,8 +1349,8 @@ var global_own_team_side = null;
 
   global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:1520978701540732";
-  //global_room_type = "team_discussion";
-  global_room_type = "main";
+  global_room_type = "team_discussion";
+  //global_room_type = "main";
   
   
   if(global_room_type == "team_discussion"){
@@ -1411,7 +1411,7 @@ function set_mapping_data(user_id, hangout_id)
 angular.module('angularFireHangoutApp')
   .directive('oneArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService",  function ($timeout, MixideaSetting,ParticipantMgrService, $sce, UtilService) {
     return {
-      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/oneArgument.html'),
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/oneArgument_directive.html'),
       restrict: 'E',
       replace: true,
       scope: {
@@ -1585,7 +1585,7 @@ angular.module('angularFireHangoutApp')
 angular.module('angularFireHangoutApp')
   .directive('oneDefintro',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService",  function ($timeout,MixideaSetting,ParticipantMgrService ,$sce, UtilService) {
     return {
-      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain + 'views/directive/oneDefintro.html'),
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain + 'views/directive/oneDefintro_directive.html'),
       restrict: 'E',
       scope: {
       	argument_id_obj: '=argId'
@@ -1673,7 +1673,7 @@ angular.module('angularFireHangoutApp')
 angular.module('angularFireHangoutApp')
   .directive('writingArgument',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService", function ($timeout, MixideaSetting,ParticipantMgrService, $sce, UtilService) {
     return {
-      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/writingArgument.html'),
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/writingArgument_directive.html'),
       restrict: 'E',
       replace: true,
       scope: {

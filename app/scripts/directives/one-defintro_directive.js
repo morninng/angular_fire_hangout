@@ -9,7 +9,7 @@
 angular.module('angularFireHangoutApp')
   .directive('oneDefintro',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService",  function ($timeout,MixideaSetting,ParticipantMgrService ,$sce, UtilService) {
     return {
-      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain + 'views/directive/oneDefintro.html'),
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain + 'views/directive/oneDefintro_directive.html'),
       restrict: 'E',
       scope: {
       	argument_id_obj: '=argId'
