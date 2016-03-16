@@ -307,7 +307,7 @@ angular.module('angularFireHangoutApp')
 				$scope.NA_Gov_arguments.length = 0;
 				var arguments_array = Object.keys($scope.argument_id_data.NA.Gov.arguments);
 				for(var i=0; i<arguments_array.length; i++){
-					var obj = {arg_id:arguments_array[i]};
+					var obj = {arg_id:arguments_array[i],event_id:event_id_val,team:"Gov",deb_style:"NA"};
 					$scope.NA_Gov_arguments.push(obj)
 				}
 				//$scope.NA_Gov_summary = $scope.argument_id_data.NA.Gov.summary.keys();
@@ -1349,8 +1349,8 @@ var global_own_team_side = null;
 
   global_event_id = "-KC_6f1izVFTY9sJt_rM";
   global_own_user_id = "facebook:1520978701540732";
-  global_room_type = "team_discussion";
-  //global_room_type = "main";
+  //global_room_type = "team_discussion";
+  global_room_type = "main";
   
   
   if(global_room_type == "team_discussion"){
@@ -1791,6 +1791,10 @@ angular.module('angularFireHangoutApp')
           title_own_focused_ref.set(null);
           console.log("title unfocused");
         }
+        scope.title_save = function(){
+          title_own_focused_ref.set(null);
+          console.log("save");
+        }
         title_own_focused_ref.onDisconnect().remove();
 
 
@@ -1827,6 +1831,9 @@ angular.module('angularFireHangoutApp')
         }
         content_own_focused_ref.onDisconnect().remove();
 
+        scope.save_content = function(){
+         content_own_focused_ref.set(null);
+        }
 
 
         var one_argument_id_path = "event_related/Article_Context/" + event_id + "/identifier/" 
@@ -3202,7 +3209,7 @@ angular.module('angularFireHangoutApp')
     alert("fail to retrieve debate style" + errorObject.code);
 
   });
-
+ 
 
   function construct_discussion_note(){
 

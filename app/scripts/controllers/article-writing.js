@@ -11,14 +11,14 @@ angular.module('angularFireHangoutApp')
   .controller('ArticleWritingCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout', function ($scope,ParticipantMgrService, MixideaSetting, $timeout) {
 
 
-  $scope.participant_mgr = ParticipantMgrService;
-  $scope.debate_style = $scope.participant_mgr.debate_style;
-  $scope.argument_id_data = null;
-  $scope.NA_Gov_def_intro = null;
-  $scope.NA_Gov_arguments = new Array();
-  $scope.NA_Opp_arguments = new Array();
+	$scope.participant_mgr = ParticipantMgrService;
+	$scope.debate_style = $scope.participant_mgr.debate_style;
+	$scope.argument_id_data = null;
+	$scope.NA_Gov_def_intro = null;
+	$scope.NA_Gov_arguments = new Array();
+	$scope.NA_Opp_arguments = new Array();
 
-  var event_id_val = MixideaSetting.event_id;
+	var event_id_val = MixideaSetting.event_id;
 
 
     var root_ref = new Firebase(MixideaSetting.firebase_url);
@@ -39,6 +39,16 @@ angular.module('angularFireHangoutApp')
 	});
 
 
+	$scope.add_argument = function(deb_style_val, team_val){
+
+		var argument_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
+					+ deb_style_val + "/" + team_val + "/arguments";
+		var argument_id_ref = root_ref.child(argument_id_path);
+		var dummy_content = {dummy:true};
+		argument_id_ref.push(dummy_content);
+
+	}
+
 	function construct_argument_structure(){
 
 		if(!$scope.argument_id_data){
@@ -52,7 +62,7 @@ angular.module('angularFireHangoutApp')
 				$scope.NA_Gov_arguments.length = 0;
 				var arguments_array = Object.keys($scope.argument_id_data.NA.Gov.arguments);
 				for(var i=0; i<arguments_array.length; i++){
-					var obj = {arg_id:arguments_array[i]};
+					var obj = {arg_id:arguments_array[i],event_id:event_id_val,team:"Gov",deb_style:"NA"};
 					$scope.NA_Gov_arguments.push(obj)
 				}
 				//$scope.NA_Gov_summary = $scope.argument_id_data.NA.Gov.summary.keys();
@@ -66,8 +76,6 @@ angular.module('angularFireHangoutApp')
 		}
 
 		$timeout(function() {});
-
-
 
 	}
 

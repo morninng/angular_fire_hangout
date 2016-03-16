@@ -1,55 +1,60 @@
 
-<div>
+<div class="writing_arg_directive">
 	<div class="argument_head">
 		<span class="argument_mark">Argumet</span>
 		<input  type="button" ng-click="remove_argument()" value="remove">
 	</div>
 
 	<div class="argument_container">
-		title
-		<div class="title_container parent_show_hide">
-			<textarea ng-class="show_hide_title_textarea" class="title_font argument_title_css" placeholder="input title of argument" ng-model="title" ng-change="change_title()" ng-trim="false" ng-style='title_height' ng-focus="title_focused()" ng-blur="title_unfocused()"></textarea>
-			<div class="title_p" ng-class="show_hide_title_content">
-				<span class="title_font title_content">{{title}}</span>
+
+
+		<div class="title_container">
+			<div class="parent_show_hide title_content">
+				<textarea ng-class="show_hide_title_textarea" class="title_font argument_title_css" placeholder="input title of argument" ng-model="title" ng-change="change_title()" ng-trim="false" ng-style='title_height' ng-focus="title_focused()" ng-blur="title_unfocused()"></textarea>
+				<div class="title_p" ng-class="show_hide_title_content">
+					<span class="title_font title_span">{{title}}</span>
+				</div>
 			</div>
-		</div>
-		<div class="title_control">
-			<div ng-show="writing_title_bymyself">
-				<input type="button" value="save" >
-			</div>
-			<div ng-show="!writing_title_bymyself && !writing_title_byothers">
-				<input type="button" value="edit" ng-click="edit_title()">
-			</div>
-			<div ng-if="writing_title_byothers">
-				<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_title].profile_pict}}">
-				<div class="loader">
-				    <div class="bar"></div>
-				    <div class="bar"></div>
-				    <div class="bar"></div>
+			<div class="title_control">
+				<div ng-show="writing_title_bymyself">
+					<input type="button" value="save" ng-click="title_save()">
+				</div>
+				<div ng-show="!writing_title_bymyself && !writing_title_byothers">
+					<input type="button" value="edit" ng-click="edit_title()">
+				</div>
+				<div ng-if="writing_title_byothers">
+					<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_title].profile_pict}}">
+					<div class="loader">
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		content
-		<div class="mainArg_container parent_show_hide">
-			<textarea ng-class="show_hide_content_textarea" ng-style='textearea_height' class="MainArg_input_edit MainArg_font" ng-model="content" ng-change="change_content()" ng-trim="false" placeholder="input argument principle, reason, and example" ng-focus="content_focused()" ng-blur="content_unfocused()"></textarea>
-			<div ng-class="show_hide_content_content" class="MainArg_Content_container">
-				<div class="MainArg_Content MainArg_font"  ng-bind-html="content_div"></div>
+		<div class="mainArg_container">
+			<div class="parent_show_hide">
+				<textarea ng-class="show_hide_content_textarea" ng-style='textearea_height' class="MainArg_input_edit MainArg_font" ng-model="content" ng-change="change_content()" ng-trim="false" placeholder="input argument principle, reason, and example" ng-focus="content_focused()" ng-blur="content_unfocused()"></textarea>
+				<div ng-class="show_hide_content_content">
+					<div class="MainArg_Content MainArg_font"  ng-bind-html="content_div"></div>
+				</div>
 			</div>
-		</div>
-		<div class="content_control">
-			<div ng-show="writing_content_bymyself">
-				<input type="button" value="save">
-			</div>
-			<div ng-show="!writing_content_bymyself && !writing_content_byothers">
-				<input type="button" value="edit" ng-click="edit_content()">
-			</div>
-			<div ng-if="writing_content_byothers">
-				<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_content].profile_pict}}">
-				<div class="loader">
-				    <div class="bar"></div>
-				    <div class="bar"></div>
-				    <div class="bar"></div>
+			<div class="content_control">
+				<div ng-show="writing_content_bymyself">
+					<input type="button" value="save" ng-click="save_content()">
+				</div>
+				<div ng-show="!writing_content_bymyself && !writing_content_byothers">
+					<input type="button" value="edit" ng-click="edit_content()">
+				</div>
+				<div ng-if="writing_content_byothers">
+					<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_content].profile_pict}}">
+					<div class="loader">
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					</div>
 				</div>
 			</div>
 		</div>

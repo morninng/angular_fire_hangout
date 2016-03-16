@@ -27,7 +27,7 @@ angular.module('angularFireHangoutApp')
     alert("fail to retrieve debate style" + errorObject.code);
 
   });
-
+ 
 
   function construct_discussion_note(){
 

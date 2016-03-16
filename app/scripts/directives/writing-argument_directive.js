@@ -127,6 +127,10 @@ angular.module('angularFireHangoutApp')
           title_own_focused_ref.set(null);
           console.log("title unfocused");
         }
+        scope.title_save = function(){
+          title_own_focused_ref.set(null);
+          console.log("save");
+        }
         title_own_focused_ref.onDisconnect().remove();
 
 
@@ -163,6 +167,9 @@ angular.module('angularFireHangoutApp')
         }
         content_own_focused_ref.onDisconnect().remove();
 
+        scope.save_content = function(){
+         content_own_focused_ref.set(null);
+        }
 
 
         var one_argument_id_path = "event_related/Article_Context/" + event_id + "/identifier/" 
