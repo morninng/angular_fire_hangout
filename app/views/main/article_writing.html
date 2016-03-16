@@ -19,13 +19,27 @@
 				<writing-argument arg-id="arg"></writing-argument>
 				</div>
 			</div>
-			<div>
+			<div class="add_argument_button">
 				<input type="button" value="add argument" ng-click="add_argument('NA', 'Gov')">
 			</div>
 
 		</div>
 		<div class="article_writing_right">
-			Opposition
+			<p>Opposition</p>
+			<div>debater info</div>
+
+			<div ng-repeat="arg in NA_Opp_arguments">
+
+				<div class="each_element">
+				<writing-argument arg-id="arg"></writing-argument>
+				</div>
+			</div>
+			<div class="add_argument_button">
+				<input type="button" value="add argument" ng-click="add_argument('NA', 'Opp')">
+			</div>
+
+
+
 		</div>
 	</div>
 	</span>

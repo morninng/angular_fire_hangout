@@ -847,7 +847,7 @@ textarea {
   width: 50%;
   box-sizing: border-box;
   border: medium solid #E0FFFF;
-  background-color: #FFF0F5;
+  background-color: #98FB98;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_article_writing\.scss}line{font-family:\0000321}}
 .article_writing_container .each_element {
@@ -856,6 +856,10 @@ textarea {
   margin-left: auto;
   margin-top: 5px;
   margin-bottom: 30px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_article_writing\.scss}line{font-family:\0000328}}
+.article_writing_container .add_argument_button {
+  text-align: center;
 }
 
 /*# sourceMappingURL=marge.css.map */
