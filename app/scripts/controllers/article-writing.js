@@ -57,7 +57,11 @@ angular.module('angularFireHangoutApp')
 
 		switch($scope.debate_style){
 			case "NA":
-				$scope.NA_Gov_def_intro = Object.keys($scope.argument_id_data.NA.Gov.def_intro)[0];
+				var def_intro_id = Object.keys($scope.argument_id_data.NA.Gov.def_intro)[0];
+				if(def_intro_id){
+					var obj = {arg_id:def_intro_id,event_id:event_id_val,team:"Gov",deb_style:"NA"};
+					$scope.NA_Gov_def_intro = obj;
+				}
 
 				$scope.NA_Gov_arguments.length = 0;
 				var arguments_array_na_gov = Object.keys($scope.argument_id_data.NA.Gov.arguments);

@@ -1,0 +1,35 @@
+
+<div class="writing_DefIntro_directive">
+	<div class="DefIntro_head">
+		<span class="DefIntro_mark">Definition & introduction</span>
+	</div>
+	<div class="DefIntro_container">
+		<div class="container">
+			<div class="parent_show_hide">
+				<textarea ng-class="show_hide_textarea" ng-style='defintro_height' class="defintro_input_edit MainArg_font" ng-model="defintro_content" ng-change="change_defintro()" ng-trim="false" placeholder="input argument principle, reason, and example" ng-focus="defintro_focused()" ng-blur="defintro_unfocused()"></textarea>
+				<div ng-class="show_hide_content">
+					<div class="defintro_Content defintro_font"  ng-bind-html="defintro_div"></div>
+				</div>
+			</div>
+			<div class="defintro_control">
+				<div ng-show="writing_bymyself">
+					<input type="button" value="save" ng-click="save_defintro()">
+				</div>
+				<div ng-show="!writing_bymyself && !writing_byothers">
+					<input type="button" value="edit" ng-click="edit_defintro()">
+				</div>
+				<div class="writer_icon" ng-if="writing_byothers">
+					<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id].profile_pict}}">
+					<div class="loader">
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					    <div class="bar"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+

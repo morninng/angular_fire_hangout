@@ -63,7 +63,7 @@ angular.module('angularFireHangoutApp')
 	defintro_id_ref.on("child_added", function(snapshot, previousKey){
 		var defintro_id_key = snapshot.key();
 		$timeout(function(){
-			$scope.defintro_list.push({arg_id:defintro_id_key});
+			$scope.defintro_list.push({arg_id:defintro_id_key,event_id:event_id_val, team:team_val,deb_style: deb_style_val});
 		});
 	});
 

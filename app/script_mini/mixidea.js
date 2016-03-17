@@ -312,7 +312,11 @@ angular.module('angularFireHangoutApp')
 
 		switch($scope.debate_style){
 			case "NA":
-				$scope.NA_Gov_def_intro = Object.keys($scope.argument_id_data.NA.Gov.def_intro)[0];
+				var def_intro_id = Object.keys($scope.argument_id_data.NA.Gov.def_intro)[0];
+				if(def_intro_id){
+					var obj = {arg_id:def_intro_id,event_id:event_id_val,team:"Gov",deb_style:"NA"};
+					$scope.NA_Gov_def_intro = obj;
+				}
 
 				$scope.NA_Gov_arguments.length = 0;
 				var arguments_array_na_gov = Object.keys($scope.argument_id_data.NA.Gov.arguments);
@@ -1929,6 +1933,110 @@ angular.module('angularFireHangoutApp')
 'use strict';
 
 /**
+ * @ngdoc directive
+ * @name angularFireHangoutApp.directive:writingDefintro
+ * @description
+ * # writingDefintro
+ */
+angular.module('angularFireHangoutApp')
+  .directive('writingDefintro',["$timeout","MixideaSetting","ParticipantMgrService","$sce","UtilService", function ($timeout, MixideaSetting,ParticipantMgrService, $sce, UtilService) { 
+    return {
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain +'views/directive/writingDefintro_directive.html'),
+	  restrict: 'E',
+      replace: true,
+      scope: {
+      	argument_id_obj: '=argId'
+      },
+      link: function postLink(scope, element, attrs) {
+      
+
+        var arg_id = scope.argument_id_obj.arg_id;
+        var event_id = scope.argument_id_obj.event_id;
+        var deb_style = scope.argument_id_obj.deb_style;
+        var team = scope.argument_id_obj.team;
+        scope.element = element;
+        scope.participant_mgr = ParticipantMgrService;
+
+        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        var defintro_content_path = "event_related/Article_Context/" + event_id + "/context/" 
+        				+ arg_id + "/" + "content";
+        var defintro_content_ref = root_ref.child(defintro_content_path);
+
+        defintro_content_ref.on("value", function(snapshot){
+          $timeout(function(){
+            scope.defintro_content = snapshot.val();
+            scope.defintro_div = UtilService.add_linebreak_html(scope.defintro_content);
+            update_defintro_height()
+          });
+        }); 
+        function update_defintro_height(){
+            $timeout(function(){
+              var defintro_element = scope.element[0].getElementsByClassName("defintro_Content");
+              var defintro_height = defintro_element[0].offsetHeight;
+              defintro_height = defintro_height + 5;
+              var defintro_height_str = String(defintro_height) + "px";
+              scope.defintro_height = {height:defintro_height_str};
+            });
+        }
+        scope.change_defintro = function(){
+          var defintro_content = scope.defintro_content;
+          defintro_content_ref.set(defintro_content);
+        }
+
+        scope.edit_defintro = function(){
+          defintro_own_focused_ref.set(true);
+        }
+
+
+
+
+/*** focus***/
+        var defIntro_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
+                + arg_id + "/def_intro";
+        var defIntro_focused_ref = root_ref.child(defIntro_focused_path)
+
+        defIntro_focused_ref.on("value", function(snapshot){
+          $timeout(function(){
+            var focused_user_obj = snapshot.val();
+            scope.writing_bymyself = false;
+            scope.writing_byothers = false;
+            for(var key in focused_user_obj){
+              if(key == MixideaSetting.own_user_id){
+                scope.writing_bymyself = true;
+              }else{
+                scope.writing_byothers = true;
+                scope.others_id = key;
+              }
+            }
+            if(scope.writing_bymyself){
+              scope.show_hide_textarea = "child_show";
+              scope.show_hide_content = "child_hide";
+            }else{
+              scope.show_hide_textarea = "child_hide";
+              scope.show_hide_content = "child_show";
+            }
+          });
+        }); 
+        var defintro_own_focused_ref = defIntro_focused_ref.child( MixideaSetting.own_user_id);
+
+        scope.defintro_unfocused = function(){
+         defintro_own_focused_ref.set(null);
+         console.log("content unfocused");
+        }
+        scope.save_defintro = function(){
+         defintro_own_focused_ref.set(null);
+        }
+        defintro_own_focused_ref.onDisconnect().remove();
+
+      		
+
+      }
+    };
+  }]);
+
+'use strict';
+
+/**
  * @ngdoc service
  * @name angularFireHangoutApp.ParticipantMgrService
  * @description
@@ -3321,7 +3429,7 @@ angular.module('angularFireHangoutApp')
 	defintro_id_ref.on("child_added", function(snapshot, previousKey){
 		var defintro_id_key = snapshot.key();
 		$timeout(function(){
-			$scope.defintro_list.push({arg_id:defintro_id_key});
+			$scope.defintro_list.push({arg_id:defintro_id_key,event_id:event_id_val, team:team_val,deb_style: deb_style_val});
 		});
 	});
 
