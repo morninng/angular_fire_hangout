@@ -60,13 +60,19 @@ angular.module('angularFireHangoutApp')
 				$scope.NA_Gov_def_intro = Object.keys($scope.argument_id_data.NA.Gov.def_intro)[0];
 
 				$scope.NA_Gov_arguments.length = 0;
-				var arguments_array = Object.keys($scope.argument_id_data.NA.Gov.arguments);
-				for(var i=0; i<arguments_array.length; i++){
-					var obj = {arg_id:arguments_array[i],event_id:event_id_val,team:"Gov",deb_style:"NA"};
+				var arguments_array_na_gov = Object.keys($scope.argument_id_data.NA.Gov.arguments);
+				for(var i=0; i<arguments_array_na_gov.length; i++){
+					var obj = {arg_id:arguments_array_na_gov[i],event_id:event_id_val,team:"Gov",deb_style:"NA"};
 					$scope.NA_Gov_arguments.push(obj);
 				}
+				$scope.NA_Opp_arguments.length = 0;
+				var arguments_array_na_opp = Object.keys($scope.argument_id_data.NA.Opp.arguments);
+				for(var i=0; i<arguments_array_na_opp.length; i++){
+					var obj = {arg_id:arguments_array_na_opp[i],event_id:event_id_val,team:"Opp",deb_style:"NA"};
+					$scope.NA_Opp_arguments.push(obj);
+				}
+
 				//$scope.NA_Gov_summary = $scope.argument_id_data.NA.Gov.summary.keys();
-				$scope.NA_Opp_arguments = Object.keys($scope.argument_id_data.NA.Opp.arguments);
 				//$scope.NA_Opp_summary = $scope.argument_id_data.NA.Opp.summary.keys();
 			break;
 			case "Asian":
