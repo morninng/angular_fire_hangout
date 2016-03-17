@@ -22,7 +22,7 @@
 				<div ng-show="!writing_title_bymyself && !writing_title_byothers">
 					<input type="button" value="edit" ng-click="edit_title()">
 				</div>
-				<div ng-if="writing_title_byothers">
+				<div class="writer_icon" ng-if="writing_title_byothers">
 					<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_title].profile_pict}}">
 					<div class="loader">
 					    <div class="bar"></div>
@@ -48,7 +48,7 @@
 				<div ng-show="!writing_content_bymyself && !writing_content_byothers">
 					<input type="button" value="edit" ng-click="edit_content()">
 				</div>
-				<div ng-if="writing_content_byothers">
+				<div class="writer_icon" ng-if="writing_content_byothers">
 					<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_content].profile_pict}}">
 					<div class="loader">
 					    <div class="bar"></div>

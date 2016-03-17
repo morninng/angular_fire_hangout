@@ -707,16 +707,43 @@ textarea {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000356}}
 .writing_arg_directive .argument_container .title_container .title_control {
-  width: 40px;
-  height: 37px;
-  overflow: hidden;
+  height: 25px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000361}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000358}}
+.writing_arg_directive .argument_container .title_container .title_control > div {
+  float: right;
+  margin-top: 2px;
+  display: inline-block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000363}}
 .writing_arg_directive .argument_container .title_container .title_control input {
-  margin-top: 6px;
-  margin-right: 5px;
+  margin-top: 3px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000372}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000366}}
+.writing_arg_directive .argument_container .title_container .title_control .writer_icon {
+  height: 20px;
+  overflow: hidden;
+  display: table;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000370}}
+.writing_arg_directive .argument_container .title_container .title_control .writer_icon > img {
+  float: right;
+  margin-right: 10px;
+  margin-top: 3px;
+  display: inline-block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000376}}
+.writing_arg_directive .argument_container .title_container .title_control .writer_icon > div {
+  float: right;
+  margin-right: 1px;
+  margin-top: 3px;
+  display: inline-block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000382}}
+.writing_arg_directive .argument_container .title_container .title_control .writer_icon:after {
+  clear: both;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000397}}
 .writing_arg_directive .argument_container .mainArg_container .MainArg_input_edit {
   min-height: 100px;
   background-color: #FFFFFF;
@@ -724,7 +751,7 @@ textarea {
   border-style: solid;
   border-width: medium;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000381}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003106}}
 .writing_arg_directive .argument_container .mainArg_container .MainArg_Content {
   min-height: 100px;
   border-style: solid;
@@ -732,39 +759,60 @@ textarea {
   border-width: thin;
   background-color: #FCF5F5;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000389}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003114}}
 .writing_arg_directive .argument_container .mainArg_container .MainArg_font {
   font-size: medium;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000393}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003118}}
 .writing_arg_directive .argument_container .mainArg_container .content_control {
-  height: 50px;
-  overflow: hidden;
+  height: 45px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003121}}
 .writing_arg_directive .argument_container .mainArg_container .content_control > div {
   float: right;
-  margin-left: 20px;
-  margin-right: auto;
   margin-top: 2px;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003103}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003126}}
 .writing_arg_directive .argument_container .mainArg_container .content_control input {
   margin-top: 3px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003110}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003129}}
+.writing_arg_directive .argument_container .mainArg_container .content_control .writer_icon {
+  height: 40px;
+  overflow: hidden;
+  display: table;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003133}}
+.writing_arg_directive .argument_container .mainArg_container .content_control .writer_icon > img {
+  float: right;
+  margin-right: 10px;
+  margin-top: 3px;
+  display: inline-block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003139}}
+.writing_arg_directive .argument_container .mainArg_container .content_control .writer_icon > div {
+  float: right;
+  margin-right: 1px;
+  margin-top: 3px;
+  display: inline-block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003145}}
+.writing_arg_directive .argument_container .mainArg_container .content_control .writer_icon:after {
+  clear: both;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003153}}
 .writing_arg_directive .argument_container .refute_container {
   position: relative;
   top: -20px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003113}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003156}}
 .writing_arg_directive .argument_container .refute_container > div {
   width: 70%;
   margin-left: auto;
   margin-right: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003118}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003161}}
 .writing_arg_directive .argument_container .refute_container .Refute_input_edit {
   width: 100%;
   height: 40px;
@@ -773,7 +821,7 @@ textarea {
   border-style: solid;
   border-width: thin;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003126}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003169}}
 .writing_arg_directive .argument_container .refute_container .Refute_Content {
   min-height: 80px;
   border-style: solid;
@@ -781,31 +829,31 @@ textarea {
   border-width: thin;
   background-color: #FFE4C4;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003134}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003177}}
 .writing_arg_directive .argument_container .refute_container .Refute_font {
   font-size: medium;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003140}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003183}}
 .writing_arg_directive .argument_container .refute_container .refute_control {
   height: 20px;
   overflow: hidden;
   display: table;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003144}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003187}}
 .writing_arg_directive .argument_container .refute_container .refute_control > img {
   float: right;
   margin-right: 10px;
   margin-top: 3px;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003150}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003193}}
 .writing_arg_directive .argument_container .refute_container .refute_control > div {
   float: right;
   margin-right: 1px;
   margin-top: 3px;
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003156}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003199}}
 .writing_arg_directive .argument_container .refute_container .refute_control:after {
   clear: both;
 }

@@ -54,14 +54,39 @@
 
 			}
 			.title_control{
-				width:40px;
-				height:37px;
-				overflow:hidden;
-
-				input{
-					margin-top:6px;
-					margin-right:5px;
+				height:25px;
+				>div {
+					float:right;
+					margin-top:2px;
+					display:inline-block;
 				}
+				input{
+					margin-top:3px;
+				}
+				.writer_icon{
+					height:20px;
+					overflow:hidden;
+					display:table;
+					>img {
+						float:right;
+						margin-right:10px;
+						margin-top:3px;
+						display:inline-block;
+					}
+					>div{
+						float:right;
+						margin-right:1px;
+						margin-top:3px;
+						display:inline-block;
+					}
+					&:after{
+						clear: both;
+					}
+
+				}
+
+
+
 			}
 
 		}
@@ -91,17 +116,35 @@
 			}
 
 			.content_control{
-				height:50px;
-				overflow:hidden;
+
+				height:45px;
 				>div {
 					float:right;
-					margin-left:20px;
-					margin-right:auto;
 					margin-top:2px;
 					display:inline-block;
 				}
 				input{
 					margin-top:3px;
+				}
+				.writer_icon{
+					height:40px;
+					overflow:hidden;
+					display:table;
+					>img {
+						float:right;
+						margin-right:10px;
+						margin-top:3px;
+						display:inline-block;
+					}
+					>div{
+						float:right;
+						margin-right:1px;
+						margin-top:3px;
+						display:inline-block;
+					}
+					&:after{
+						clear: both;
+					}
 				}
 
 			}
