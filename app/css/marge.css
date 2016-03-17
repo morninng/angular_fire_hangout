@@ -753,6 +753,22 @@ textarea {
 .writing_arg_directive .argument_container .mainArg_container .content_control input {
   margin-top: 10px;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003110}}
+.writing_arg_directive .argument_container .refute_container {
+  position: relative;
+  top: -20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003113}}
+.writing_arg_directive .argument_container .refute_container > div {
+  width: 70%;
+  margin-left: auto;
+  margin-right: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003117}}
+.writing_arg_directive .argument_container .refute_container > div textarea {
+  width: 100%;
+  height: 80px;
+}
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\000032}}
 .nav_tabs_custom {

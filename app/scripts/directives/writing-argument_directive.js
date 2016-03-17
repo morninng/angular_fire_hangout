@@ -32,7 +32,7 @@ angular.module('angularFireHangoutApp')
         				+ arg_id;
         var argument_content_ref = root_ref.child(argument_content_path);
 
-
+/*title management*/
         var title_ref = argument_content_ref.child("title");
         title_ref.on("value", function(snapshot){
           $timeout(function(){
@@ -60,6 +60,7 @@ angular.module('angularFireHangoutApp')
         }
 
 
+/*content management*/
         var content_ref = argument_content_ref.child("content");
         content_ref.on("value", function(snapshot){
           $timeout(function(){
@@ -92,7 +93,7 @@ angular.module('angularFireHangoutApp')
 
 
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+/*title focus*/
         var argument_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
                 + arg_id;
         var argument_focused_ref = root_ref.child(argument_focused_path);
@@ -136,6 +137,7 @@ angular.module('angularFireHangoutApp')
 
 
 
+/*content focus*/
         var content_focused_ref = argument_focused_ref.child("content");
         content_focused_ref.on("value", function(snapshot){
          $timeout(function(){
@@ -165,11 +167,17 @@ angular.module('angularFireHangoutApp')
          content_own_focused_ref.set(null);
          console.log("content unfocused");
         }
-        content_own_focused_ref.onDisconnect().remove();
-
         scope.save_content = function(){
          content_own_focused_ref.set(null);
         }
+        content_own_focused_ref.onDisconnect().remove();
+
+
+
+
+
+
+
 
 
         var one_argument_id_path = "event_related/Article_Context/" + event_id + "/identifier/" 
