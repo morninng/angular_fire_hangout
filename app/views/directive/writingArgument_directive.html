@@ -66,18 +66,16 @@
 				<div class="parent_show_hide">
 					<textarea ng-class="show_hide_refute_textarea" ng-style='refute_height' class="Refute_input_edit Refute_font" ng-model="refute" ng-change="change_refute()" ng-trim="false" placeholder="input what you have refuted during the round" ng-focus="refute_focused()" ng-blur="refute_unfocused()"></textarea>
 					<div ng-class="show_hide_refute_context">
-						<div class="refute_Content refute_font"  ng-bind-html="refute_div"></div>
+						<div class="Refute_Content Refute_font"  ng-bind-html="refute_div"></div>
 					</div>
 				</div>
 			</div>
-			<div class="refute_control">
-				<div ng-if="writing_refute_byothers">
-					<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_refute].profile_pict}}">
-					<div class="loader">
-					    <div class="bar"></div>
-					    <div class="bar"></div>
-					    <div class="bar"></div>
-					</div>
+			<div class="refute_control" ng-if="writing_refute_byothers">
+				<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id_refute].profile_pict}}">
+				<div class="loader">
+				    <div class="bar"></div>
+				    <div class="bar"></div>
+				    <div class="bar"></div>
 				</div>
 			</div>
 

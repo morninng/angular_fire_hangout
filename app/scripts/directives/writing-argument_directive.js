@@ -24,8 +24,7 @@ angular.module('angularFireHangoutApp')
         var team = scope.argument_id_obj.team;
         scope.element = element;
         scope.participant_mgr = ParticipantMgrService;
-        scope.others_writing_title = false;
-        scope.others_writing_content = false;
+
 
         var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
@@ -91,14 +90,39 @@ angular.module('angularFireHangoutApp')
         }
 
 
+/*refute management*/
+        var refute_ref = argument_content_ref.child("refute");
+        refute_ref.on("value", function(snapshot){
+          $timeout(function(){
+            scope.refute = snapshot.val();
+            scope.refute_div = UtilService.add_linebreak_html(scope.refute);
+            update_refute_height()
+
+          });
+        }); 
+        function update_refute_height(){
+            $timeout(function(){
+              var refute_div_element = scope.element[0].getElementsByClassName("Refute_Content");
+              var refute_div_height = refute_div_element[0].offsetHeight;
+              refute_div_height = refute_div_height + 15;
+              refute_div_height = String(refute_div_height) + "px";
+              scope.refute_height = {height:refute_div_height};
+            });
+        }
+
+        scope.change_refute = function(){
+          var refute = scope.refute;
+          refute_ref.set(refute);
+        }
 
 
-/*title focus*/
+/*** focus***/
         var argument_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
                 + arg_id;
         var argument_focused_ref = root_ref.child(argument_focused_path);
 
 
+/*title focus*/
         var title_focused_ref = argument_focused_ref.child("title");
         title_focused_ref.on("value", function(snapshot){
           $timeout(function(){
@@ -173,12 +197,42 @@ angular.module('angularFireHangoutApp')
         content_own_focused_ref.onDisconnect().remove();
 
 
+/*refute focus*/
+
+        var refute_focused_ref = argument_focused_ref.child("refute");
+        refute_focused_ref.on("value", function(snapshot){
+         $timeout(function(){
+            var focused_user_obj = snapshot.val();
+            scope.writing_refute_byothers = false; 
+            for(var key in focused_user_obj){
+              if(key != MixideaSetting.own_user_id){
+                scope.writing_refute_byothers = true;
+                scope.others_id_refute = key;
+              }
+            }
+            if(scope.writing_refute_byothers){
+              scope.show_hide_refute_textarea = "child_hide";
+              scope.show_hide_refute_context = "child_show";
+            }else{
+              scope.show_hide_refute_textarea = "child_show";
+              scope.show_hide_refute_context = "child_hide";
+            }
+          });
+        }); 
+        var refute_own_focused_ref = argument_focused_ref.child("refute/" + MixideaSetting.own_user_id);
+
+        scope.refute_unfocused = function(){
+         refute_own_focused_ref.set(null);
+         console.log("refute unfocused");
+        }
+
+        scope.refute_focused = function(){
+          refute_own_focused_ref.set(true);
+
+        }
 
 
-
-
-
-
+/*removing this argument*/
 
         var one_argument_id_path = "event_related/Article_Context/" + event_id + "/identifier/" 
                 + deb_style + "/" + team + "/arguments/" + arg_id;

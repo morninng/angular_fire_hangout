@@ -746,12 +746,12 @@ textarea {
   float: right;
   margin-left: 20px;
   margin-right: auto;
-  margin-top: 5px;
+  margin-top: 2px;
   display: inline-block;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003103}}
 .writing_arg_directive .argument_container .mainArg_container .content_control input {
-  margin-top: 10px;
+  margin-top: 3px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003110}}
 .writing_arg_directive .argument_container .refute_container {
@@ -764,10 +764,51 @@ textarea {
   margin-left: auto;
   margin-right: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003117}}
-.writing_arg_directive .argument_container .refute_container > div textarea {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003118}}
+.writing_arg_directive .argument_container .refute_container .Refute_input_edit {
   width: 100%;
-  height: 80px;
+  height: 40px;
+  background-color: #FFFFFF;
+  border-color: #D3D3D3;
+  border-style: solid;
+  border-width: thin;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003126}}
+.writing_arg_directive .argument_container .refute_container .Refute_Content {
+  min-height: 80px;
+  border-style: solid;
+  border-color: #FFFFFF;
+  border-width: thin;
+  background-color: #FFE4C4;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003134}}
+.writing_arg_directive .argument_container .refute_container .Refute_font {
+  font-size: medium;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003140}}
+.writing_arg_directive .argument_container .refute_container .refute_control {
+  height: 20px;
+  overflow: hidden;
+  width: 100px;
+  display: table;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003145}}
+.writing_arg_directive .argument_container .refute_container .refute_control > img {
+  float: right;
+  margin-right: 10px;
+  margin-top: 3px;
+  display: inline-block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003151}}
+.writing_arg_directive .argument_container .refute_container .refute_control > div {
+  float: right;
+  margin-right: 1px;
+  margin-top: 3px;
+  display: inline-block;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_writing_arguments\.scss}line{font-family:\00003157}}
+.writing_arg_directive .argument_container .refute_container .refute_control:after {
+  clear: both;
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\000032}}
@@ -909,6 +950,7 @@ textarea {
   text-align: center;
   margin-top: 5px;
   margin-bottom: 5px;
+  text-decoration: underline;
 }
 
 /*# sourceMappingURL=marge.css.map */
