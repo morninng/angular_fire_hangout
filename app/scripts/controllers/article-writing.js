@@ -17,6 +17,14 @@ angular.module('angularFireHangoutApp')
 	$scope.NA_Gov_def_intro = null;
 	$scope.NA_Gov_arguments = [];
 	$scope.NA_Opp_arguments = [];
+	$scope.Asian_Prop_def_intro = null;
+	$scope.Asian_Prop_arguments = [];
+	$scope.Asian_Opp_arguments = [];
+	$scope.BP_OG_def_intro = null;
+	$scope.BP_OG_arguments = [];
+	$scope.BP_OO_arguments = [];
+	$scope.BP_CG_arguments = [];
+	$scope.BP_CO_arguments = [];
 
 	var event_id_val = MixideaSetting.event_id;
 
@@ -76,12 +84,59 @@ angular.module('angularFireHangoutApp')
 					$scope.NA_Opp_arguments.push(obj);
 				}
 
-				//$scope.NA_Gov_summary = $scope.argument_id_data.NA.Gov.summary.keys();
-				//$scope.NA_Opp_summary = $scope.argument_id_data.NA.Opp.summary.keys();
 			break;
 			case "Asian":
+				var def_intro_id = Object.keys($scope.argument_id_data.Asian.Prop.def_intro)[0];
+				if(def_intro_id){
+					var obj = {arg_id:def_intro_id,event_id:event_id_val,team:"Prop",deb_style:"Asian"};
+					$scope.Asian_Prop_def_intro = obj;
+				}
+
+				$scope.Asian_Prop_arguments.length = 0;
+				var arguments_array_asian_prop = Object.keys($scope.argument_id_data.Asian.Prop.arguments);
+				for(var i=0; i<arguments_array_asian_prop.length; i++){
+					var obj = {arg_id:arguments_array_asian_prop[i],event_id:event_id_val,team:"Prop",deb_style:"Asian"};
+					$scope.Asian_Prop_arguments.push(obj);
+				}
+				$scope.Asian_Opp_arguments.length = 0;
+				var arguments_array_asian_opp = Object.keys($scope.argument_id_data.Asian.Opp.arguments);
+				for(var i=0; i<arguments_array_asian_opp.length; i++){
+					var obj = {arg_id:arguments_array_asian_opp[i],event_id:event_id_val,team:"Opp",deb_style:"Asian"};
+					$scope.Asian_Opp_arguments.push(obj);
+				}
 			break;
 			case "BP":
+
+				var def_intro_id = Object.keys($scope.argument_id_data.BP.OG.def_intro)[0];
+				if(def_intro_id){
+					var obj = {arg_id:def_intro_id,event_id:event_id_val,team:"OG",deb_style:"BP"};
+					$scope.BP_OG_def_intro = obj;
+				}
+
+				$scope.BP_OG_arguments.length = 0;
+				var arguments_array_bp_og= Object.keys($scope.argument_id_data.BP.OG.arguments);
+				for(var i=0; i<arguments_array_bp_og.length; i++){
+					var obj = {arg_id:arguments_array_bp_og[i],event_id:event_id_val,team:"OG",deb_style:"BP"};
+					$scope.BP_OG_arguments.push(obj);
+				}
+				$scope.BP_OO_arguments.length = 0;
+				var arguments_array_bp_oo = Object.keys($scope.argument_id_data.BP.OO.arguments);
+				for(var i=0; i<arguments_array_bp_oo.length; i++){
+					var obj = {arg_id:arguments_array_bp_oo[i],event_id:event_id_val,team:"OO",deb_style:"BP"};
+					$scope.BP_OO_arguments.push(obj);
+				}
+				$scope.BP_CG_arguments.length = 0;
+				var arguments_array_bp_cg = Object.keys($scope.argument_id_data.BP.CG.arguments);
+				for(var i=0; i<arguments_array_bp_cg.length; i++){
+					var obj = {arg_id:arguments_array_bp_cg[i],event_id:event_id_val,team:"CG",deb_style:"BP"};
+					$scope.BP_CG_arguments.push(obj);
+				}
+				$scope.BP_CO_arguments.length = 0;
+				var arguments_array_bp_co = Object.keys($scope.argument_id_data.BP.CO.arguments);
+				for(var i=0; i<arguments_array_bp_co.length; i++){
+					var obj = {arg_id:arguments_array_bp_co[i],event_id:event_id_val,team:"CO",deb_style:"BP"};
+					$scope.BP_CO_arguments.push(obj);
+				}
 			break;
 		}
 

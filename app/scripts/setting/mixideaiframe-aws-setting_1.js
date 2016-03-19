@@ -17,7 +17,7 @@ var global_own_team_side = null;
 (function () {
 
   global_event_id = "-KC_6f1izVFTY9sJt_rM";
-  global_own_user_id = "facebook:1520978701540732";
+  global_own_user_id = "facebook:514784482056936";
   //global_room_type = "team_discussion";
   global_room_type = "main";
 

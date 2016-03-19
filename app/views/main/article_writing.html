@@ -9,7 +9,12 @@
 
 	<span ng-switch-when="NA" >
 	<div class="article_writing_container">
+
+
+
+<!--  NA left element-->
 		<div class="article_writing_left">
+		  <div>
 			<p class="team_name">Government</p>
 
 			<div class="participant_element">
@@ -38,9 +43,13 @@
 			<div class="add_argument_button">
 				<input type="button" value="add argument" ng-click="add_argument('NA', 'Gov')">
 			</div>
+		  </div>
 		</div>
+<!--  NA left element end-->
 
+<!--  NA right element start-->
 		<div class="article_writing_right">
+		  <div>
 			<p class="team_name">Opposition</p>
 
 			<div class="participant_element">
@@ -63,18 +72,228 @@
 			<div class="add_argument_button">
 				<input type="button" value="add argument" ng-click="add_argument('NA', 'Opp')">
 			</div>
-
+		  </div>
 		</div>
+<!--  NA right element end-->
+
 	</div>
 	</span>
 
 
 	<span ng-switch-when="Asian">
-	asian
+	<div class="article_writing_container">
+
+
+<!--  Asian left element-->
+		<div class="article_writing_left">
+		  <div>
+			<p class="team_name">Proposition</p>
+
+			<div class="participant_element">
+				<div ng-repeat="(key, value) in participant_mgr.participant_obj" >
+					<div ng-if="(value.group =='Prop') && (value.id)">
+						<div class=role_user_info>
+							<span class="role_name">{{key}}</span>
+							<span class="person_name">:{{value.user_name}} </span>
+						</div>
+						<img ng-src={{value.profile_pict}}>
+					</div>
+				</div>
+			</div>
+
+			<div ng-if="Asian_Prop_def_intro">
+				<div class="each_element">
+				<writing-defintro arg-id="Asian_Prop_def_intro"></writing-defintro>
+				</div>
+			</div>
+
+			<div ng-repeat="arg in Asian_Prop_arguments">
+				<div class="each_element">
+				<writing-argument arg-id="arg"></writing-argument>
+				</div>
+			</div>
+			<div class="add_argument_button">
+				<input type="button" value="add argument" ng-click="add_argument('Asian', 'Prop')">
+			</div>
+		  </div>
+		</div>
+<!--  Asian left element end-->
+
+<!--  Asian right element start-->
+		<div class="article_writing_right">
+		  <div>
+			<p class="team_name">Opposition</p>
+
+			<div class="participant_element">
+				<div ng-repeat="(key, value) in participant_mgr.participant_obj" >
+					<div ng-if="(value.group =='Opp') && (value.id)">
+						<div class="role_name">{{key}}</div>
+						<img ng-src={{value.profile_pict}}>
+						<div class="person_name">
+						{{value.user_name}} 
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div ng-repeat="arg in Asian_Opp_arguments">
+				<div class="each_element">
+				<writing-argument arg-id="arg"></writing-argument>
+				</div>
+			</div>
+			<div class="add_argument_button">
+				<input type="button" value="add argument" ng-click="add_argument('Asian', 'Opp')">
+			</div>
+		  </div>
+		</div>
+<!--  Asian right element end-->
+
+
+	</div>
 	</span>
 
 	<span ng-switch-when="BP">
-	bp
+	<div class="article_writing_container">
+
+
+
+
+<!--  BP left element-->
+		<div class="article_writing_left">
+		  <div>
+			<p class="team_name">Opening Government</p>
+
+			<div class="participant_element">
+				<div ng-repeat="(key, value) in participant_mgr.participant_obj" >
+					<div ng-if="(value.group =='OG') && (value.id)">
+						<div class=role_user_info>
+							<span class="role_name">{{key}}</span>
+							<span class="person_name">:{{value.user_name}} </span>
+						</div>
+						<img ng-src={{value.profile_pict}}>
+					</div>
+				</div>
+			</div>
+
+			<div ng-if="BP_OG_def_intro">
+				<div class="each_element">
+				<writing-defintro arg-id="BP_OG_def_intro"></writing-defintro>
+				</div>
+			</div>
+
+			<div ng-repeat="arg in BP_OG_arguments">
+				<div class="each_element">
+				<writing-argument arg-id="arg"></writing-argument>
+				</div>
+			</div>
+			<div class="add_argument_button">
+				<input type="button" value="add argument" ng-click="add_argument('BP', 'OG')">
+			</div>
+		  </div>
+
+
+
+		  <div>
+			<p class="team_name">Closing Government</p>
+
+			<div class="participant_element">
+				<div ng-repeat="(key, value) in participant_mgr.participant_obj" >
+					<div ng-if="(value.group =='CG') && (value.id)">
+						<div class=role_user_info>
+							<span class="role_name">{{key}}</span>
+							<span class="person_name">:{{value.user_name}} </span>
+						</div>
+						<img ng-src={{value.profile_pict}}>
+					</div>
+				</div>
+			</div>
+
+			<div ng-repeat="arg in BP_CG_arguments">
+				<div class="each_element">
+				<writing-argument arg-id="arg"></writing-argument>
+				</div>
+			</div>
+			<div class="add_argument_button">
+				<input type="button" value="add argument" ng-click="add_argument('BP', 'CG')">
+			</div>
+		  </div>
+
+
+
+
+		</div>
+
+
+
+
+
+<!--  BP left element end-->
+
+<!--  BP right element start-->
+		<div class="article_writing_right">
+		  <div>
+			<p class="team_name">Opening Opposition</p>
+
+			<div class="participant_element">
+				<div ng-repeat="(key, value) in participant_mgr.participant_obj" >
+					<div ng-if="(value.group =='OO') && (value.id)">
+						<div class="role_name">{{key}}</div>
+						<img ng-src={{value.profile_pict}}>
+						<div class="person_name">
+						{{value.user_name}} 
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div ng-repeat="arg in BP_OO_arguments">
+				<div class="each_element">
+				<writing-argument arg-id="arg"></writing-argument>
+				</div>
+			</div>
+			<div class="add_argument_button">
+				<input type="button" value="add argument" ng-click="add_argument('BP', 'OO')">
+			</div>
+		  </div>
+
+
+
+
+		  <div>
+			<p class="team_name">Closing Opposition</p>
+
+			<div class="participant_element">
+				<div ng-repeat="(key, value) in participant_mgr.participant_obj" >
+					<div ng-if="(value.group =='CO') && (value.id)">
+						<div class="role_name">{{key}}</div>
+						<img ng-src={{value.profile_pict}}>
+						<div class="person_name">
+						{{value.user_name}} 
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div ng-repeat="arg in BP_CO_arguments">
+				<div class="each_element">
+				<writing-argument arg-id="arg"></writing-argument>
+				</div>
+			</div>
+			<div class="add_argument_button">
+				<input type="button" value="add argument" ng-click="add_argument('BP', 'CO')">
+			</div>
+		  </div>
+
+
+		</div>
+<!--  BP right element end-->
+
+
+
+
+
+
+	</div>
 	</span>
 
 	<spang ng-switch-default>

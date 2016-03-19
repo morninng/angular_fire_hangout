@@ -272,6 +272,14 @@ angular.module('angularFireHangoutApp')
 	$scope.NA_Gov_def_intro = null;
 	$scope.NA_Gov_arguments = [];
 	$scope.NA_Opp_arguments = [];
+	$scope.Asian_Prop_def_intro = null;
+	$scope.Asian_Prop_arguments = [];
+	$scope.Asian_Opp_arguments = [];
+	$scope.BP_OG_def_intro = null;
+	$scope.BP_OG_arguments = [];
+	$scope.BP_OO_arguments = [];
+	$scope.BP_CG_arguments = [];
+	$scope.BP_CO_arguments = [];
 
 	var event_id_val = MixideaSetting.event_id;
 
@@ -331,12 +339,59 @@ angular.module('angularFireHangoutApp')
 					$scope.NA_Opp_arguments.push(obj);
 				}
 
-				//$scope.NA_Gov_summary = $scope.argument_id_data.NA.Gov.summary.keys();
-				//$scope.NA_Opp_summary = $scope.argument_id_data.NA.Opp.summary.keys();
 			break;
 			case "Asian":
+				var def_intro_id = Object.keys($scope.argument_id_data.Asian.Prop.def_intro)[0];
+				if(def_intro_id){
+					var obj = {arg_id:def_intro_id,event_id:event_id_val,team:"Prop",deb_style:"Asian"};
+					$scope.Asian_Prop_def_intro = obj;
+				}
+
+				$scope.Asian_Prop_arguments.length = 0;
+				var arguments_array_asian_prop = Object.keys($scope.argument_id_data.Asian.Prop.arguments);
+				for(var i=0; i<arguments_array_asian_prop.length; i++){
+					var obj = {arg_id:arguments_array_asian_prop[i],event_id:event_id_val,team:"Prop",deb_style:"Asian"};
+					$scope.Asian_Prop_arguments.push(obj);
+				}
+				$scope.Asian_Opp_arguments.length = 0;
+				var arguments_array_asian_opp = Object.keys($scope.argument_id_data.Asian.Opp.arguments);
+				for(var i=0; i<arguments_array_asian_opp.length; i++){
+					var obj = {arg_id:arguments_array_asian_opp[i],event_id:event_id_val,team:"Opp",deb_style:"Asian"};
+					$scope.Asian_Opp_arguments.push(obj);
+				}
 			break;
 			case "BP":
+
+				var def_intro_id = Object.keys($scope.argument_id_data.BP.OG.def_intro)[0];
+				if(def_intro_id){
+					var obj = {arg_id:def_intro_id,event_id:event_id_val,team:"OG",deb_style:"BP"};
+					$scope.BP_OG_def_intro = obj;
+				}
+
+				$scope.BP_OG_arguments.length = 0;
+				var arguments_array_bp_og= Object.keys($scope.argument_id_data.BP.OG.arguments);
+				for(var i=0; i<arguments_array_bp_og.length; i++){
+					var obj = {arg_id:arguments_array_bp_og[i],event_id:event_id_val,team:"OG",deb_style:"BP"};
+					$scope.BP_OG_arguments.push(obj);
+				}
+				$scope.BP_OO_arguments.length = 0;
+				var arguments_array_bp_oo = Object.keys($scope.argument_id_data.BP.OO.arguments);
+				for(var i=0; i<arguments_array_bp_oo.length; i++){
+					var obj = {arg_id:arguments_array_bp_oo[i],event_id:event_id_val,team:"OO",deb_style:"BP"};
+					$scope.BP_OO_arguments.push(obj);
+				}
+				$scope.BP_CG_arguments.length = 0;
+				var arguments_array_bp_cg = Object.keys($scope.argument_id_data.BP.CG.arguments);
+				for(var i=0; i<arguments_array_bp_cg.length; i++){
+					var obj = {arg_id:arguments_array_bp_cg[i],event_id:event_id_val,team:"CG",deb_style:"BP"};
+					$scope.BP_CG_arguments.push(obj);
+				}
+				$scope.BP_CO_arguments.length = 0;
+				var arguments_array_bp_co = Object.keys($scope.argument_id_data.BP.CO.arguments);
+				for(var i=0; i<arguments_array_bp_co.length; i++){
+					var obj = {arg_id:arguments_array_bp_co[i],event_id:event_id_val,team:"CO",deb_style:"BP"};
+					$scope.BP_CO_arguments.push(obj);
+				}
 			break;
 		}
 
@@ -778,7 +833,7 @@ angular.module('angularFireHangoutApp')
 				break;
 				case "complete":
 				$scope.status_complete = "status_bar_element_selected";
-				break
+				break;
 			}
 		});
   	})
@@ -885,13 +940,80 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('UrlSharingCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+  .controller('UrlSharingCtrl',['$scope','$http','MixideaSetting','$timeout', function ($scope, $http, MixideaSetting, $timeout) {
+
+
+	$scope.ogp_data_array = new Array();
+  $scope.url_share = null;
+
+
+	var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var url_ref = root_ref.child("event_related/url_link/" + MixideaSetting.event_id)
+
+	url_ref.on("child_added", function(snapshot, prevChildKey) {
+		var url_id = snapshot.key();
+		console.log(url_id);
+		retrieve_ogp_data(url_id);
+	});
+
+  $scope.input_url_Key = function(e){
+    if (e.which == 13) {
+      share_url();
+    }
+  }
+  $scope.click_share = function(){
+    share_url();
+  }
+
+  function share_url(){
+    var str_url = $scope.str_url;
+    $scope.str_url = null;
+    var is_url = is_valid_Url(str_url);
+    if(is_url){
+      $http({
+        method: 'Get',
+        url: MixideaSetting.recording_domain + 'set_ogp',
+        params: {
+          url: str_url,
+          event_id: MixideaSetting.event_id 
+        }
+      }).success(function(data){
+        console.log('success ' + data);
+      }).error(function(err){
+        console.log(err);
+      })
+    }
+  }
+
+
+
+	function is_valid_Url(s) {
+    var regexp = /((http|https):\/\/)?[A-Za-z0-9\.-]{3,}\.[A-Za-z]{2}/; 
+    return s.indexOf(' ') < 0 && regexp.test(s);
+}
+
+	 
+
+	function retrieve_ogp_data(url_id){
+
+    var ogp_content_ref = root_ref.child("url_related/url/" + url_id);
+    ogp_content_ref.on("value", function(snapshot) {
+      var ogp_obj  = snapshot.val();
+
+      $timeout(function() {
+        $scope.ogp_data_array.push(ogp_obj)
+      });
+
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+
+	}
+
+
+
+
+  }]);
 
 'use strict';
 
@@ -1241,7 +1363,7 @@ var global_own_team_side = null;
 (function () {
 
   global_event_id = "-KC_6f1izVFTY9sJt_rM";
-  global_own_user_id = "facebook:1520978701540732";
+  global_own_user_id = "facebook:514784482056936";
   //global_room_type = "team_discussion";
   global_room_type = "main";
 
