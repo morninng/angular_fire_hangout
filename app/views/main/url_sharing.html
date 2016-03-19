@@ -1,1 +1,23 @@
-url sharing
+
+
+<div class="url_input_container">
+	<div>
+		share web site
+		<input type="text" class="input_text" ng-model="str_url" ng-keydown="input_url_Key($event)" placeholder="http://">
+		<input ng-click="click_share()" type="button" value="share">
+	</div>
+</div>
+
+
+<div class="ogp_contaienr">
+<div class="ogp_content" ng-repeat="ogp in ogp_data_array">
+
+	<div ng-if="ogp.ogImage">
+		<img ng-src="{{ogp.ogImage.url}}">
+	</div>
+	<div class="written_context">
+		<a target="_blank" ng-href="{{ogp.original_url}}"><p>{{ogp.ogSiteName}} : {{ogp.ogTitle}}</p></a>
+		<div>{{ogp.ogDescription}}</div>
+	</div>
+</div>
+</div>

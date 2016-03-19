@@ -41,7 +41,7 @@ angular.module('angularFireHangoutApp')
 				break;
 				case "complete":
 				$scope.status_complete = "status_bar_element_selected";
-				break
+				break;
 			}
 		});
   	})

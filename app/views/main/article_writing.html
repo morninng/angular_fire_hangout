@@ -15,11 +15,11 @@
 			<div class="participant_element">
 				<div ng-repeat="(key, value) in participant_mgr.participant_obj" >
 					<div ng-if="(value.group =='Gov') && (value.id)">
-						<div class="role_name">{{key}}</div>
-						<img ng-src={{value.profile_pict}}>
-						<div class="person_name">
-						{{value.user_name}} 
+						<div class=role_user_info>
+							<span class="role_name">{{key}}</span>
+							<span class="person_name">:{{value.user_name}} </span>
 						</div>
+						<img ng-src={{value.profile_pict}}>
 					</div>
 				</div>
 			</div>
