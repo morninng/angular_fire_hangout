@@ -1,1 +1,13 @@
 own note
+
+<div clss="own_note_container">
+	{{current_role}}
+<div ng-repeat="role_obj in role_obj_array">
+
+	<div ng-class="role_obj['name']==current_role ? 'active_speaker' : 'non_speaker'">
+
+		sss
+		{{role_obj["name"]}} {{role_obj["shown_name"]}} 
+	</div>
+
+</div>

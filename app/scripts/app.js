@@ -161,6 +161,26 @@ angular.module('angularFireHangoutApp')
 			"container_main_left_above_left_up":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/video_debate.html',
 			controller: 'VideodebateCtrl'		
+			},
+			"container_main_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/layout_debate_tab_right_main.html',
+			controller: 'TabDebaterightmainCtrl'
+			}
+		}
+	})
+	.state('main.debate.own_note', {
+		views:{
+			debate_raight_main_content:{
+				templateUrl: MixideaSetting.source_domain + 'views/main/own_note.html',
+				controller: 'OwnnoteCtrl'
+			}
+		}
+	})
+	.state('main.debate.prep_note', {
+		views:{
+			debate_raight_main_content:{
+				templateUrl: MixideaSetting.source_domain + 'views/team_discussion/t_room_arguments.html',
+				controller: 'TeamdiscussArgumentsCtrl'
 			}
 		}
 	})
@@ -200,6 +220,7 @@ angular.module('angularFireHangoutApp')
 		views:{
 			"reflec_tab_first":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/own_note.html',
+			controller: 'OwnnoteCtrl'
 			}
 		}
 	})
@@ -252,3 +273,4 @@ angular.module('angularFireHangoutApp')
 	})
 
 }]);
+

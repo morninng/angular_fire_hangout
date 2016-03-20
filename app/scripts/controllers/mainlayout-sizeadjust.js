@@ -38,8 +38,8 @@ angular.module('angularFireHangoutApp')
 					$scope.main_left_above_left_width = {width:"300px"}
 					$scope.main_left_above_right_width = {width:"0px"};
 					$scope.main_left_below_width = {width:"0px"};
-					$scope.main_width = {width:"1000px"};
-					$scope.main_right_width = {width:"700px"};
+					$scope.main_width = {width:null};
+					$scope.main_right_width = {width:null};
 
 
 				break;

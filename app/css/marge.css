@@ -552,6 +552,18 @@ textarea {
   margin: 4px;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_layout\.scss}line{font-family:\0000337}}
+.add_arg_button {
+  width: 100%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_layout\.scss}line{font-family:\0000339}}
+.add_arg_button input {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  margin-right: 30px;
+  float: right;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_one_defintro\.scss}line{font-family:\000033}}
 .defintro_Content_container {
   display: flex;
@@ -1158,6 +1170,16 @@ textarea {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_url_share\.scss}line{font-family:\0000346}}
 .url_input_container .input_text {
   width: 400px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_own_note\.scss}line{font-family:\000031}}
+.active_speaker {
+  color: red;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_own_note\.scss}line{font-family:\000034}}
+.non_speaker {
+  color: black;
 }
 
 /*# sourceMappingURL=marge.css.map */

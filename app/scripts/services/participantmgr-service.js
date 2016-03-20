@@ -273,7 +273,7 @@ angular.module('angularFireHangoutApp')
               login:false,
               css_style:"participant_box_default"
             },
-            WG:{
+            GW:{
               user_name:'no applilcant',
               profile_pict:no_applicant_img,
               applicant:false,
@@ -284,7 +284,7 @@ angular.module('angularFireHangoutApp')
               login:false,
               css_style:"participant_box_default"
             },
-            WO:{
+            OW:{
               user_name:'no applilcant',
               profile_pict:no_applicant_img,
               applicant:false,

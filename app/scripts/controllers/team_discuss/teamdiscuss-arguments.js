@@ -8,12 +8,21 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('TeamdiscussArgumentsCtrl',["$scope","MixideaSetting",'$timeout', function ($scope, MixideaSetting,$timeout) {
+  .controller('TeamdiscussArgumentsCtrl',["$scope","MixideaSetting",'$timeout','ParticipantMgrService', function ($scope, MixideaSetting,$timeout, ParticipantMgrService) {
 
   $scope.arg_list = new Array();
   $scope.defintro_list = new Array();
 
   var team_val = MixideaSetting.team_discuss_team_side;
+  if(!team_val){
+  	// this part is only for main room argument
+  	$scope.participant_mgr = ParticipantMgrService;
+  	team_val = $scope.participant_mgr.own_group;
+
+  }
+
+
+
   var event_id_val = MixideaSetting.event_id;
   var deb_style_val = null;
   var root_ref = new Firebase("https://mixidea.firebaseio.com/");

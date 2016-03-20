@@ -25,6 +25,8 @@ touch .ftppass
   yo angular:controller Link-TeamDiscuss
   yo angular:controller Link-MainRoom
   yo angular:controller Reflec-Tab
+  yo angular:controller Tab-DebateRightMain
+  yo angular:controller OwnNote
 
 
 yo angular:controller team-discuss-arguments
