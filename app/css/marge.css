@@ -945,6 +945,81 @@ textarea {
   clear: both;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\000032}}
+.own_note_directive_container {
+  background-color: #F5F5F5;
+  padding-right: 30px;
+  padding-left: 30px;
+  padding-bottom: 40px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000310}}
+.own_note_directive_container p {
+  font-weight: bold;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000315}}
+.own_note_directive_container .radio_note {
+  color: blue;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000318}}
+.own_note_directive_container .radio_refute {
+  color: red;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000321}}
+.own_note_directive_container .radio_evaluate {
+  color: green;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000324}}
+.own_note_directive_container .note {
+  background-color: #ADD8E6;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000327}}
+.own_note_directive_container .refute {
+  background-color: #FFF0F5;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000330}}
+.own_note_directive_container .evaluate {
+  background-color: #00FA9A;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000334}}
+.own_note_directive_container .note_repeat_content {
+  display: flex;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000336}}
+.own_note_directive_container .note_repeat_content .each_control {
+  width: 50px;
+  border-style: solid;
+  border-width: 1px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000344}}
+.own_note_directive_container .note_repeat_content .each_content {
+  flex: 1;
+  padding: 5px;
+  border-style: solid;
+  border-width: 1px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000355}}
+.own_note_directive_container .own_note_input .input_button input {
+  margin-right: 20px;
+  margin-left: auto;
+  float: right;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000360}}
+.own_note_directive_container .own_note_input .input_button input:after {
+  clear: both;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000366}}
+.own_note_directive_container textarea {
+  width: 600px;
+  margin-left: 30px;
+  margin-right: 30px;
+  height: 100px;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_tab\.scss}line{font-family:\000032}}
 .nav_tabs_custom {
   border-bottom: 3px solid #ddd;

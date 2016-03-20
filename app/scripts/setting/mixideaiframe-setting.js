@@ -62,7 +62,7 @@ function set_mapping_data(user_id, hangout_id)
   });
 
   mapping_data_ref.onDisconnect().remove();
-
+  
 
 
 }

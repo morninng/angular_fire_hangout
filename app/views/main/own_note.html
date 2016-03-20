@@ -1,13 +1,16 @@
-own note
+You can take a note of speaker's speech, refute idea, and evaluation message for speaker.
+<br>This note is not shared anyone and just for you  
 
 <div clss="own_note_container">
-	{{current_role}}
+
+
 <div ng-repeat="role_obj in role_obj_array">
 
 	<div ng-class="role_obj['name']==current_role ? 'active_speaker' : 'non_speaker'">
-
-		sss
-		{{role_obj["name"]}} {{role_obj["shown_name"]}} 
+		<own-note role-obj="role_obj"></own-note>
 	</div>
+
+</div>
+
 
 </div>

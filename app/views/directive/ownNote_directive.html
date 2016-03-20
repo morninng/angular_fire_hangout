@@ -1,0 +1,51 @@
+<div class="own_note_directive_container">
+	<p>{{shown_name}}</p>
+	<div>
+		<div ng-repeat="each_note in own_note_obj_array">
+		  <div class="note_repeat_content">
+			<div class="each_control">
+				<div ng-show="!each_note.under_edit">
+					<input type="button" value="edit" ng-click="each_note.under_edit = true">
+				</div>
+				<div ng-show="each_note.under_edit">
+					<input type="button" value="save" ng-click="edit_save_input(each_note)">
+				</div>
+			</div>
+			<div class="each_content" ng-class="each_note.type">
+				<div ng-show="each_note.under_edit">
+					<div>
+						<label><input type="radio" ng-model="each_note.type"  value="note">note</label>
+						<label><input type="radio" ng-model="each_note.type" value="refute">refute</label>
+						<label><input type="radio" ng-model="each_note.type" value="evaluate">evaluate</label>
+					</div>
+					<div>
+						<textarea ng-model="each_note.content"></textarea>
+					</div>
+				</div>
+				<div ng-show="!each_note.under_edit"  >
+					<div ng-bind-html="each_note.content_html"></div>
+				</div>
+			</div>
+		  </div>
+		</div>
+		<div class="own_note_input">
+			<div>
+				<label class="radio_note">
+					<input type="radio" ng-model="input_data.type" value="note">note
+				</label>
+				<label class="radio_refute">
+					<input type="radio" ng-model="input_data.type" value="refute">refute
+				</label>
+				<label class="radio_evaluate">
+					<input type="radio" ng-model="input_data.type" value="evaluate">evaluate
+				</label>
+			</div>
+			<div>
+				<textarea ng-model="input_data.content" placeholder="taking a note for your memo"></textarea>
+			</div>
+			<div class="input_button">
+				<input type="button" value="save" ng-click="save_input()">
+			</div>
+		</div>
+	</div>
+</div>

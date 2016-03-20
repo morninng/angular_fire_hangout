@@ -56,3 +56,6 @@ yo angular:directive one-defintro
 yo angular:directive writing-argument
 yo angular:directive writing-defintro
 yo angular:directive writing-summary
+
+yo angular:directive own-note
+
