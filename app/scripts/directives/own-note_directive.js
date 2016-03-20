@@ -17,6 +17,7 @@ angular.module('angularFireHangoutApp')
       link: function postLink(scope, element, attrs) {
 
         scope.shown_name = scope.role_object.shown_name;
+        scope.score = null;
         scope.input_data = new Object();
         scope.input_data.type = "note";
         scope.input_data.content = null;
@@ -62,13 +63,18 @@ angular.module('angularFireHangoutApp')
         	}
         	$timeout(function(){});
         })
-        own_note_content_ref.on("child_removed", function(){
-        	
+
+
+        own_note_score_ref.once("value", function(snapshot){
+            var score_value = snapshot.val();
+            scope.score = score_value;
+            $timeout(function(){});
         })
 
 
         scope.set_score = function(){
-
+            console.log(scope.score);
+            own_note_score_ref.set(scope.score);
         }
 
 

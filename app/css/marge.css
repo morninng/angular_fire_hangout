@@ -955,38 +955,66 @@ textarea {
   margin-left: 20px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000310}}
-.own_note_directive_container p {
+.own_note_directive_container .own_note_head {
+  display: flex;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000312}}
+.own_note_directive_container .own_note_head p {
+  margin-top: 10px;
+  margin-bottom: 10px;
   font-weight: bold;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000315}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000317}}
+.own_note_directive_container .own_note_head .range_container {
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 200px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000325}}
+.own_note_directive_container .own_note_head .score_container {
+  display: flex;
+  padding-top: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000328}}
+.own_note_directive_container .own_note_head .score_container .score_value {
+  text-align: center;
+  width: 40px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000332}}
+.own_note_directive_container .own_note_head .score_container .score_message {
+  width: 300px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000342}}
 .own_note_directive_container .radio_note {
   color: blue;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000318}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000345}}
 .own_note_directive_container .radio_refute {
   color: red;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000321}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000348}}
 .own_note_directive_container .radio_evaluate {
   color: green;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000324}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000351}}
 .own_note_directive_container .note {
   background-color: #ADD8E6;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000354}}
 .own_note_directive_container .refute {
   background-color: #FFF0F5;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000357}}
 .own_note_directive_container .evaluate {
   background-color: #00FA9A;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000334}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000361}}
 .own_note_directive_container .note_repeat_content {
   display: flex;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000363}}
 .own_note_directive_container .note_repeat_content .each_control {
   width: 50px;
   border-style: solid;
@@ -995,24 +1023,24 @@ textarea {
   padding-bottom: 10px;
   text-align: center;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000344}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000371}}
 .own_note_directive_container .note_repeat_content .each_content {
   flex: 1;
   padding: 5px;
   border-style: solid;
   border-width: 1px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000355}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000382}}
 .own_note_directive_container .own_note_input .input_button input {
   margin-right: 20px;
   margin-left: auto;
   float: right;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000360}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000387}}
 .own_note_directive_container .own_note_input .input_button input:after {
   clear: both;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_directive_own_note\.scss}line{font-family:\0000393}}
 .own_note_directive_container textarea {
   width: 600px;
   margin-left: 30px;

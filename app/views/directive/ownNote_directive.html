@@ -1,5 +1,30 @@
 <div class="own_note_directive_container">
-	<p>{{shown_name}}</p>
+	<div class="own_note_head">
+		<div>
+			<p>{{shown_name}}</p>
+		</div>
+		<div class="range_container">
+	          bad <input class="score_range_input" type="range" ng-model="score" ng-change="set_score()"  max="100" min="50" step="1">good 
+	    </div>
+	    <div class="score_container">
+	    	  <div class="score_value">
+	          	<span >{{score}}</span>
+	          </div>
+	          <div class="score_message"> 
+		          <span ng-show="94.4 < score ">Plausibly best debating</span>
+		          <span ng-show="89.4 < score && score < 94.5" >Brilliant arguments are extremely well-explained</span>
+		          <span ng-show="84.4 < score && score < 89.5" >highly compelling and analysed deeply</span>
+		          <span ng-show="79.4 < score && score < 84.5" >good degree of explanation and analysis</span>
+		          <span ng-show="74.4 < score && score < 84.5" >frequently persuasive</span>
+		          <span ng-show="69.4 < score && score < 74.5" >generally relevant and some explanation of them given</span>
+		          <span ng-show="64.4 < score && score < 69.5" >Relevant arguments with limited explanation</span>
+		          <span ng-show="59.4 < score && score < 64.5" >often relevant, but rarely sustained arguments</span>
+		          <span ng-show=" 55 <score && score < 59.5" > rarely relevant claims occasionally formulated as arguments</span>
+		          <span ng-show="score && score < 55" > never relevant and confused</span>
+	          </div>
+	    </div>
+	</div>
+
 	<div>
 		<div ng-repeat="each_note in own_note_obj_array">
 		  <div class="note_repeat_content">

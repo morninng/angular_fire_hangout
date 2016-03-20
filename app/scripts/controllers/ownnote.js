@@ -77,8 +77,6 @@ angular.module('angularFireHangoutApp')
 		$timeout(function() {
 			$scope.current_role = role;
 		});
-
-
   	}, function(error){
   		console.log("fail while to retrieve speaker obj" + error);
   	})

@@ -7,9 +7,36 @@
 	margin-right:20px;
 	margin-left:20px;
 
-	p{
-		font-weight:bold;
+	.own_note_head{
+		display:flex;
+		p{
+			margin-top:10px;
+			margin-bottom:10px;
+			font-weight:bold;
+		}
+		.range_container{
+			margin-left:20px;
+			margin-top:10px;
+			margin-bottom:10px;
+			text-align:center;
+			width:200px;
+		}
+
+		.score_container{
+			display:flex;
+			padding-top:10px;
+			.score_value{
+				text-align:center;
+				width:40px;
+			}
+			.score_message{
+				width:300px;
+			}
+		}
+
 	}
+
+
 
 
 	.radio_note{
