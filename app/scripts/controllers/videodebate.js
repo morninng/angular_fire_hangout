@@ -11,6 +11,7 @@ angular.module('angularFireHangoutApp')
   .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService","RecordingService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService, RecordingService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
+    $scope.own_user_id = MixideaSetting.own_user_id;
 
 /*******ui related part****************/
   	$scope.status = "break";
@@ -19,6 +20,7 @@ angular.module('angularFireHangoutApp')
   	$scope.poi_candidate_userobj_array = new Array();
   	$scope.timer_value = null;
     $scope.speech_start_time = 0;
+
 
 	var root_ref = new Firebase(MixideaSetting.firebase_url);
 

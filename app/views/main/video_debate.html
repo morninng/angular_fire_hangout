@@ -12,7 +12,7 @@
 <div id="speaker_data_container" ng-if="status=='speech' || status=='poi'">
 	<div class="speaker_info">
 		<div ng-if="status=='poi'">
-			<span class="role_name"> POI: {{poi_speaker_obj.speaker_group}}</span><br>
+			<span class="role_name">  {{poi_speaker_obj.speaker_group}}</span><br>
 			<span class="speaker_name">{{participant_mgr.user_object_data[poi_speaker_obj.id].first_name}}</span>
 		</div>
 		<div ng-if="status=='speech'">
@@ -25,10 +25,8 @@
 	</div>
 </div>
 
-<!--
- <div id="complete_button_container" ng-if="(status=='speech' || status=='poi') && (own_user_id==speaker_data.id)">
- -->
-  <div id="complete_button_container">
+
+ <div id="complete_button_container" ng-if="(status=='speech' || status=='poi') && (own_user_id==speaker_obj.id)">
  	<input class="btn btn-primary" type="button" value="complete speech" ng-click="complete_speech()">
  </div>
 
@@ -37,13 +35,15 @@
 <div id="video_canvas_dummy_layout" ng-style="video_dumy_size">
 </div>
 
-<div id="poi_button_container">
+
+
+<div id="poi_button_container"  ng-if="(status=='speech') && (participant_mgr.own_side !=speaker_obj.side) && participant_mgr.is_audience_or_debater=='debater'">
 	<input class="btn btn-danger" type="button" ng-click="poi()" value="Poi">
 </div>
-<!--
-<div id="Finish_button_container" ng-if="own_user_id==speaker_data.id || own_user_id==poi_data.id">
- -->
-<div id="Finish_button_container">
+
+
+
+<div id="Finish_button_container" ng-if="(status=='poi') && (own_user_id==speaker_obj.id || own_user_id==poi_speaker_obj.id)">
         <input class="btn btn-danger" type="button" ng-click="finish_poi()" value="Finish Poi">
 </div>
 
@@ -56,18 +56,13 @@
 			<span class="poi_candidate_name">{{participant_mgr.user_object_data[user_obj.id].first_name}}</span>
 		</div>
 
-		<!--
-		<div ng-if="own_user_id==user_id">
-		-->
-		<div class="candidate_button_container">
+		
+		<div class="candidate_button_container" ng-if="speaker_obj.id==own_user_id">
 			<input type="button" class="btn_smaller btn-primary" ng-click="take_poi(user_obj.id, user_obj.group)" value="take poi">
 		</div>
 
-		<!--
-		<div ng-if="own_user_id==user_id">
-		-->
-		
-		<div class="candidate_button_container">
+
+		<div class="candidate_button_container" ng-if="own_user_id==user_obj.id">
 			<input type="button" class="btn_smaller btn-inverse" ng-click="cancel_poi()" value="cancel poi">
 		</div>
 	

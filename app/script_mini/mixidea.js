@@ -161,6 +161,26 @@ angular.module('angularFireHangoutApp')
 			"container_main_left_above_left_up":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/video_debate.html',
 			controller: 'VideodebateCtrl'		
+			},
+			"container_main_right":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/layout_debate_tab_right_main.html',
+			controller: 'TabDebaterightmainCtrl'
+			}
+		}
+	})
+	.state('main.debate.own_note', {
+		views:{
+			debate_raight_main_content:{
+				templateUrl: MixideaSetting.source_domain + 'views/main/own_note.html',
+				controller: 'OwnnoteCtrl'
+			}
+		}
+	})
+	.state('main.debate.prep_note', {
+		views:{
+			debate_raight_main_content:{
+				templateUrl: MixideaSetting.source_domain + 'views/team_discussion/t_room_arguments.html',
+				controller: 'TeamdiscussArgumentsCtrl'
 			}
 		}
 	})
@@ -200,6 +220,7 @@ angular.module('angularFireHangoutApp')
 		views:{
 			"reflec_tab_first":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/own_note.html',
+			controller: 'OwnnoteCtrl'
 			}
 		}
 	})
@@ -252,6 +273,7 @@ angular.module('angularFireHangoutApp')
 	})
 
 }]);
+
 
 'use strict';
 
@@ -579,8 +601,8 @@ angular.module('angularFireHangoutApp')
 					$scope.main_left_above_left_width = {width:"300px"}
 					$scope.main_left_above_right_width = {width:"0px"};
 					$scope.main_left_below_width = {width:"0px"};
-					$scope.main_width = {width:"1000px"};
-					$scope.main_right_width = {width:"700px"};
+					$scope.main_width = {width:null};
+					$scope.main_right_width = {width:null};
 
 
 				break;
@@ -602,6 +624,94 @@ angular.module('angularFireHangoutApp')
 
 
 	});
+
+
+
+
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name angularFireHangoutApp.controller:OwnnoteCtrl
+ * @description
+ * # OwnnoteCtrl
+ * Controller of the angularFireHangoutApp
+ */
+angular.module('angularFireHangoutApp')
+  .controller('OwnnoteCtrl',[ '$scope','MixideaSetting','$timeout','ParticipantMgrService', function ($scope, MixideaSetting, $timeout, ParticipantMgrService) {
+
+	console.log("own_note");
+	$scope.role_obj_array = new Array();
+	$scope.current_role = null;
+	$scope.participant_mgr = ParticipantMgrService;
+
+	var NA_team_obj = [
+		{name:"PM", shown_name: "Prime Minister"},
+		{name:"LO", shown_name: "Leader Opposition"},
+		{name:"MG", shown_name: "Member Government"},
+		{name:"MO", shown_name: "Member Opposition"},
+		{name:"LOR", shown_name: "Leader Opposition Reply"},
+		{name:"PMR", shown_name: "Prime Minister Reply"}
+	];
+	var Asian_team_obj = [
+		{name:"PM", shown_name: "Prime Minister"},
+		{name:"LO", shown_name: "Leader Opposition"},
+		{name:"DPM", shown_name:"Depty Prime Minister"},
+		{name:"DLO", shown_name:"Depty Leader Opposition"},
+		{name:"GW", shown_name:"Government Whip"},
+		{name:"OW", shown_name:"Opposition Whip"},
+		{name:"LOR", shown_name:"Leader Opposition Reply"},
+		{name:"PMR", shown_name:"Prime Minister Reply"}
+	];
+	var BP_team_obj = [
+		{name:"PM", shown_name: "Prime Minister"},
+		{name:"LO", shown_name: "Leader Opposition"},
+		{name:"DPM", shown_name:"Depty Prime Minister"},
+		{name:"DLO", shown_name:"Depty Leader Opposition"},
+		{name:"MG", shown_name: "Member Government"},
+		{name:"MO", shown_name: "Member Opposition"},
+		{name:"GW", shown_name:"Government Whip"},
+		{name:"OW", shown_name:"Opposition Whip"},
+	];
+
+	$scope.$watch('participant_mgr.debate_style',function(){update_own_role_array();} );
+
+	function update_own_role_array(){
+
+		switch($scope.participant_mgr.debate_style){
+			case "NA":
+				$scope.role_obj_array = NA_team_obj;
+			break;
+			case "Asian":
+				$scope.role_obj_array = Asian_team_obj;
+			break;
+			case "BP":
+				$scope.role_obj_array = BP_team_obj;
+			break;
+		}
+	}
+
+
+	var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var video_status_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
+	var speaker_ref = video_status_ref.child("speaker");
+
+	speaker_ref.on("value", function(snapshot){
+  		var updated_speaker_obj = snapshot.val();
+  		var role = null;
+  		if(updated_speaker_obj){
+			for(var key in updated_speaker_obj){
+				var role = updated_speaker_obj[key].role;
+			}
+		}
+		$timeout(function() {
+			$scope.current_role = role;
+		});
+  	}, function(error){
+  		console.log("fail while to retrieve speaker obj" + error);
+  	})
 
 
 
@@ -845,6 +955,42 @@ angular.module('angularFireHangoutApp')
 
 /**
  * @ngdoc function
+ * @name angularFireHangoutApp.controller:TabDebaterightmainCtrl
+ * @description
+ * # TabDebaterightmainCtrl
+ * Controller of the angularFireHangoutApp
+ */
+angular.module('angularFireHangoutApp')
+  .controller('TabDebaterightmainCtrl',['$scope','ParticipantMgrService','$state', function ( $scope ,ParticipantMgrService, $state) {
+
+
+  	$scope.participant_mgr = ParticipantMgrService;
+
+	$scope.$watch('participant_mgr.own_group',function(){goto_child_state();} );
+	$scope.$watch('participant_mgr.is_audience_or_debater',function(){goto_child_state();} );
+
+	function goto_child_state(){
+	  	var own_group = $scope.participant_mgr.own_group;
+	  	var is_audience_or_debater =  $scope.participant_mgr.is_audience_or_debater
+		if(own_group && is_audience_or_debater){
+			if(is_audience_or_debater == "debater"){
+				$state.go('main.debate.prep_note');
+			}else{
+				$state.go('main.debate.own_note');
+			}
+		}
+	}
+
+	goto_child_state();
+
+
+
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc function
  * @name angularFireHangoutApp.controller:TitleMgrCtrl
  * @description
  * # TitleMgrCtrl
@@ -1028,6 +1174,7 @@ angular.module('angularFireHangoutApp')
   .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService","RecordingService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService, RecordingService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
+    $scope.own_user_id = MixideaSetting.own_user_id;
 
 /*******ui related part****************/
   	$scope.status = "break";
@@ -1036,6 +1183,7 @@ angular.module('angularFireHangoutApp')
   	$scope.poi_candidate_userobj_array = new Array();
   	$scope.timer_value = null;
     $scope.speech_start_time = 0;
+
 
 	var root_ref = new Firebase(MixideaSetting.firebase_url);
 
@@ -1532,7 +1680,7 @@ function set_mapping_data(user_id, hangout_id)
   });
 
   mapping_data_ref.onDisconnect().remove();
-
+  
 
 
 }
@@ -1797,6 +1945,118 @@ angular.module('angularFireHangoutApp')
         content_own_focused_ref.onDisconnect().remove();
 
 
+
+      }
+    };
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc directive
+ * @name angularFireHangoutApp.directive:ownNote
+ * @description
+ * # ownNote
+ */
+angular.module('angularFireHangoutApp')
+  .directive('ownNote',["$sce","MixideaSetting","$timeout","UtilService", function ($sce,MixideaSetting,$timeout, UtilService) {
+    return {
+      templateUrl: $sce.trustAsResourceUrl( MixideaSetting.source_domain + 'views/directive/ownNote_directive.html'),
+      restrict: 'E',
+      scope: {
+      	role_object:'=roleObj'
+      },
+      link: function postLink(scope, element, attrs) {
+
+        scope.shown_name = scope.role_object.shown_name;
+        scope.score = null;
+        scope.input_data = new Object();
+        scope.input_data.type = "note";
+        scope.input_data.content = null;
+        scope.own_note_obj_array = new Array();
+        console.log(scope.role_object);
+        var role_name = scope.role_object.name;
+
+
+        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        var own_note_path = "event_related/own_note/" + MixideaSetting.event_id + "/" 
+        				+ MixideaSetting.own_user_id + "/"
+        				+ role_name;
+        var own_note_ref = root_ref.child(own_note_path);
+        var own_note_content_ref = own_note_ref.child("content");
+        var own_note_score_ref = own_note_ref.child("score");
+
+        own_note_content_ref.on("child_added", function(snapshot){
+        	$timeout(function(){
+	        	var obj = new Object();
+	        	obj.id = snapshot.key();
+	        	obj.content = snapshot.val().content;
+	        	obj.counter = snapshot.val().counter;
+	        	obj.content_html = UtilService.add_linebreak_html(obj.content);
+	        	obj.type = snapshot.val().type;
+	        	obj.under_edit = false;
+        		scope.own_note_obj_array.push(obj);
+        	});
+        })
+        own_note_content_ref.on("child_changed", function(snapshot){
+        	var updated_data = snapshot.val();
+        	var updated_key = snapshot.key();
+        	console.log(updated_data);
+        	console.log(updated_key);
+        	for(var i=0; i< scope.own_note_obj_array.length; i++){
+        		if(scope.own_note_obj_array[i].id == updated_key){
+	        			scope.own_note_obj_array[i].content = updated_data.content;
+	        			scope.own_note_obj_array[i].content_html = UtilService.add_linebreak_html(updated_data.content);
+	        			scope.own_note_obj_array[i].type = updated_data.type;
+	        			scope.own_note_obj_array[i].counter = updated_data.counter;
+	        			scope.own_note_obj_array[i].under_edit = false;
+	        		
+        		}
+        	}
+        	$timeout(function(){});
+        })
+
+
+        own_note_score_ref.once("value", function(snapshot){
+            var score_value = snapshot.val();
+            scope.score = score_value;
+            $timeout(function(){});
+        })
+
+
+        scope.set_score = function(){
+            console.log(scope.score);
+            own_note_score_ref.set(scope.score);
+        }
+
+
+        scope.edit_save_input = function(each_note){
+        	console.log(each_note);
+        	var new_counter = 0
+        	if(each_note.counter !== undefined){
+        		new_counter = each_note.counter + 1;
+        	}
+        	var obj = {
+        		content:each_note.content,
+        		type: each_note.type,
+        		counter: new_counter
+        	}
+        	var this_content_ref = own_note_content_ref.child(each_note.id);
+        	this_content_ref.set(obj);
+        }
+
+
+        scope.save_input = function(){
+        	var obj = {
+        		content: scope.input_data.content,
+        		type: scope.input_data.type,
+        		counter: 0
+        	}
+        	own_note_content_ref.push(obj)
+
+        	scope.input_data.content = null;
+        	scope.input_data.type = "note";
+        }
 
       }
     };
@@ -2431,7 +2691,7 @@ angular.module('angularFireHangoutApp')
               login:false,
               css_style:"participant_box_default"
             },
-            WG:{
+            GW:{
               user_name:'no applilcant',
               profile_pict:no_applicant_img,
               applicant:false,
@@ -2442,7 +2702,7 @@ angular.module('angularFireHangoutApp')
               login:false,
               css_style:"participant_box_default"
             },
-            WO:{
+            OW:{
               user_name:'no applilcant',
               profile_pict:no_applicant_img,
               applicant:false,
@@ -3496,12 +3756,21 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('TeamdiscussArgumentsCtrl',["$scope","MixideaSetting",'$timeout', function ($scope, MixideaSetting,$timeout) {
+  .controller('TeamdiscussArgumentsCtrl',["$scope","MixideaSetting",'$timeout','ParticipantMgrService', function ($scope, MixideaSetting,$timeout, ParticipantMgrService) {
 
   $scope.arg_list = new Array();
   $scope.defintro_list = new Array();
 
   var team_val = MixideaSetting.team_discuss_team_side;
+  if(!team_val){
+  	// this part is only for main room argument
+  	$scope.participant_mgr = ParticipantMgrService;
+  	team_val = $scope.participant_mgr.own_group;
+
+  }
+
+
+
   var event_id_val = MixideaSetting.event_id;
   var deb_style_val = null;
   var root_ref = new Firebase("https://mixidea.firebaseio.com/");
