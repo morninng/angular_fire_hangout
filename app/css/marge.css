@@ -175,53 +175,54 @@
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000320}}
 #container_main_left {
   display: table-cell;
+  vertical-align: top;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000324}}
 #container_main_left_above {
   display: flex;
   align-items: stretch;
   width: 100%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000328}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000329}}
 #container_main_left_above_left {
   /*display: table-cell;*/
   width: 300px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000333}}
 #container_main_left_above_left_up {
   /*video area*/
   width: 100%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000337}}
 #container_main_left_above_left_below {
   /*impression area*/
   width: 100%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000340}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000341}}
 #container_main_left_above_right {
   /*Direction Bar*/
   width: 300px;
   vertical-align: top;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000345}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000346}}
 #container_main_left_below {
   width: 100%;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000349}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000350}}
 #container_main_right {
   display: table-cell;
   vertical-align: top;
   padding: 5px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000355}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_main_structure\.scss}line{font-family:\0000356}}
 #container_main_left_above_left {
   width: 300px;
 }
@@ -1283,6 +1284,446 @@ textarea {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_own_note\.scss}line{font-family:\000034}}
 .non_speaker {
   color: black;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\000031}}
+#start_speech_container {
+  width: 100%;
+  background-color: #FFE4E1;
+  padding-top: 5px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\000035}}
+#start_speech_container p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: large;
+  text-align: center;
+  font-weight: bold;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000312}}
+#start_speech_container ul {
+  margin-top: 5px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0px;
+  justify-content: space-around;
+  margin-right: auto;
+  padding-left: 10px;
+  flex-wrap: wrap;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000322}}
+#start_speech_container ul li {
+  display: inline-block;
+  margin: 10px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000330}}
+#speaker_data_container {
+  background-color: #FFF5EE;
+  width: 100%;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000334}}
+#speaker_data_container .speaker_info {
+  display: flex;
+  flex-direction: row;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000338}}
+#speaker_data_container .speaker_info .role_name {
+  font-weight: bold;
+  font-size: large;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000344}}
+#speaker_data_container .speaker_info .speaker_name {
+  font-size: large;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000348}}
+#speaker_data_container .speech_timer {
+  text-align: right;
+  font-weight: bold;
+  margin-left: 10px;
+  margin-right: 10px;
+  color: #0000ff;
+  font-size: x-large;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000358}}
+#complete_button_container {
+  width: 100%;
+  background-color: #F0FFF0;
+  text-align: right;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000366}}
+#poi_button_container {
+  width: 100%;
+  background-color: #F0FFF0;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: right;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000375}}
+#Finish_button_container {
+  width: 100%;
+  background-color: #E6E6FA;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  text-align: right;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000396}}
+#poi_candidate_container > div {
+  background-color: #F5F5F5;
+  padding-right: 20px;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003104}}
+#poi_candidate_container .poi_list_container {
+  display: flex;
+  border: 2px solid #00FF00;
+  padding-right: 5px;
+  height: 40px;
+  background-color: #FFFFFF;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003111}}
+#poi_candidate_container .poi_list_container .poi_profile {
+  height: 40px;
+  display: table-cell;
+  font-size: 40px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003115}}
+#poi_candidate_container .poi_list_container .poi_profile img {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 30px;
+  width: auto;
+  margin-left: 10px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003122}}
+#poi_candidate_container .poi_list_container .poi_profile span {
+  vertical-align: middle;
+  font-size: 16px;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003131}}
+#poi_candidate_container .poi_list_container .candidate_button_container {
+  text-align: center;
+  flex: 1;
+  margin-left: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\000032}}
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\0000326}}
+.btn_smaller {
+  display: inline-block;
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\0000349}}
+.btn:hover,
+.btn:focus,
+.btn.focus {
+  color: #333;
+  text-decoration: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\0000355}}
+.btn:active,
+.btn.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\0000362}}
+.btn.disabled,
+.btn[disabled],
+fieldset[disabled] .btn {
+  pointer-events: none;
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  opacity: .65;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\0000378}}
+.btn_smaller:hover,
+.btn_smaller:focus,
+.btn_smaller.focus {
+  color: #333;
+  text-decoration: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\0000384}}
+.btn_smaller:active,
+.btn_smaller.active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\0000391}}
+.btn_smaller.disabled,
+.btn_smaller[disabled],
+fieldset[disabled] .btn_smaller {
+  pointer-events: none;
+  cursor: not-allowed;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  opacity: .65;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003112}}
+.btn-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003118}}
+.btn-primary {
+  color: #fff;
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003125}}
+.btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003131}}
+.btn-inverse {
+  color: #000000;
+  background-color: #D3D3D3;
+  border-color: #000000;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003140}}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary.focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #3071a9;
+  border-color: #285e8e;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003150}}
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  background-image: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003155}}
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled.focus,
+.btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary.focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003176}}
+.btn-primary .badge {
+  color: #428bca;
+  background-color: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003182}}
+.btn-success:hover,
+.btn-success:focus,
+.btn-success.focus,
+.btn-success:active,
+.btn-success.active,
+.open > .dropdown-toggle.btn-success {
+  color: #fff;
+  background-color: #449d44;
+  border-color: #398439;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003192}}
+.btn-success:active,
+.btn-success.active,
+.open > .dropdown-toggle.btn-success {
+  background-image: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003197}}
+.btn-success.disabled,
+.btn-success[disabled],
+fieldset[disabled] .btn-success,
+.btn-success.disabled:hover,
+.btn-success[disabled]:hover,
+fieldset[disabled] .btn-success:hover,
+.btn-success.disabled:focus,
+.btn-success[disabled]:focus,
+fieldset[disabled] .btn-success:focus,
+.btn-success.disabled.focus,
+.btn-success[disabled].focus,
+fieldset[disabled] .btn-success.focus,
+.btn-success.disabled:active,
+.btn-success[disabled]:active,
+fieldset[disabled] .btn-success:active,
+.btn-success.disabled.active,
+.btn-success[disabled].active,
+fieldset[disabled] .btn-success.active {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003218}}
+.btn-success .badge {
+  color: #5cb85c;
+  background-color: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003226}}
+.btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003231}}
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger.focus,
+.btn-danger:active,
+.btn-danger.active,
+.open > .dropdown-toggle.btn-danger {
+  color: #fff;
+  background-color: #c9302c;
+  border-color: #ac2925;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003241}}
+.btn-danger:active,
+.btn-danger.active,
+.open > .dropdown-toggle.btn-danger {
+  background-image: none;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003246}}
+.btn-danger.disabled,
+.btn-danger[disabled],
+fieldset[disabled] .btn-danger,
+.btn-danger.disabled:hover,
+.btn-danger[disabled]:hover,
+fieldset[disabled] .btn-danger:hover,
+.btn-danger.disabled:focus,
+.btn-danger[disabled]:focus,
+fieldset[disabled] .btn-danger:focus,
+.btn-danger.disabled.focus,
+.btn-danger[disabled].focus,
+fieldset[disabled] .btn-danger.focus,
+.btn-danger.disabled:active,
+.btn-danger[disabled]:active,
+fieldset[disabled] .btn-danger:active,
+.btn-danger.disabled.active,
+.btn-danger[disabled].active,
+fieldset[disabled] .btn-danger.active {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_bootstrap_partial\.scss}line{font-family:\00003267}}
+.btn-danger .badge {
+  color: #d9534f;
+  background-color: #fff;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_direction\.scss}line{font-family:\000033}}
+#direction_container .direction_button {
+  text-align: center;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_direction\.scss}line{font-family:\0000311}}
+#preparation_time p {
+  text-align: right;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_direction\.scss}line{font-family:\0000315}}
+#preparation_time span {
+  display: block;
+  margin-top: 0px;
+  margin-left: auto;
+  margin-right: 20px;
+  font-family: sans-serif;
+  font-size: x-large;
+  text-align: right;
+  color: #ff0000;
 }
 
 /*# sourceMappingURL=marge.css.map */

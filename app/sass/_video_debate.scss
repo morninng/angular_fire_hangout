@@ -1,0 +1,144 @@
+#start_speech_container{
+	width:100%;
+	background-color: #FFE4E1;
+	padding-top:5px;
+	p{
+		margin-top:0px;
+		margin-bottom:0px;
+		font-size: large;
+		text-align:center;
+		font-weight: bold;
+	}
+	ul{
+		margin-top:5px;
+		list-style-type: none;
+		display:flex;
+		flex-direction:row;
+		margin-bottom:0px;
+		justify-content:space-around;
+		margin-right: auto;
+		padding-left: 10px;
+		flex-wrap:wrap;
+		li{
+			display:inline-block;
+			margin:10px;
+		}
+	}
+
+}
+
+#speaker_data_container{
+	background-color: #FFF5EE;
+	width:100%;
+
+	.speaker_info{
+		display: flex;
+		flex-direction: row;
+
+		.role_name{
+			font-weight:bold;
+			font-size: large;
+			margin-left:10px;
+			margin-right:10px;
+		}
+		.speaker_name{
+			font-size: large;
+		}
+	}
+	.speech_timer{
+		text-align:right;
+		font-weight:bold;
+		margin-left:10px;
+		margin-right:10px;
+		color: #0000ff;
+		font-size: x-large;
+	}
+}
+
+#complete_button_container{
+	width:100%;
+	background-color: #F0FFF0;
+	text-align:right;
+	padding-right:10px;
+	padding-top:3px;
+	padding-bottom:3px;
+}
+#poi_button_container{
+	width:100%;
+	background-color: #F0FFF0;
+	padding-right:20px;
+	padding-top:5px;
+	padding-bottom:5px;
+	text-align:right;
+}
+
+#Finish_button_container{
+	width:100%;
+	background-color: #E6E6FA;
+	padding-right:20px;
+	padding-top:5px;
+	padding-bottom:5px;
+	text-align:right;
+}
+
+
+
+
+$poi_image_height: 30px;
+$poi_image_vertical_margin: 5px;
+$poi_span_vertical_margin: 10px;
+$poi_box_height: $poi_image_height + $poi_image_vertical_margin * 2;
+
+
+
+#poi_candidate_container{
+
+	>div{
+		background-color: #F5F5F5;
+		padding-right:20px;
+		padding-left:10px;
+		padding-top:5px;
+		padding-bottom:5px;
+
+	}
+	.poi_list_container{
+		display: flex;
+		border: 2px solid #00FF00;
+		padding-right:5px;
+		height: $poi_box_height;
+		background-color: #FFFFFF;
+
+		.poi_profile{
+			height:$poi_box_height;
+			display:table-cell;
+			font-size:$poi_box_height;
+			img{
+				margin-top: $poi_image_vertical_margin;
+				margin-bottom: $poi_image_vertical_margin;
+				height:$poi_image_height;
+				width:auto;
+				margin-left:10px;
+			}
+			span{
+				vertical-align:middle;
+				font-size:16px;
+			}
+
+
+		}
+
+
+		.candidate_button_container{
+			text-align:center;
+			flex:1;
+
+			margin-left: auto;
+			margin-top:auto;
+			margin-bottom:auto
+		}
+
+	}
+
+
+
+}

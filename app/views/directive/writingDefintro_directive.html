@@ -13,10 +13,10 @@
 			</div>
 			<div class="defintro_control">
 				<div ng-show="writing_bymyself">
-					<input type="button" value="save" ng-click="save_defintro()">
+					<input type="button" value="save" class="btn_smaller btn-primary" ng-click="save_defintro()">
 				</div>
 				<div ng-show="!writing_bymyself && !writing_byothers">
-					<input type="button" value="edit" ng-click="edit_defintro()">
+					<input type="button" value="edit" class="btn_smaller btn-inverse" ng-click="edit_defintro()">
 				</div>
 				<div class="writer_icon" ng-if="writing_byothers">
 					<img  class="editinguser_img" ng-src="{{participant_mgr.user_object_data[others_id].profile_pict}}">

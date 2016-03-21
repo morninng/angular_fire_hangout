@@ -1,10 +1,10 @@
 
 
 <div id="start_speech_container" ng-if="status=='break' && participant_mgr.is_audience_or_debater=='debater'">
-	<span>Click the role name to start speech</span>
+	<p>Click the role name to start speech</>
 	<ul>
 		<li ng-repeat="role in participant_mgr.own_role_array">
-			<input type="button" ng-click="speech_start(role)" value={{role}}>
+			<input class="btn btn-primary" type="button" ng-click="speech_start(role)" value={{role}}>
 		</li>
 	</ul>
 </div>
@@ -12,11 +12,10 @@
 <div id="speaker_data_container" ng-if="status=='speech' || status=='poi'">
 	<div class="speaker_info">
 		<div ng-if="status=='poi'">
-			<span class="role_name"> {{poi_speaker_obj.speaker_group}}</span><br>
+			<span class="role_name"> POI: {{poi_speaker_obj.speaker_group}}</span><br>
 			<span class="speaker_name">{{participant_mgr.user_object_data[poi_speaker_obj.id].first_name}}</span>
 		</div>
 		<div ng-if="status=='speech'">
-			speech
 			<span class="role_name"> {{speaker_obj.full_role_name}}</span>
 			<span class="speaker_name">{{speaker_obj.name}}</span>
 		</div>
@@ -30,7 +29,7 @@
  <div id="complete_button_container" ng-if="(status=='speech' || status=='poi') && (own_user_id==speaker_data.id)">
  -->
   <div id="complete_button_container">
- 	<input type="button" value="complete speech" ng-click="complete_speech()">
+ 	<input class="btn btn-primary" type="button" value="complete speech" ng-click="complete_speech()">
  </div>
 
 
@@ -39,34 +38,39 @@
 </div>
 
 <div id="poi_button_container">
-	<input type="button" ng-click="poi()" value="Poi">
+	<input class="btn btn-danger" type="button" ng-click="poi()" value="Poi">
 </div>
 <!--
 <div id="Finish_button_container" ng-if="own_user_id==speaker_data.id || own_user_id==poi_data.id">
  -->
- <div id="Finish_button_container">
-        <input type="button" ng-click="finish_poi()" value="Finish Poi">
+<div id="Finish_button_container">
+        <input class="btn btn-danger" type="button" ng-click="finish_poi()" value="Finish Poi">
 </div>
 
 <div id="poi_candidate_container">
-	<ul>
-	<li ng-repeat="user_obj in poi_candidate_userobj_array">
+  <div>
+	<div class="poi_list_container" ng-repeat="user_obj in poi_candidate_userobj_array">
+
 		<div class="poi_profile">
 			<img class="poi_candidate_img" ng-src="{{participant_mgr.user_object_data[user_obj.id].profile_pict}}">
-			<span class="poi_candidate_name">{{participant_mgr.user_object_data[user_id].first_name}}</span>
+			<span class="poi_candidate_name">{{participant_mgr.user_object_data[user_obj.id].first_name}}</span>
 		</div>
+
 		<!--
 		<div ng-if="own_user_id==user_id">
 		-->
-		<div>
-			<input type="button" ng-click="take_poi(user_obj.id, user_obj.group)" value="take poi">
+		<div class="candidate_button_container">
+			<input type="button" class="btn_smaller btn-primary" ng-click="take_poi(user_obj.id, user_obj.group)" value="take poi">
 		</div>
+
 		<!--
 		<div ng-if="own_user_id==user_id">
 		-->
-		<div>
-			<input type="button" ng-click="cancel_poi()" value="cancel poi">
+		
+		<div class="candidate_button_container">
+			<input type="button" class="btn_smaller btn-inverse" ng-click="cancel_poi()" value="cancel poi">
 		</div>
-	</li>
-	</ul>
+	
+	</div>
+  </div>
 </div>
