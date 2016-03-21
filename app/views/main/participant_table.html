@@ -30,7 +30,7 @@
 				<img ng-src={{value.profile_pict}}>
 				<div class="participant_name">{{value.user_name}}</div>
 				<input ng-if="value.id==own_user_id" type="button" value="cancel" class="btn_smaller btn-inverse" ng-click="cancel(key)">
-				<input ng-if="value.applicant==false && (value.team==own_team || participant_mgr.is_audience_yourself)" type="button" value="&nbsp;join&nbsp;" class="btn_smaller btn-primary" ng-click="join(key)">
+				<input ng-if="value.applicant==false && (value.group==participant_mgr.own_group || participant_mgr.is_audience_or_debater == 'Audience')" type="button" value="&nbsp;join&nbsp;" class="btn_smaller btn-primary" ng-click="join(key)">
 				<input ng-if="value.applicant==true && value.login==false" type="button" value="decline" class="btn_smaller btn-inverse" ng-click="decline(key)">
 			</div> 
 		</div>
@@ -67,7 +67,7 @@
 				<img ng-src={{value.profile_pict}}>
 				<div class="participant_name">{{value.user_name}}</div>
 				<input ng-if="value.id==own_user_id" type="button" value="cancel" class="btn_smaller btn-inverse" ng-click="cancel(key)">
-				<input ng-if="value.applicant==false && (value.team==own_team || participant_mgr.is_audience_yourself)" type="button" value="&nbsp;join&nbsp;" class="btn_smaller btn-primary" ng-click="join(key)">
+				<input ng-if="value.applicant==false && (value.group==participant_mgr.own_group || participant_mgr.is_audience_or_debater == 'Audience')" type="button" value="&nbsp;join&nbsp;" class="btn_smaller btn-primary" ng-click="join(key)">
 				<input ng-if="value.applicant==true && value.login==false" type="button" value="decline" class="btn_smaller btn-inverse" ng-click="decline(key)">
 			</div> 
 		</div>
@@ -102,7 +102,7 @@
 				<img ng-src={{value.profile_pict}}>
 				<div class="participant_name">{{value.user_name}}</div>
 				<input ng-if="value.id==own_user_id" type="button" value="cancel" class="btn_smaller btn-inverse" ng-click="cancel(key)">
-				<input ng-if="value.applicant==false && (value.team==own_team || participant_mgr.is_audience_yourself)" type="button" class="btn_smaller btn-primary" value="&nbsp;join&nbsp;" ng-click="join(key)">
+				<input ng-if="value.applicant==false && (value.group==participant_mgr.own_group || participant_mgr.is_audience_or_debater == 'Audience')" type="button" class="btn_smaller btn-primary" value="&nbsp;join&nbsp;" ng-click="join(key)">
 				<input ng-if="value.applicant==true && value.login==false" type="button" class="btn_smaller btn-inverse" value="decline" ng-click="decline(key)">
 			</div> 
 		</div>
@@ -121,10 +121,11 @@
 				<img ng-src={{value.profile_pict}}>
 				<div class="participant_name">{{value.user_name}}</div>
 				<input ng-if="value.id==own_user_id" type="button" value="cancel" class="btn_smaller btn-inverse" ng-click="cancel(key)">
-				<input ng-if="value.applicant==false && (value.team==own_team || participant_mgr.is_audience_yourself)" type="button" class="btn_smaller btn-primary" value="&nbsp;join&nbsp;" ng-click="join(key)">
+				<input ng-if="value.applicant==false && (value.group==participant_mgr.own_group || participant_mgr.is_audience_or_debater == 'Audience')" type="button" class="btn_smaller btn-primary" value="&nbsp;join&nbsp;" ng-click="join(key)">
 				<input ng-if="value.applicant==true && value.login==false" type="button" value="decline" class="btn_smaller btn-inverse" ng-click="decline(key)">
 			</div> 
 		</div>
+
 
 
 		<p id="audience_list_title">Audiences</p>
