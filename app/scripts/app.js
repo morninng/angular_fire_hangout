@@ -22,9 +22,9 @@ angular
 angular.module('angularFireHangoutApp')
   .run(['$state','MixideaSetting', function($state, MixideaSetting) {
 
-  	console.log("event id:" + MixideaSetting.event_id);
-  	console.log("user id : " + MixideaSetting.own_user_id);
-  	console.log("room type : " + MixideaSetting.room_type);
+  	console.log("mixidea setting")
+  	console.log(MixideaSetting)
+
 	 var event_id = MixideaSetting.event_id;
 	 var room_type = MixideaSetting.room_type;
 

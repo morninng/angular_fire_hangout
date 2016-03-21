@@ -51,6 +51,10 @@
         <!-- endbuild -->
 
 
+<script src="https://recording.mixidea.org:3000/socket.io.js"></script>
+<script src="https://recording.mixidea.org:3000/socket.io-stream.js"></script>
+
+
 ]]>
 
   </Content>

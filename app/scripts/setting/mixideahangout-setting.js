@@ -61,7 +61,9 @@ function set_mapping_data(user_id, hangout_id)
       alert("mapping failed" + error);
     } else {
       console.log("hangout id " + hangout_id + " is set");
+      console.log("with firebase user id " + user_id + " is set");
     }
   });
 
+  mapping_data_ref.onDisconnect().remove();
 }

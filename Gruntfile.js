@@ -44,7 +44,7 @@ module.exports = function (grunt) {
 
     concat: {
       files: {
-        src: ['./app/scripts/*.js', './app/scripts/controllers/*.js','./app/scripts/setting/*.js','./app/scripts/directives/*.js', './app/scripts/services/*.js', './app/scripts/controllers/team_discuss/*.js'],
+        src: ['./app/scripts/*.js', './app/scripts/controllers/*.js','./app/scripts/setting/mixideahangout-setting.js','./app/scripts/directives/*.js', './app/scripts/services/*.js', './app/scripts/controllers/team_discuss/*.js'],
         dest: './app/script_mini/mixidea.js',
       }
     },
