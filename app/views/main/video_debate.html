@@ -1,6 +1,6 @@
 
 
-<div id="start_speech_container" ng-if="status=='break' && participant_mgr.is_audience_or_debater=='debater'">
+<div id="start_speech_container" ng-show="status=='break' && participant_mgr.is_audience_or_debater=='debater'">
 	<p>Click the role name to start speech</>
 	<ul>
 		<li ng-repeat="role in participant_mgr.own_role_array">
@@ -9,7 +9,7 @@
 	</ul>
 </div>
 
-<div id="speaker_data_container" ng-if="status=='speech' || status=='poi'">
+<div id="speaker_data_container" ng-show="status=='speech' || status=='poi'">
 	<div class="speaker_info">
 		<div ng-if="status=='poi'">
 			<span class="role_name">  {{poi_speaker_obj.speaker_group}}</span><br>
@@ -26,24 +26,23 @@
 </div>
 
 
- <div id="complete_button_container" ng-if="(status=='speech' || status=='poi') && (own_user_id==speaker_obj.id)">
+ <div id="complete_button_container" ng-show="(status=='speech' || status=='poi') && (own_user_id==speaker_obj.id)">
  	<input class="btn btn-primary" type="button" value="complete speech" ng-click="complete_speech()">
  </div>
 
 
 
-<div id="video_canvas_dummy_layout" ng-style="video_dumy_size">
+<div id="video_canvas_dummy_layout" ng-style="video_dumy_size"> video dummy area
 </div>
 
 
-
-<div id="poi_button_container"  ng-if="(status=='speech') && (participant_mgr.own_side !=speaker_obj.side) && participant_mgr.is_audience_or_debater=='debater'">
+<div id="poi_button_container"  ng-show="(status=='speech') && (participant_mgr.own_side !=speaker_obj.side) && participant_mgr.is_audience_or_debater=='debater'">
 	<input class="btn btn-danger" type="button" ng-click="poi()" value="Poi">
 </div>
 
 
 
-<div id="Finish_button_container" ng-if="(status=='poi') && (own_user_id==speaker_obj.id || own_user_id==poi_speaker_obj.id)">
+<div id="Finish_button_container" ng-show="(status=='poi') && (own_user_id==speaker_obj.id || own_user_id==poi_speaker_obj.id)">
         <input class="btn btn-danger" type="button" ng-click="finish_poi()" value="Finish Poi">
 </div>
 

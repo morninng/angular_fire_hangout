@@ -1335,7 +1335,11 @@ angular.module('angularFireHangoutApp')
           manage_speaker(null, "break");
   				$scope.status = "break";
   			}
+
+        console.log("video status call update_video_canvas_position");
+        setTimeout(update_video_canvas_position, 1000);
   		});
+
   	}
 
 
@@ -1348,6 +1352,70 @@ angular.module('angularFireHangoutApp')
       StopTimer()
       //sound_mgr.play_sound_speech_stop()
     }
+
+/*********** video feed management *****/
+
+/*video feed init*/
+    var canvas = null;
+    var feed = null;
+    var ratio = 16/9;
+    var video_area_height = 0;
+    var video_area_element = document.getElementById("video_canvas_dummy_layout");
+    var video_width = video_area_element.offsetWidth;
+    video_area_height = video_width / ratio;
+    var video_area_height_val = video_area_height + "px"
+    $scope.video_dumy_size = {height:video_area_height_val};
+
+    if(MixideaSetting.hangout_execution){
+      canvas = gapi.hangout.layout.getVideoCanvas();
+      feed = gapi.hangout.layout.getDefaultVideoFeed();
+      ratio = canvas.getAspectRatio();
+      canvas.setWidth(video_width);
+      canvas.setVisible(true);
+    }
+
+/*video position update*/
+
+    function update_video_canvas_position(){
+
+      console.log("update_video_canvas_position");
+/*
+      var video_area_element = document.getElementById("video_canvas_dummy_layout");
+      var video_area_offsetTop = video_area_element.offsetTop;
+      console.log("video_area_offsetTop " + video_area_offsetTop)
+*/
+
+
+      var container_second_element = document.getElementById("container_second_top");
+      var container_second_height = container_second_element.offsetHeight;
+      console.log("container_second_height" + container_second_height);
+
+      var container_top_element = document.getElementById("container_top");
+      var container_top_height = container_top_element.offsetHeight;
+      console.log("container_top_height" + container_top_height)
+
+
+      var start_speech_element = document.getElementById("start_speech_container");
+      var start_speech_height = start_speech_element.offsetHeight;
+      console.log("start_speech_height" + start_speech_height)
+
+      var speaker_data_element = document.getElementById("speaker_data_container");
+      var speaker_data_height = speaker_data_element.offsetHeight;
+      console.log("speaker_data_height" + speaker_data_height)
+
+      var complete_button_element = document.getElementById("complete_button_container");
+      var complete_button_height = complete_button_element.offsetHeight;
+      console.log("complete_button_height" + complete_button_height)
+
+
+      var absolute_offset = complete_button_height + speaker_data_height + start_speech_height + container_top_height + container_second_height;
+      console.log("absolute_offset" + absolute_offset);
+      if(MixideaSetting.hangout_execution){
+        canvas.setPosition(0,absolute_offset);
+      }
+    }
+
+    update_video_canvas_position();
 
 /*******time count********/
 
@@ -1475,7 +1543,8 @@ angular.module('angularFireHangoutApp')
     hangout_appid: "211272797315",
     team_discuss_team_side: global_team_side,
     team_discuss_own_team: global_own_team_side,
-    recording_domain: 'https://recording.mixidea.org:3000/'
+    recording_domain: 'https://recording.mixidea.org:3000/',
+    hangout_execution: true
   });
 
 function set_mapping_data(user_id, hangout_id)
