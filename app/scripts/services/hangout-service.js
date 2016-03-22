@@ -38,6 +38,7 @@ angular.module('angularFireHangoutApp')
     }
 
     this.set_video_visible = function(flag){
+        console.log("set_video_visible" +  flag)
 	    if(MixideaSetting.hangout_execution){
     		canvas.setVisible(flag);
     	}

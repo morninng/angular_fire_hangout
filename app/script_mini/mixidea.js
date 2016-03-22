@@ -1469,14 +1469,18 @@ angular.module('angularFireHangoutApp')
   .controller('StaticvideoCtrl',[ '$scope', 'MixideaSetting','HangoutService',  function ($scope, MixideaSetting, HangoutService) {
 
 
-    var video_area_element = document.getElementById("static__dummy_layout");
-    var video_width = video_area_element.offsetWidth;
-    var ratio = HangoutService.get_video_ratio;
-    var video_area_height = video_width / ratio;
-    var video_area_height_val = video_area_height + "px"
-    $scope.video_dumy_size = {height:video_area_height_val};
+    function update_video_width(){
+      var video_area_element = document.getElementById("static__dummy_layout");
+      var video_width = video_area_element.offsetWidth;
+      var ratio = HangoutService.get_video_ratio;
+      var video_area_height = video_width / ratio;
+      var video_area_height_val = video_area_height + "px"
+      $scope.video_dumy_size = {height:video_area_height_val};
 
-    HangoutService.set_video_width(video_width)
+      HangoutService.set_video_width(video_width)
+
+    }
+
 
     function update_video_canvas_position(){
 
@@ -1494,13 +1498,16 @@ angular.module('angularFireHangoutApp')
       console.log("absolute_offset" + absolute_offset);
 
 
+      HangoutService.set_video_visible(true);
       HangoutService.set_video_position(0,absolute_offset);
 
     }
-
+    console.log("set_video_visible: true");
+    HangoutService.set_video_visible(true);
+    update_video_width()
+    setTimeout(update_video_width, 1000);
     update_video_canvas_position();
     setTimeout(update_video_canvas_position, 1000);
-    HangoutService.set_video_visible(true);
 
   }]);
 
@@ -2343,6 +2350,7 @@ angular.module('angularFireHangoutApp')
     }
 
     this.set_video_visible = function(flag){
+        console.log("set_video_visible" +  flag)
 	    if(MixideaSetting.hangout_execution){
     		canvas.setVisible(flag);
     	}
@@ -3519,7 +3527,7 @@ angular.module('angularFireHangoutApp')
  * Factory in the angularFireHangoutApp.
  */
 angular.module('angularFireHangoutApp')
-  .factory('StatusMgrService',['MixideaSetting','$state', function (MixideaSetting,$state) {
+  .factory('StatusMgrService',['MixideaSetting','$state','HangoutService', function (MixideaSetting,$state, HangoutService) {
 
   var StatusMgr_Object = new Object()
   StatusMgr_Object.game_status = null;
@@ -3536,6 +3544,11 @@ angular.module('angularFireHangoutApp')
       }else{
         $state.go('main.' + value);
       }
+
+      if(value =='reflection' || value=='complete'){
+        HangoutService.set_video_visible(false);
+      }
+
     }
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
