@@ -3865,19 +3865,55 @@ angular.module('angularFireHangoutApp')
 		argument_id_ref.push(dummy_content);
 	}
 
-
-
-
   }
 
 
 
 
+	function set_pain_size(){
+		console.log("set_pain_size");
+
+/*height*/
+	    var main_layout_element = document.getElementById("container_main");
+	    var main_position = main_layout_element.offsetTop;
+	    var parent_height = window.innerHeight;
+	    var expected_height = parent_height - main_position - 10;
+
+	    var argument_layout_element = document.getElementById("argument_container");
+	    var argument_layout_current_height = argument_layout_element.offsetHeight;
+
+	    var diff_height = expected_height - argument_layout_current_height;
+	    var diff_height_abs = Math.abs(diff_height);
+
+
+/*width*/
+	    var left_position = 0;
+	    var parent_width = window.innerWidth;
+	    var expected_width = parent_width - left_position - 10
+	    var main_layout_current_width = argument_layout_element.offsetWidth;
+	    var diff_width = expected_width - main_layout_current_width;
+	    var diff_width_abs = Math.abs(diff_width);
+
+
+	    if( diff_height_abs > 5 || diff_width_abs > 5){
+	    	var adjust_height_str = String(expected_height) + "px";
+	    	var adjust_width_str = String(expected_width) + "px";
+    		$scope.layout_style = {height:adjust_height_str,width:adjust_width_str, overflow:"scroll"};
+    		$timeout(function() {});
+    	}
+	}
+
+	set_pain_size();
+	setTimeout(set_pain_size,1000);
+	var argument_layout_element = document.getElementById("argument_container");
+	argument_layout_element.onscroll = function(){
+		set_pain_size();
+	}
 
 
 
 
-  	$scope.name="kkkk";
+
 
   }]);
 
