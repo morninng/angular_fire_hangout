@@ -1148,7 +1148,7 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService","RecordingService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService, RecordingService) {
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService","RecordingService","HangoutService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService, RecordingService, HangoutService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
     $scope.own_user_id = MixideaSetting.own_user_id;
@@ -1314,6 +1314,7 @@ angular.module('angularFireHangoutApp')
   			}
 
         console.log("video status call update_video_canvas_position");
+        setTimeout(update_video_canvas_position, 100);
         setTimeout(update_video_canvas_position, 1000);
   		});
 
@@ -1332,37 +1333,22 @@ angular.module('angularFireHangoutApp')
 
 /*********** video feed management *****/
 
-/*video feed init*/
-    var canvas = null;
-    var feed = null;
-    var ratio = 16/9;
-    var video_area_height = 0;
+/*create video dummy feed init*/
     var video_area_element = document.getElementById("video_canvas_dummy_layout");
     var video_width = video_area_element.offsetWidth;
-    video_area_height = video_width / ratio;
+    var ratio = HangoutService.get_video_ratio;
+    var video_area_height = video_width / ratio;
     var video_area_height_val = video_area_height + "px"
     $scope.video_dumy_size = {height:video_area_height_val};
 
-    if(MixideaSetting.hangout_execution){
-      canvas = gapi.hangout.layout.getVideoCanvas();
-      feed = gapi.hangout.layout.getDefaultVideoFeed();
-      ratio = canvas.getAspectRatio();
-      canvas.setWidth(video_width);
-      canvas.setVisible(true);
-    }
+    HangoutService.set_video_width(video_width)
+
 
 /*video position update*/
 
     function update_video_canvas_position(){
 
       console.log("update_video_canvas_position");
-/*
-      var video_area_element = document.getElementById("video_canvas_dummy_layout");
-      var video_area_offsetTop = video_area_element.offsetTop;
-      console.log("video_area_offsetTop " + video_area_offsetTop)
-*/
-
-
       var container_second_element = document.getElementById("container_second_top");
       var container_second_height = container_second_element.offsetHeight;
       console.log("container_second_height" + container_second_height);
@@ -1384,15 +1370,15 @@ angular.module('angularFireHangoutApp')
       var complete_button_height = complete_button_element.offsetHeight;
       console.log("complete_button_height" + complete_button_height)
 
-
       var absolute_offset = complete_button_height + speaker_data_height + start_speech_height + container_top_height + container_second_height;
       console.log("absolute_offset" + absolute_offset);
-      if(MixideaSetting.hangout_execution){
-        canvas.setPosition(0,absolute_offset);
-      }
+      HangoutService.set_video_position(0,absolute_offset);
+
     }
 
     update_video_canvas_position();
+    HangoutService.set_video_visible(true);
+
 
 /*******time count********/
 
@@ -1480,27 +1466,17 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('StaticvideoCtrl',[ '$scope', 'MixideaSetting', function ($scope, MixideaSetting) {
+  .controller('StaticvideoCtrl',[ '$scope', 'MixideaSetting','HangoutService',  function ($scope, MixideaSetting, HangoutService) {
 
 
-    var canvas = null;
-    var feed = null;
-    var ratio = 16/9;
-    var video_area_height = 0;
     var video_area_element = document.getElementById("static__dummy_layout");
     var video_width = video_area_element.offsetWidth;
-    video_area_height = video_width / ratio;
+    var ratio = HangoutService.get_video_ratio;
+    var video_area_height = video_width / ratio;
     var video_area_height_val = video_area_height + "px"
     $scope.video_dumy_size = {height:video_area_height_val};
-    console.log("video_area_height_val :" + video_area_height_val)
 
-    if(MixideaSetting.hangout_execution){
-      canvas = gapi.hangout.layout.getVideoCanvas();
-      feed = gapi.hangout.layout.getDefaultVideoFeed();
-      ratio = canvas.getAspectRatio();
-      canvas.setWidth(video_width);
-      canvas.setVisible(true);
-    }
+    HangoutService.set_video_width(video_width)
 
     function update_video_canvas_position(){
 
@@ -1516,13 +1492,18 @@ angular.module('angularFireHangoutApp')
 
       var absolute_offset =  container_top_height + container_second_height;
       console.log("absolute_offset" + absolute_offset);
-      if(MixideaSetting.hangout_execution){
-        canvas.setPosition(0,absolute_offset);
-      }
+
+
+      HangoutService.set_video_position(0,absolute_offset);
+
     }
+
+    update_video_canvas_position();
     setTimeout(update_video_canvas_position, 1000);
+    HangoutService.set_video_visible(true);
 
   }]);
+
 
 'use strict';
 
@@ -2320,6 +2301,53 @@ angular.module('angularFireHangoutApp')
 
       }
     };
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.HangoutService
+ * @description
+ * # HangoutService
+ * Service in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+  .service('HangoutService',[ 'MixideaSetting', function (MixideaSetting) {
+    // AngularJS will instantiate a singleton by calling "new" on this function
+
+    var canvas = null;
+    var feed = null;
+    var ratio = 16/9;
+    if(MixideaSetting.hangout_execution){
+	    canvas = gapi.hangout.layout.getVideoCanvas();
+	    feed = gapi.hangout.layout.getDefaultVideoFeed();
+	    ratio = canvas.getAspectRatio();
+	}
+
+    this.get_video_ratio = function(){
+    	return ratio;
+    }
+
+    this.set_video_width = function(video_width){
+
+	    if(MixideaSetting.hangout_execution){
+	      canvas.setWidth(video_width);
+		}
+    }
+    
+    this.set_video_position = function(x,y){
+	    if(MixideaSetting.hangout_execution){
+    		canvas.setPosition(x,y);
+    	}
+    }
+
+    this.set_video_visible = function(flag){
+	    if(MixideaSetting.hangout_execution){
+    		canvas.setVisible(flag);
+    	}
+    }
+
   }]);
 
 'use strict';
