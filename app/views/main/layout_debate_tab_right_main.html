@@ -1,16 +1,16 @@
-<div id="debate_right_main_container">
+<div id="debate_right_main_container" ng-style="layout_style">
 
 
-<div ng-if="participant_mgr.is_audience_or_debater=='debater'">
-	<div class="nav_tabs_custom">
-		<div ui-sref-active="active">
-			<a ui-sref="main.debate.prep_note">preparation note</a>
-		</div>
-		<div ui-sref-active="active">
-			<a ui-sref="main.debate.own_note">own_note</a>
+	<div ng-if="participant_mgr.is_audience_or_debater=='debater'">
+		<div class="nav_tabs_custom">
+			<div ui-sref-active="active">
+				<a ui-sref="main.debate.prep_note">preparation note</a>
+			</div>
+			<div ui-sref-active="active">
+				<a ui-sref="main.debate.own_note">own_note</a>
+			</div>
 		</div>
 	</div>
-</div>
 
 
 	<div class="tab_content">

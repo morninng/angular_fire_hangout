@@ -16,12 +16,10 @@
 
 
 
-<div ng-app="angularFireHangoutApp">
-    <div id="whole">
-      <div id="inner_whole">
-        <div ui-view="RootView"></div>
-      </div>
-    </div>
+<div id="whole" ng-app="angularFireHangoutApp">
+  <div id="inner_whole">
+    <div ui-view="RootView"></div>
+  </div>
 </div>
 
 
