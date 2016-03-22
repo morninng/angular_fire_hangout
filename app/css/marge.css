@@ -147,7 +147,7 @@
   z-index: 2;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_static-video\.scss}line{font-family:\000032}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video-static\.scss}line{font-family:\000032}}
 #video_area_container_static {
   background-color: #E0FFFF;
 }
@@ -1359,7 +1359,12 @@ textarea {
   padding-bottom: 3px;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000367}}
+#video_canvas_dummy_layout {
+  width: 100%;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000372}}
 #poi_button_container {
   width: 100%;
   background-color: #F0FFF0;
@@ -1369,7 +1374,7 @@ textarea {
   text-align: right;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000375}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000381}}
 #Finish_button_container {
   width: 100%;
   background-color: #E6E6FA;
@@ -1379,7 +1384,7 @@ textarea {
   text-align: right;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\0000396}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003102}}
 #poi_candidate_container > div {
   background-color: #F5F5F5;
   padding-right: 20px;
@@ -1387,7 +1392,7 @@ textarea {
   padding-top: 5px;
   padding-bottom: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003104}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003110}}
 #poi_candidate_container .poi_list_container {
   display: flex;
   border: 2px solid #00FF00;
@@ -1395,13 +1400,13 @@ textarea {
   height: 40px;
   background-color: #FFFFFF;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003111}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003117}}
 #poi_candidate_container .poi_list_container .poi_profile {
   height: 40px;
   display: table-cell;
   font-size: 40px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003115}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003121}}
 #poi_candidate_container .poi_list_container .poi_profile img {
   margin-top: 5px;
   margin-bottom: 5px;
@@ -1409,12 +1414,12 @@ textarea {
   width: auto;
   margin-left: 10px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003122}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003128}}
 #poi_candidate_container .poi_list_container .poi_profile span {
   vertical-align: middle;
   font-size: 16px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003131}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_video_debate\.scss}line{font-family:\00003137}}
 #poi_candidate_container .poi_list_container .candidate_button_container {
   text-align: center;
   flex: 1;

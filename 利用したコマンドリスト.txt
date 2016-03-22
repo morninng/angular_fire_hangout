@@ -40,6 +40,9 @@ yo angular:controller team-discuss-arguments
  yo angular:service Util-Service
 
 
+ yo angular:service Hangout-Service
+
+
   yo angular:controller TeamDiscuss-RoomName
 yo angular:controller TeamDiscuss-Arguments
 yo angular:controller MainLayout-SizeAdjust
