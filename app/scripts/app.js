@@ -162,6 +162,10 @@ angular.module('angularFireHangoutApp')
 			templateUrl: MixideaSetting.source_domain + 'views/main/video_debate.html',
 			controller: 'VideodebateCtrl'		
 			},
+			"container_main_left_above_left_below":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/impression_expression.html',
+			controller: 'ImpressionExpressionCtrl'
+			},
 			"container_main_right":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/layout_debate_tab_right_main.html',
 			controller: 'TabDebaterightmainCtrl'

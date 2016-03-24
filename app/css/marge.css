@@ -1772,4 +1772,26 @@ fieldset[disabled] .btn-danger.active {
   background-color: #00FFFF;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_impression_expression\.scss}line{font-family:\000035}}
+#impression_container {
+  display: flex;
+  direction: row;
+  width: 100%;
+  justify-content: space-around;
+  background-color: #FFE4E1;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_impression_expression\.scss}line{font-family:\0000312}}
+#impression_container .impression_click_img {
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+  cursor: pointer;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_impression_expression\.scss}line{font-family:\0000319}}
+#impression_container .impression_member_img {
+  width: 50px;
+  height: 50px;
+  padding: 5px;
+}
+
 /*# sourceMappingURL=marge.css.map */

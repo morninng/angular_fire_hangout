@@ -1,0 +1,24 @@
+
+<div id="impression_container">
+	<div class="hearhear">
+		<div>
+			<img class="impression_click_img" src="https://s3.amazonaws.com/mixidea/good.png" ng-click="click_hearhear()">
+		</div>
+		<div>
+			<div ng-repeat="user_id in hearhear_users_array">
+				<img class="impression_member_img" ng-src={{participant_mgr.user_object_data[user_id].profile_pict}} >
+			</div>
+		</div>
+	</div>
+	<div class="booboo">
+		<div>
+			<img class="impression_click_img" src="https://s3.amazonaws.com/mixidea/bad.png" ng-click="click_booboo()">
+		</div>
+		<div>
+			<div ng-repeat="user_id in booboo_users_array">
+				<img class="impression_member_img" ng-src={{participant_mgr.user_object_data[user_id].profile_pict}} >
+			</div>
+		</div>
+	</div>
+
+</div>

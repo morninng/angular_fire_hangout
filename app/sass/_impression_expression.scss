@@ -1,0 +1,26 @@
+
+
+#impression_container {
+	display:flex;
+	direction:row;
+	width:100%;
+	justify-content:space-around;
+	background-color: #FFE4E1;
+
+	.impression_click_img{
+		width:50px;
+		height:50px;
+		padding:5px;
+		cursor: pointer;
+	}
+
+	.impression_member_img{
+		width:50px;
+		height:50px;
+		padding:5px;
+	}
+
+}
+
+
+

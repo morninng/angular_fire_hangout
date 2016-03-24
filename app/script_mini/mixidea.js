@@ -162,6 +162,10 @@ angular.module('angularFireHangoutApp')
 			templateUrl: MixideaSetting.source_domain + 'views/main/video_debate.html',
 			controller: 'VideodebateCtrl'		
 			},
+			"container_main_left_above_left_below":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/impression_expression.html',
+			controller: 'ImpressionExpressionCtrl'
+			},
 			"container_main_right":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/layout_debate_tab_right_main.html',
 			controller: 'TabDebaterightmainCtrl'
@@ -561,6 +565,86 @@ angular.module('angularFireHangoutApp')
 	}, function(error){
 		console.log("fail while to retrieve speaker obj" + error);
 	})
+
+
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc function
+ * @name angularFireHangoutApp.controller:ImpressionExpressionCtrl
+ * @description
+ * # ImpressionExpressionCtrl
+ * Controller of the angularFireHangoutApp
+ */
+angular.module('angularFireHangoutApp')
+  .controller('ImpressionExpressionCtrl',['$scope','MixideaSetting','SoundPlayService','ParticipantMgrService','$timeout', function ($scope,MixideaSetting, SoundPlayService, ParticipantMgrService, $timeout) {
+
+  	$scope.participant_mgr = ParticipantMgrService;
+
+  	$scope.hearhear_users_array = new Array();
+  	$scope.booboo_users_array = new Array();
+	var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var impression_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/impression_expression");
+	var hearhear_ref = impression_ref.child("hearhear");
+	var hearhear_own_ref = hearhear_ref.child(MixideaSetting.own_user_id)
+	var booboo_ref = impression_ref.child("booboo");
+	var booboo_own_ref = booboo_ref.child(MixideaSetting.own_user_id)
+
+
+
+	$scope.click_hearhear = function(){
+		console.log("hearhear");
+		hearhear_own_ref.set(true);
+		hearhear_own_ref.onDisconnect().set(null);
+		setTimeout(function(){hearhear_own_ref.set(null)},2000);
+	}
+
+	$scope.click_booboo = function(){
+		booboo_own_ref.set(true);
+		booboo_own_ref.onDisconnect().set(null);
+		setTimeout(function(){booboo_own_ref.set(null)},2000);
+	}
+
+
+	var current_hearhear_num = 0;
+	var current_booboo_num = 0;
+
+
+	hearhear_ref.on("value", function(snapshot){
+		var hearhear_user_obj = snapshot.val();
+		$scope.hearhear_users_array.length = 0;
+		for(var key in hearhear_user_obj){
+			$scope.hearhear_users_array.push(key);
+		}
+		if($scope.hearhear_users_array.length > current_hearhear_num){
+			SoundPlayService.HearHear();
+		}
+		current_hearhear_num = $scope.hearhear_users_array.length;
+		$timeout(function() {});
+
+	}, function(error_obj){
+		console.log(error_obj);
+	})
+
+
+	booboo_ref.on("value", function(snapshot){
+		var booboo_user_obj = snapshot.val();
+		$scope.booboo_users_array.length = 0;
+		for(var key in booboo_user_obj){
+			$scope.booboo_users_array.push(key);
+		}
+		if($scope.booboo_users_array.length > current_booboo_num){
+			SoundPlayService.BooBoo();
+		}
+		current_booboo_num = $scope.booboo_users_array.length;
+		$timeout(function() {});
+
+	}, function(error_obj){
+		console.log(error_obj);
+	})
+
 
 
   }]);
@@ -1373,10 +1457,6 @@ angular.module('angularFireHangoutApp')
 
   	speaker_ref.on("value", function(snapshot){
   		var updated_speaker_obj = snapshot.val();
-      console.log("updated_speaker_obj is");
-      console.log(updated_speaker_obj);
-      console.log("currento own status");
-      console.log($scope.participant_mgr.own_side);
 
   		if(!updated_speaker_obj){
   			for(var key in $scope.speaker_obj){
@@ -1499,7 +1579,6 @@ angular.module('angularFireHangoutApp')
   				$scope.status = "break";
   			}
 
-        console.log("video status call update_video_canvas_position");
         setTimeout(update_video_canvas_position, 100);
         setTimeout(update_video_canvas_position, 1000);
   		});
@@ -1531,7 +1610,6 @@ angular.module('angularFireHangoutApp')
     var ratio = HangoutService.get_video_ratio();
     var video_area_height = video_width / ratio;
     var video_area_height_val = video_area_height + "px";
-    console.log("video dummy layout size:" +  video_area_height_val);
     $scope.video_dumy_size = {height:video_area_height_val};
 
     HangoutService.set_video_width(video_width)
@@ -1541,30 +1619,23 @@ angular.module('angularFireHangoutApp')
 
     function update_video_canvas_position(){
 
-      console.log("update_video_canvas_position");
       var container_second_element = document.getElementById("container_second_top");
       var container_second_height = container_second_element.offsetHeight;
-      console.log("container_second_height" + container_second_height);
 
       var container_top_element = document.getElementById("container_top");
       var container_top_height = container_top_element.offsetHeight;
-      console.log("container_top_height" + container_top_height)
 
 
       var start_speech_element = document.getElementById("start_speech_container");
       var start_speech_height = start_speech_element.offsetHeight;
-      console.log("start_speech_height" + start_speech_height)
 
       var speaker_data_element = document.getElementById("speaker_data_container");
       var speaker_data_height = speaker_data_element.offsetHeight;
-      console.log("speaker_data_height" + speaker_data_height)
 
       var complete_button_element = document.getElementById("complete_button_container");
       var complete_button_height = complete_button_element.offsetHeight;
-      console.log("complete_button_height" + complete_button_height)
 
       var absolute_offset = complete_button_height + speaker_data_height + start_speech_height + container_top_height + container_second_height;
-      console.log("absolute_offset" + absolute_offset);
       HangoutService.set_video_position(0,absolute_offset);
 
     }

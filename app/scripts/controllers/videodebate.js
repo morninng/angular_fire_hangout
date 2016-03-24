@@ -61,10 +61,6 @@ angular.module('angularFireHangoutApp')
 
   	speaker_ref.on("value", function(snapshot){
   		var updated_speaker_obj = snapshot.val();
-      console.log("updated_speaker_obj is");
-      console.log(updated_speaker_obj);
-      console.log("currento own status");
-      console.log($scope.participant_mgr.own_side);
 
   		if(!updated_speaker_obj){
   			for(var key in $scope.speaker_obj){
@@ -187,7 +183,6 @@ angular.module('angularFireHangoutApp')
   				$scope.status = "break";
   			}
 
-        console.log("video status call update_video_canvas_position");
         setTimeout(update_video_canvas_position, 100);
         setTimeout(update_video_canvas_position, 1000);
   		});
@@ -219,7 +214,6 @@ angular.module('angularFireHangoutApp')
     var ratio = HangoutService.get_video_ratio();
     var video_area_height = video_width / ratio;
     var video_area_height_val = video_area_height + "px";
-    console.log("video dummy layout size:" +  video_area_height_val);
     $scope.video_dumy_size = {height:video_area_height_val};
 
     HangoutService.set_video_width(video_width)
@@ -229,30 +223,23 @@ angular.module('angularFireHangoutApp')
 
     function update_video_canvas_position(){
 
-      console.log("update_video_canvas_position");
       var container_second_element = document.getElementById("container_second_top");
       var container_second_height = container_second_element.offsetHeight;
-      console.log("container_second_height" + container_second_height);
 
       var container_top_element = document.getElementById("container_top");
       var container_top_height = container_top_element.offsetHeight;
-      console.log("container_top_height" + container_top_height)
 
 
       var start_speech_element = document.getElementById("start_speech_container");
       var start_speech_height = start_speech_element.offsetHeight;
-      console.log("start_speech_height" + start_speech_height)
 
       var speaker_data_element = document.getElementById("speaker_data_container");
       var speaker_data_height = speaker_data_element.offsetHeight;
-      console.log("speaker_data_height" + speaker_data_height)
 
       var complete_button_element = document.getElementById("complete_button_container");
       var complete_button_height = complete_button_element.offsetHeight;
-      console.log("complete_button_height" + complete_button_height)
 
       var absolute_offset = complete_button_height + speaker_data_height + start_speech_height + container_top_height + container_second_height;
-      console.log("absolute_offset" + absolute_offset);
       HangoutService.set_video_position(0,absolute_offset);
 
     }

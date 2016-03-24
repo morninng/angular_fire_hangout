@@ -48,6 +48,7 @@ yo angular:controller TeamDiscuss-Arguments
 yo angular:controller MainLayout-SizeAdjust
 yo angular:controller Article-Writing
 yo angular:controller URL-Sharing
+yo angular:controller Impression-Expression
 
 
 
