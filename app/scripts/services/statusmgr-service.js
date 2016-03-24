@@ -8,7 +8,7 @@
  * Factory in the angularFireHangoutApp.
  */
 angular.module('angularFireHangoutApp')
-  .factory('StatusMgrService',['MixideaSetting','$state','HangoutService', function (MixideaSetting,$state, HangoutService) {
+  .factory('StatusMgrService',['MixideaSetting','$state','HangoutService','SoundPlayService', function (MixideaSetting,$state, HangoutService, SoundPlayService) {
 
   var StatusMgr_Object = new Object()
   StatusMgr_Object.game_status = null;
@@ -29,7 +29,7 @@ angular.module('angularFireHangoutApp')
       if(value =='reflection' || value=='complete'){
         HangoutService.set_video_visible(false);
       }
-
+      SoundPlayService.Cursol();
     }
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);

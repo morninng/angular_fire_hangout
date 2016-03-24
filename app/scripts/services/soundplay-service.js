@@ -13,7 +13,7 @@ angular.module('angularFireHangoutApp')
 
 
 	this.Poi = function(){
-		console.log("pin one");
+		console.log("poi");
 		if(!sound_mgr.PinOne_sound){
 			return;
 		}
@@ -24,7 +24,7 @@ angular.module('angularFireHangoutApp')
 	}
 
 	this.HearHear = function(){
-		console.log("speech start");
+		console.log("hear hear");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -34,7 +34,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.HearHear_sound.connect(audio_context.destination);
 	}
 	this.BooBoo = function(){
-		console.log("speech start");
+		console.log("boo boo");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -44,7 +44,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.BooBoo_sound.connect(audio_context.destination);
 	}
 	this.Taken = function(){
-		console.log("speech start");
+		console.log("taken");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -54,7 +54,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.Taken_sound.connect(audio_context.destination);
 	}
 	this.PoiFinish = function(){
-		console.log("speech start");
+		console.log("poi finish");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -64,7 +64,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PoiFinish_sound.connect(audio_context.destination);
 	}
 	this.PinOne = function(){
-		console.log("speech start");
+		console.log("pin one");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -74,7 +74,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinOne_sound.connect(audio_context.destination);
 	}
 	this.PinTwo = function(){
-		console.log("speech start");
+		console.log("pin two");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -84,7 +84,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinTwo_sound.connect(audio_context.destination);
 	}
 	this.PinThree = function(){
-		console.log("speech start");
+		console.log("pin three");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -94,7 +94,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinThree_sound.connect(audio_context.destination);
 	}
 	this.Cursol = function(){
-		console.log("speech start");
+		console.log("cursol");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}

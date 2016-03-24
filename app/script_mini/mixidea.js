@@ -1369,11 +1369,14 @@ angular.module('angularFireHangoutApp')
   			return own_speaker_obj;
   		});
   		speaker_ref_own.onDisconnect().set(null);
-      SoundPlayService.SpeechStart();
   	}
 
   	speaker_ref.on("value", function(snapshot){
   		var updated_speaker_obj = snapshot.val();
+      console.log("updated_speaker_obj is");
+      console.log(updated_speaker_obj);
+      console.log("currento own status");
+      console.log($scope.participant_mgr.own_side);
 
   		if(!updated_speaker_obj){
   			for(var key in $scope.speaker_obj){
@@ -1409,21 +1412,27 @@ angular.module('angularFireHangoutApp')
 		poi_candidate_ref_own.set(own_group);
 		poi_candidate_ref_own.onDisconnect().set(null);
     poi_taken_ref_own.onDisconnect().set(null);
-    SoundPlayService.Poi();
+    
 	}
 	poi_candidate_ref.on("value", function(snapshot){
 		var poi_obj = snapshot.val();
+    var previous_num = $scope.poi_candidate_userobj_array.length;
+    var new_num = 0;
 		$scope.poi_candidate_userobj_array.length=0;
-		$timeout(function() {
-			for (var key in poi_obj){
-        var obj = {id: key, group:poi_obj[key]};
-				$scope.poi_candidate_userobj_array.push(obj);
-			}
-		});
+    for (var key in poi_obj){
+      var obj = {id: key, group:poi_obj[key]};
+      $scope.poi_candidate_userobj_array.push(obj);
+      new_num++;
+    }; 
+    // only when the number of poi user increase , sound is called
+    if(new_num - previous_num > 0){
+      SoundPlayService.Poi();
+    }
+		$timeout(function() {});
+
 	});
 	$scope.finish_poi = function(){
 		poi_ref.set(null);
-    SoundPlayService.PoiFinish();
 	}
 
 	$scope.cancel_poi = function(){
@@ -1440,7 +1449,6 @@ angular.module('angularFireHangoutApp')
   			return poi_taken_obj;
   		});
     poi_candidate_ref.set(null);
-    SoundPlayService.Taken();
 	}
 
 	poi_taken_ref.on("value", function(snapshot){
@@ -1468,12 +1476,18 @@ angular.module('angularFireHangoutApp')
 
   		$timeout(function() {
   			if($scope.poi_speaker_obj.id){
+          if($scope.status=="speech"){
+            poi_start();
+          }
           manage_speaker($scope.poi_speaker_obj.id, "poi");
   				$scope.status = "poi";
+
 
   			}else if ($scope.speaker_obj.id){
           if($scope.status=="break"){
             speech_execution_start();
+          }else if($scope.status=="poi"){
+            poi_stop();
           }
           manage_speaker($scope.speaker_obj.id, "speech");
   				$scope.status = "speech";
@@ -1494,13 +1508,19 @@ angular.module('angularFireHangoutApp')
 
 
     function speech_execution_start(){
-      StartTimer()
-      //sound_mgr.play_sound_speech_start()
+      StartTimer();
+      SoundPlayService.SpeechStart();
     }
 
     function speech_execution_stop(){
-      StopTimer()
-      //sound_mgr.play_sound_speech_stop()
+      StopTimer();
+    }
+
+    function poi_start(){
+      SoundPlayService.Taken();
+    }
+    function poi_stop(){
+      SoundPlayService.PoiFinish();
     }
 
 /*********** video feed management *****/
@@ -1508,9 +1528,10 @@ angular.module('angularFireHangoutApp')
 /*create video dummy feed init*/
     var video_area_element = document.getElementById("video_canvas_dummy_layout");
     var video_width = video_area_element.offsetWidth;
-    var ratio = HangoutService.get_video_ratio;
+    var ratio = HangoutService.get_video_ratio();
     var video_area_height = video_width / ratio;
-    var video_area_height_val = video_area_height + "px"
+    var video_area_height_val = video_area_height + "px";
+    console.log("video dummy layout size:" +  video_area_height_val);
     $scope.video_dumy_size = {height:video_area_height_val};
 
     HangoutService.set_video_width(video_width)
@@ -1583,16 +1604,14 @@ angular.module('angularFireHangoutApp')
       var timer_str = minutes + "min " + second + "sec";
 
       if(minutes == 1 && second == 0|| minutes ==6 && second == 0){
-        //sound_mgr.play_sound_PinOne();
+        SoundPlayService.PinOne();
         console.log("one minutes");
-      }else if(minutes ==6 && second == 0){
-        //sound_mgr.play_sound_PinOne();
-        console.log("two minutes");
       }else if(minutes == 7  && second == 0){
-        //sound_mgr.play_sound_PinTwo();
+
+        SoundPlayService.PinTwo();
         console.log("seven minutes");
       }else if(minutes == 7  && second == 30){
-        //sound_mgr.play_sound_PinThree();
+        SoundPlayService.PinThree();
         console.log("seven and half minutes");
       }
       $timeout(function() {
@@ -3459,7 +3478,7 @@ angular.module('angularFireHangoutApp')
 
 
 	this.Poi = function(){
-		console.log("pin one");
+		console.log("poi");
 		if(!sound_mgr.PinOne_sound){
 			return;
 		}
@@ -3470,7 +3489,7 @@ angular.module('angularFireHangoutApp')
 	}
 
 	this.HearHear = function(){
-		console.log("speech start");
+		console.log("hear hear");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3480,7 +3499,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.HearHear_sound.connect(audio_context.destination);
 	}
 	this.BooBoo = function(){
-		console.log("speech start");
+		console.log("boo boo");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3490,7 +3509,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.BooBoo_sound.connect(audio_context.destination);
 	}
 	this.Taken = function(){
-		console.log("speech start");
+		console.log("taken");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3500,7 +3519,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.Taken_sound.connect(audio_context.destination);
 	}
 	this.PoiFinish = function(){
-		console.log("speech start");
+		console.log("poi finish");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3510,7 +3529,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PoiFinish_sound.connect(audio_context.destination);
 	}
 	this.PinOne = function(){
-		console.log("speech start");
+		console.log("pin one");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3520,7 +3539,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinOne_sound.connect(audio_context.destination);
 	}
 	this.PinTwo = function(){
-		console.log("speech start");
+		console.log("pin two");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3530,7 +3549,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinTwo_sound.connect(audio_context.destination);
 	}
 	this.PinThree = function(){
-		console.log("speech start");
+		console.log("pin three");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3540,7 +3559,7 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinThree_sound.connect(audio_context.destination);
 	}
 	this.Cursol = function(){
-		console.log("speech start");
+		console.log("cursol");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3701,7 +3720,7 @@ angular.module('angularFireHangoutApp')
  * Factory in the angularFireHangoutApp.
  */
 angular.module('angularFireHangoutApp')
-  .factory('StatusMgrService',['MixideaSetting','$state','HangoutService', function (MixideaSetting,$state, HangoutService) {
+  .factory('StatusMgrService',['MixideaSetting','$state','HangoutService','SoundPlayService', function (MixideaSetting,$state, HangoutService, SoundPlayService) {
 
   var StatusMgr_Object = new Object()
   StatusMgr_Object.game_status = null;
@@ -3722,7 +3741,7 @@ angular.module('angularFireHangoutApp')
       if(value =='reflection' || value=='complete'){
         HangoutService.set_video_visible(false);
       }
-
+      SoundPlayService.Cursol();
     }
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
