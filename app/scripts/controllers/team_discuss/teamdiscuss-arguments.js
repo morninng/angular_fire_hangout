@@ -12,6 +12,7 @@ angular.module('angularFireHangoutApp')
 
   $scope.arg_list = new Array();
   $scope.defintro_list = new Array();
+  $scope.layout_style = null;
 
   var team_val = MixideaSetting.team_discuss_team_side;
   if(!team_val){
@@ -120,15 +121,14 @@ angular.module('angularFireHangoutApp')
     	}
 	}
 
-	set_pain_size();
-	setTimeout(set_pain_size,1000);
-	var argument_layout_element = document.getElementById("argument_container");
-	argument_layout_element.onscroll = function(){
+	if(MixideaSetting.room_type == "team_discussion"){
 		set_pain_size();
+		setTimeout(set_pain_size,1000);
+		var argument_layout_element = document.getElementById("argument_container");
+		argument_layout_element.onscroll = function(){
+			set_pain_size();
+		}
 	}
-
-
-
 
 
 

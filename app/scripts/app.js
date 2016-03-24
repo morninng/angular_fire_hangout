@@ -165,6 +165,10 @@ angular.module('angularFireHangoutApp')
 			"container_main_right":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/layout_debate_tab_right_main.html',
 			controller: 'TabDebaterightmainCtrl'
+			},
+			"absolute_pain_1":{
+			templateUrl: MixideaSetting.source_domain + 'views/main/debater_bar.html',
+			controller: 'DebaterbarCtrl'
 			}
 		}
 	})

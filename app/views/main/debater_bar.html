@@ -1,0 +1,9 @@
+  <div id="debater_box">
+        <div ng-repeat="debater_role in debater_array" class="side_role_box" >
+          <div ng-class="debater_role.role_state">
+              <div class="side_role_name">{{debater_role.role_name}}</div>
+              <div class="side_debater_name">{{participant_mgr.participant_obj[debater_role.role_name].user_name}}</div>
+          </div>
+        </div>
+  </div>
+

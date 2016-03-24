@@ -27,7 +27,7 @@ touch .ftppass
   yo angular:controller Reflec-Tab
   yo angular:controller Tab-DebateRightMain
   yo angular:controller OwnNote
-
+  yo angular:controller DebaterBar
 
 yo angular:controller team-discuss-arguments
 
