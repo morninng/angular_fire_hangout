@@ -46,9 +46,11 @@ angular.module('angularFireHangoutApp')
     }
     console.log("set_video_visible: true");
     HangoutService.set_video_visible(true);
-    update_video_width()
+    update_video_width();
+    setTimeout(update_video_width, 100);
     setTimeout(update_video_width, 1000);
     update_video_canvas_position();
+    setTimeout(update_video_canvas_position, 100);
     setTimeout(update_video_canvas_position, 1000);
 
   }]);
