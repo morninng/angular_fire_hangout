@@ -13,7 +13,7 @@ angular.module('angularFireHangoutApp')
 
     var under_recording = false;
     var available=true;
-    var short_split_id_value="aaaa";
+    var short_split_id_value=null;
     var root_ref = new Firebase(MixideaSetting.firebase_url);
     var transcription_ref = null;
     var speech_type=null;
@@ -59,7 +59,7 @@ angular.module('angularFireHangoutApp')
     	if(under_recording){
     		return;
     	}else{
-            console.log("recognition start")
+            console.log("--recognition start--")
     		recognition.start();
     		under_recording = true;
     	}
@@ -67,12 +67,14 @@ angular.module('angularFireHangoutApp')
     }
 
     this.stop = function(){
-        console.log("record stop")
     	if(!available || !under_recording){
     		return;
     	}
-    	recognition.stop();
-    	under_recording = false;
+        setTimeout(function(){
+            console.log("--recognition stop--");
+            recognition.stop();
+            under_recording = false;
+        },1000);
     }
 
     function StoreData(text){

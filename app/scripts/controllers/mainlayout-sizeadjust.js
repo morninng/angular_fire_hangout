@@ -15,7 +15,6 @@ angular.module('angularFireHangoutApp')
   	$scope.game_status_service = StatusMgrService;
 
 	$scope.$watch('game_status_service.game_status', function(newValue, oldValue){
-		console.log( "status:" + newValue);
 
 		$timeout(function() {
 			switch(newValue){

@@ -22,7 +22,6 @@ angular.module('angularFireHangoutApp')
         scope.input_data.type = "note";
         scope.input_data.content = null;
         scope.own_note_obj_array = new Array();
-        console.log(scope.role_object);
         var role_name = scope.role_object.name;
 
 
@@ -49,8 +48,6 @@ angular.module('angularFireHangoutApp')
         own_note_content_ref.on("child_changed", function(snapshot){
         	var updated_data = snapshot.val();
         	var updated_key = snapshot.key();
-        	console.log(updated_data);
-        	console.log(updated_key);
         	for(var i=0; i< scope.own_note_obj_array.length; i++){
         		if(scope.own_note_obj_array[i].id == updated_key){
 	        			scope.own_note_obj_array[i].content = updated_data.content;
@@ -73,13 +70,11 @@ angular.module('angularFireHangoutApp')
 
 
         scope.set_score = function(){
-            console.log(scope.score);
             own_note_score_ref.set(scope.score);
         }
 
 
         scope.edit_save_input = function(each_note){
-        	console.log(each_note);
         	var new_counter = 0
         	if(each_note.counter !== undefined){
         		new_counter = each_note.counter + 1;

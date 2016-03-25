@@ -26,25 +26,20 @@ angular.module('angularFireHangoutApp')
 
     function update_video_canvas_position(){
 
-      console.log("update_video_canvas_position");
 
       var container_second_element = document.getElementById("container_second_top");
       var container_second_height = container_second_element.offsetHeight;
-      console.log("container_second_height" + container_second_height);
 
       var container_top_element = document.getElementById("container_top");
       var container_top_height = container_top_element.offsetHeight;
-      console.log("container_top_height" + container_top_height);
 
       var absolute_offset =  container_top_height + container_second_height;
-      console.log("absolute_offset" + absolute_offset);
 
 
       HangoutService.set_video_visible(true);
       HangoutService.set_video_position(0,absolute_offset);
 
     }
-    console.log("set_video_visible: true");
     HangoutService.set_video_visible(true);
     update_video_width();
     setTimeout(update_video_width, 100);

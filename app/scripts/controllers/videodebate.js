@@ -160,6 +160,7 @@ angular.module('angularFireHangoutApp')
 
   		$timeout(function() {
   			if($scope.poi_speaker_obj.id){
+          //poi
           if($scope.status=="speech"){
             poi_start();
           }
@@ -168,6 +169,7 @@ angular.module('angularFireHangoutApp')
 
 
   			}else if ($scope.speaker_obj.id){
+          //speech
           if($scope.status=="break"){
             speech_execution_start();
           }else if($scope.status=="poi"){
@@ -176,6 +178,7 @@ angular.module('angularFireHangoutApp')
           manage_speaker($scope.speaker_obj.id, "speech");
   				$scope.status = "speech";
   			}else{
+          //break
           if($scope.status !="break"){
             speech_execution_stop();
           }
@@ -304,14 +307,17 @@ angular.module('angularFireHangoutApp')
         //Recording.start();
         RecognitionService.start(type, current_speaker  ,$scope.speech_start_time);
         RecordingService.record_start_api(type, current_speaker, $scope.speech_start_time);
+        HangoutService.enable_microphone();
         //microphone.enable();
       }else if(speaker_id){
         RecognitionService.stop();
         RecordingService.record_finish_api("other", current_speaker, $scope.speech_start_time);
+        HangoutService.disable_microphone();
         //microphone.disabled();
       }else{
         RecognitionService.stop();
         RecordingService.record_finish_api("break", current_speaker, $scope.speech_start_time);
+        HangoutService.enable_microphone();
         //microphone.enable();
       }
       $scope.current_speaker == speaker_id;

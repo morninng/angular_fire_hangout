@@ -18,7 +18,6 @@ angular.module('angularFireHangoutApp')
   	$scope.game_status_service = StatusMgrService;
 
   	$scope.$watch('game_status_service.game_status', function(newValue, oldValue){
-  		console.log( "status:" + newValue);
 		$scope.status_intro = "status_bar_element";
 		$scope.status_prep = "status_bar_element";
 		$scope.status_debate = "status_bar_element";

@@ -16,8 +16,6 @@ angular.module('angularFireHangoutApp')
       	argument_id_obj: '=argId'
       },
       link: function postLink(scope, element, attrs) {
-        console.log("link is called");
-        console.log(scope.argument_id_obj);
         var arg_id = scope.argument_id_obj.arg_id;
         var event_id = scope.argument_id_obj.event_id;
         var deb_style = scope.argument_id_obj.deb_style;
@@ -150,11 +148,9 @@ angular.module('angularFireHangoutApp')
 
         scope.title_unfocused = function(){
           title_own_focused_ref.set(null);
-          console.log("title unfocused");
         }
         scope.title_save = function(){
           title_own_focused_ref.set(null);
-          console.log("save");
         }
         title_own_focused_ref.onDisconnect().remove();
 
@@ -189,7 +185,6 @@ angular.module('angularFireHangoutApp')
 
         scope.content_unfocused = function(){
          content_own_focused_ref.set(null);
-         console.log("content unfocused");
         }
         scope.save_content = function(){
          content_own_focused_ref.set(null);
@@ -223,7 +218,6 @@ angular.module('angularFireHangoutApp')
 
         scope.refute_unfocused = function(){
          refute_own_focused_ref.set(null);
-         console.log("refute unfocused");
         }
 
         scope.refute_focused = function(){
@@ -238,7 +232,6 @@ angular.module('angularFireHangoutApp')
                 + deb_style + "/" + team + "/arguments/" + arg_id;
         var one_argument_id_ref = root_ref.child(one_argument_id_path);
         scope.remove_argument = function(){
-          console.log("remove" + arg_id);
           one_argument_id_ref.set(null);
         }
 

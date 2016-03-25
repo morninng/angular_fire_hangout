@@ -37,11 +37,35 @@ angular.module('angularFireHangoutApp')
     	}
     }
 
+
     this.set_video_visible = function(flag){
         console.log("set_video_visible" +  flag)
+        if(MixideaSetting.hangout_execution){
+            canvas.setVisible(flag);
+        }
+    }
+
+
+    this.enable_microphone = function(){
 	    if(MixideaSetting.hangout_execution){
-    		canvas.setVisible(flag);
+            var muted = gapi.hangout.av.getMicrophoneMute();
+            if(muted){
+                gapi.hangout.av.setMicrophoneMute(false);
+                console.log("microphone turned on")
+            }
     	}
     }
+
+
+    this.disable_microphone = function(){
+        if(MixideaSetting.hangout_execution){
+            var muted = gapi.hangout.av.getMicrophoneMute();
+            if(!muted){
+                gapi.hangout.av.setMicrophoneMute(true);
+                console.log("microphone turned off");
+            }
+        }
+    }
+
 
   }]);

@@ -26,7 +26,6 @@ angular.module('angularFireHangoutApp')
 	  if (error) {
 	    console.log("saving status failed" + error);
 	  } else {
-	    console.log("status is updated");
 	  }
 	});
   }

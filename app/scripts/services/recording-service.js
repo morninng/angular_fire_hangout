@@ -23,7 +23,6 @@ angular.module('angularFireHangoutApp')
     var under_recording = false;
 
     this.record_start_api = function(type, speaker_role_name, speech_id){
-    	console.log("record start");
 
 		if(!audio_available || !socket_available){
 			return;
@@ -122,7 +121,6 @@ angular.module('angularFireHangoutApp')
 
 		if(!stream){
 			console.log(" start record socket id=" + socket_io.id);
-			console.log("start recording");
 			stream = ss.createStream();
 			console.log("audio polling stream id " + stream.id);
 			var start_emit_obj = {filename:in_file_name,sample_rate:sample_rate_value};
@@ -167,7 +165,6 @@ angular.module('angularFireHangoutApp')
 		if(!socket_available || !audio_available){
 			return;
 		}
-		console.log("stop recording");
 		if(stream){
 			console.log("stop record socket id=" + socket_io.id);
 			stream.end();

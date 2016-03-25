@@ -16,8 +16,6 @@ angular.module('angularFireHangoutApp')
       	argument_id_obj: '=argId'
       },
       link: function postLink(scope, element, attrs) {
-        console.log("link is called");
-        console.log(scope.argument_id_obj);
         var arg_id = scope.argument_id_obj.arg_id;
         var event_id = scope.argument_id_obj.event_id;
         var deb_style = scope.argument_id_obj.deb_style;
@@ -149,10 +147,8 @@ angular.module('angularFireHangoutApp')
         var content_own_focused_ref = argument_focused_ref.child("content/" + MixideaSetting.own_user_id);
         scope.content_focused = function(){
          content_own_focused_ref.set(true);
-         console.log("content focused")
         }
         scope.content_unfocused = function(){
-         console.log("content unfocused");
          content_own_focused_ref.set(null);
         }
         content_own_focused_ref.onDisconnect().remove();
@@ -163,7 +159,6 @@ angular.module('angularFireHangoutApp')
                 + deb_style + "/" + team + "/arguments/" + arg_id;
         var one_argument_id_ref = root_ref.child(one_argument_id_path);
         scope.remove_argument = function(){
-          console.log("remove" + arg_id);
           one_argument_id_ref.set(null);
         }
 

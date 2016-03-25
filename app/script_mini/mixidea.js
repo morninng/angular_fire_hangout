@@ -749,7 +749,6 @@ angular.module('angularFireHangoutApp')
   	$scope.game_status_service = StatusMgrService;
 
 	$scope.$watch('game_status_service.game_status', function(newValue, oldValue){
-		console.log( "status:" + newValue);
 
 		$timeout(function() {
 			switch(newValue){
@@ -993,7 +992,6 @@ angular.module('angularFireHangoutApp')
 
 
 	function set_pain_size(){
-		console.log("set_pain_size");
 
 /*height*/
 	    var tab_layout_element = document.getElementById("container_main_right");
@@ -1065,7 +1063,6 @@ angular.module('angularFireHangoutApp')
 	  if (error) {
 	    console.log("saving status failed" + error);
 	  } else {
-	    console.log("status is updated");
 	  }
 	});
   }
@@ -1109,7 +1106,6 @@ angular.module('angularFireHangoutApp')
   	$scope.game_status_service = StatusMgrService;
 
   	$scope.$watch('game_status_service.game_status', function(newValue, oldValue){
-  		console.log( "status:" + newValue);
 		$scope.status_intro = "status_bar_element";
 		$scope.status_prep = "status_bar_element";
 		$scope.status_debate = "status_bar_element";
@@ -1173,7 +1169,6 @@ angular.module('angularFireHangoutApp')
 
 
 	function set_pain_size(){
-		console.log("set_pain_size");
 
 /*height*/
 	    var tab_layout_element = document.getElementById("container_main_right");
@@ -1556,6 +1551,7 @@ angular.module('angularFireHangoutApp')
 
   		$timeout(function() {
   			if($scope.poi_speaker_obj.id){
+          //poi
           if($scope.status=="speech"){
             poi_start();
           }
@@ -1564,6 +1560,7 @@ angular.module('angularFireHangoutApp')
 
 
   			}else if ($scope.speaker_obj.id){
+          //speech
           if($scope.status=="break"){
             speech_execution_start();
           }else if($scope.status=="poi"){
@@ -1572,6 +1569,7 @@ angular.module('angularFireHangoutApp')
           manage_speaker($scope.speaker_obj.id, "speech");
   				$scope.status = "speech";
   			}else{
+          //break
           if($scope.status !="break"){
             speech_execution_stop();
           }
@@ -1700,14 +1698,17 @@ angular.module('angularFireHangoutApp')
         //Recording.start();
         RecognitionService.start(type, current_speaker  ,$scope.speech_start_time);
         RecordingService.record_start_api(type, current_speaker, $scope.speech_start_time);
+        HangoutService.enable_microphone();
         //microphone.enable();
       }else if(speaker_id){
         RecognitionService.stop();
         RecordingService.record_finish_api("other", current_speaker, $scope.speech_start_time);
+        HangoutService.disable_microphone();
         //microphone.disabled();
       }else{
         RecognitionService.stop();
         RecordingService.record_finish_api("break", current_speaker, $scope.speech_start_time);
+        HangoutService.enable_microphone();
         //microphone.enable();
       }
       $scope.current_speaker == speaker_id;
@@ -1746,25 +1747,20 @@ angular.module('angularFireHangoutApp')
 
     function update_video_canvas_position(){
 
-      console.log("update_video_canvas_position");
 
       var container_second_element = document.getElementById("container_second_top");
       var container_second_height = container_second_element.offsetHeight;
-      console.log("container_second_height" + container_second_height);
 
       var container_top_element = document.getElementById("container_top");
       var container_top_height = container_top_element.offsetHeight;
-      console.log("container_top_height" + container_top_height);
 
       var absolute_offset =  container_top_height + container_second_height;
-      console.log("absolute_offset" + absolute_offset);
 
 
       HangoutService.set_video_visible(true);
       HangoutService.set_video_position(0,absolute_offset);
 
     }
-    console.log("set_video_visible: true");
     HangoutService.set_video_visible(true);
     update_video_width();
     setTimeout(update_video_width, 100);
@@ -1864,8 +1860,6 @@ angular.module('angularFireHangoutApp')
       	argument_id_obj: '=argId'
       },
       link: function postLink(scope, element, attrs) {
-        console.log("link is called");
-        console.log(scope.argument_id_obj);
         var arg_id = scope.argument_id_obj.arg_id;
         var event_id = scope.argument_id_obj.event_id;
         var deb_style = scope.argument_id_obj.deb_style;
@@ -1997,10 +1991,8 @@ angular.module('angularFireHangoutApp')
         var content_own_focused_ref = argument_focused_ref.child("content/" + MixideaSetting.own_user_id);
         scope.content_focused = function(){
          content_own_focused_ref.set(true);
-         console.log("content focused")
         }
         scope.content_unfocused = function(){
-         console.log("content unfocused");
          content_own_focused_ref.set(null);
         }
         content_own_focused_ref.onDisconnect().remove();
@@ -2011,7 +2003,6 @@ angular.module('angularFireHangoutApp')
                 + deb_style + "/" + team + "/arguments/" + arg_id;
         var one_argument_id_ref = root_ref.child(one_argument_id_path);
         scope.remove_argument = function(){
-          console.log("remove" + arg_id);
           one_argument_id_ref.set(null);
         }
 
@@ -2132,7 +2123,6 @@ angular.module('angularFireHangoutApp')
         scope.input_data.type = "note";
         scope.input_data.content = null;
         scope.own_note_obj_array = new Array();
-        console.log(scope.role_object);
         var role_name = scope.role_object.name;
 
 
@@ -2159,8 +2149,6 @@ angular.module('angularFireHangoutApp')
         own_note_content_ref.on("child_changed", function(snapshot){
         	var updated_data = snapshot.val();
         	var updated_key = snapshot.key();
-        	console.log(updated_data);
-        	console.log(updated_key);
         	for(var i=0; i< scope.own_note_obj_array.length; i++){
         		if(scope.own_note_obj_array[i].id == updated_key){
 	        			scope.own_note_obj_array[i].content = updated_data.content;
@@ -2183,13 +2171,11 @@ angular.module('angularFireHangoutApp')
 
 
         scope.set_score = function(){
-            console.log(scope.score);
             own_note_score_ref.set(scope.score);
         }
 
 
         scope.edit_save_input = function(each_note){
-        	console.log(each_note);
         	var new_counter = 0
         	if(each_note.counter !== undefined){
         		new_counter = each_note.counter + 1;
@@ -2238,8 +2224,6 @@ angular.module('angularFireHangoutApp')
       	argument_id_obj: '=argId'
       },
       link: function postLink(scope, element, attrs) {
-        console.log("link is called");
-        console.log(scope.argument_id_obj);
         var arg_id = scope.argument_id_obj.arg_id;
         var event_id = scope.argument_id_obj.event_id;
         var deb_style = scope.argument_id_obj.deb_style;
@@ -2372,11 +2356,9 @@ angular.module('angularFireHangoutApp')
 
         scope.title_unfocused = function(){
           title_own_focused_ref.set(null);
-          console.log("title unfocused");
         }
         scope.title_save = function(){
           title_own_focused_ref.set(null);
-          console.log("save");
         }
         title_own_focused_ref.onDisconnect().remove();
 
@@ -2411,7 +2393,6 @@ angular.module('angularFireHangoutApp')
 
         scope.content_unfocused = function(){
          content_own_focused_ref.set(null);
-         console.log("content unfocused");
         }
         scope.save_content = function(){
          content_own_focused_ref.set(null);
@@ -2445,7 +2426,6 @@ angular.module('angularFireHangoutApp')
 
         scope.refute_unfocused = function(){
          refute_own_focused_ref.set(null);
-         console.log("refute unfocused");
         }
 
         scope.refute_focused = function(){
@@ -2460,7 +2440,6 @@ angular.module('angularFireHangoutApp')
                 + deb_style + "/" + team + "/arguments/" + arg_id;
         var one_argument_id_ref = root_ref.child(one_argument_id_path);
         scope.remove_argument = function(){
-          console.log("remove" + arg_id);
           one_argument_id_ref.set(null);
         }
 
@@ -2613,12 +2592,36 @@ angular.module('angularFireHangoutApp')
     	}
     }
 
+
     this.set_video_visible = function(flag){
         console.log("set_video_visible" +  flag)
+        if(MixideaSetting.hangout_execution){
+            canvas.setVisible(flag);
+        }
+    }
+
+
+    this.enable_microphone = function(){
 	    if(MixideaSetting.hangout_execution){
-    		canvas.setVisible(flag);
+            var muted = gapi.hangout.av.getMicrophoneMute();
+            if(muted){
+                gapi.hangout.av.setMicrophoneMute(false);
+                console.log("microphone turned on")
+            }
     	}
     }
+
+
+    this.disable_microphone = function(){
+        if(MixideaSetting.hangout_execution){
+            var muted = gapi.hangout.av.getMicrophoneMute();
+            if(!muted){
+                gapi.hangout.av.setMicrophoneMute(true);
+                console.log("microphone turned off");
+            }
+        }
+    }
+
 
   }]);
 
@@ -3113,10 +3116,6 @@ angular.module('angularFireHangoutApp')
       if(debate_style == "BP"){
         adopt_ParticipantObj_BP();
       }
-      console.log("participant obj");
-      console.log(ParticipantMgr_Object.participant_obj);
-      console.log("audience array");
-      console.log(ParticipantMgr_Object.audience_array);
       update_member_variable();
     });
   }
@@ -3138,10 +3137,6 @@ angular.module('angularFireHangoutApp')
         ParticipantMgr_Object.participant_obj_bp_close[role_key] = ParticipantMgr_Object.participant_obj[role_key];
       }
     }
-    console.log("participant_obj_bp_open");
-    console.log(ParticipantMgr_Object.participant_obj_bp_open);
-    console.log("participant_obj_bp_close");
-    console.log(ParticipantMgr_Object.participant_obj_bp_close);
   }
 
 
@@ -3179,11 +3174,6 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.own_side = ParticipantMgr_Object.participant_obj[role_key].side;
         }
       }
-      console.log("update_member_variable");
-      console.log(ParticipantMgr_Object.own_role_array);
-      console.log(ParticipantMgr_Object.own_group);
-      console.log(ParticipantMgr_Object.own_group_id);
-      console.log(ParticipantMgr_Object.is_audience_or_debater);
 
   }
 
@@ -3226,7 +3216,7 @@ angular.module('angularFireHangoutApp')
 
     var under_recording = false;
     var available=true;
-    var short_split_id_value="aaaa";
+    var short_split_id_value=null;
     var root_ref = new Firebase(MixideaSetting.firebase_url);
     var transcription_ref = null;
     var speech_type=null;
@@ -3272,7 +3262,7 @@ angular.module('angularFireHangoutApp')
     	if(under_recording){
     		return;
     	}else{
-            console.log("recognition start")
+            console.log("--recognition start--")
     		recognition.start();
     		under_recording = true;
     	}
@@ -3280,12 +3270,14 @@ angular.module('angularFireHangoutApp')
     }
 
     this.stop = function(){
-        console.log("record stop")
     	if(!available || !under_recording){
     		return;
     	}
-    	recognition.stop();
-    	under_recording = false;
+        setTimeout(function(){
+            console.log("--recognition stop--");
+            recognition.stop();
+            under_recording = false;
+        },1000);
     }
 
     function StoreData(text){
@@ -3329,7 +3321,6 @@ angular.module('angularFireHangoutApp')
     var under_recording = false;
 
     this.record_start_api = function(type, speaker_role_name, speech_id){
-    	console.log("record start");
 
 		if(!audio_available || !socket_available){
 			return;
@@ -3428,7 +3419,6 @@ angular.module('angularFireHangoutApp')
 
 		if(!stream){
 			console.log(" start record socket id=" + socket_io.id);
-			console.log("start recording");
 			stream = ss.createStream();
 			console.log("audio polling stream id " + stream.id);
 			var start_emit_obj = {filename:in_file_name,sample_rate:sample_rate_value};
@@ -3473,7 +3463,6 @@ angular.module('angularFireHangoutApp')
 		if(!socket_available || !audio_available){
 			return;
 		}
-		console.log("stop recording");
 		if(stream){
 			console.log("stop record socket id=" + socket_io.id);
 			stream.end();
@@ -3549,7 +3538,6 @@ angular.module('angularFireHangoutApp')
 
 
 	this.Poi = function(){
-		console.log("poi");
 		if(!sound_mgr.PinOne_sound){
 			return;
 		}
@@ -3560,7 +3548,6 @@ angular.module('angularFireHangoutApp')
 	}
 
 	this.HearHear = function(){
-		console.log("hear hear");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3570,7 +3557,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.HearHear_sound.connect(audio_context.destination);
 	}
 	this.BooBoo = function(){
-		console.log("boo boo");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3580,7 +3566,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.BooBoo_sound.connect(audio_context.destination);
 	}
 	this.Taken = function(){
-		console.log("taken");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3590,7 +3575,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.Taken_sound.connect(audio_context.destination);
 	}
 	this.PoiFinish = function(){
-		console.log("poi finish");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3600,7 +3584,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PoiFinish_sound.connect(audio_context.destination);
 	}
 	this.PinOne = function(){
-		console.log("pin one");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3610,7 +3593,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinOne_sound.connect(audio_context.destination);
 	}
 	this.PinTwo = function(){
-		console.log("pin two");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3620,7 +3602,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinTwo_sound.connect(audio_context.destination);
 	}
 	this.PinThree = function(){
-		console.log("pin three");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3630,7 +3611,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinThree_sound.connect(audio_context.destination);
 	}
 	this.Cursol = function(){
-		console.log("cursol");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -3641,7 +3621,6 @@ angular.module('angularFireHangoutApp')
 	}
 
 	this.SpeechStart = function(){
-		console.log("speech start");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}

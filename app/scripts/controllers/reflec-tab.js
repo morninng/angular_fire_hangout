@@ -13,7 +13,6 @@ angular.module('angularFireHangoutApp')
 
 
 	function set_pain_size(){
-		console.log("set_pain_size");
 
 /*height*/
 	    var tab_layout_element = document.getElementById("container_main_right");

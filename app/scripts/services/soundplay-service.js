@@ -13,7 +13,6 @@ angular.module('angularFireHangoutApp')
 
 
 	this.Poi = function(){
-		console.log("poi");
 		if(!sound_mgr.PinOne_sound){
 			return;
 		}
@@ -24,7 +23,6 @@ angular.module('angularFireHangoutApp')
 	}
 
 	this.HearHear = function(){
-		console.log("hear hear");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -34,7 +32,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.HearHear_sound.connect(audio_context.destination);
 	}
 	this.BooBoo = function(){
-		console.log("boo boo");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -44,7 +41,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.BooBoo_sound.connect(audio_context.destination);
 	}
 	this.Taken = function(){
-		console.log("taken");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -54,7 +50,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.Taken_sound.connect(audio_context.destination);
 	}
 	this.PoiFinish = function(){
-		console.log("poi finish");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -64,7 +59,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PoiFinish_sound.connect(audio_context.destination);
 	}
 	this.PinOne = function(){
-		console.log("pin one");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -74,7 +68,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinOne_sound.connect(audio_context.destination);
 	}
 	this.PinTwo = function(){
-		console.log("pin two");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -84,7 +77,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinTwo_sound.connect(audio_context.destination);
 	}
 	this.PinThree = function(){
-		console.log("pin three");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -94,7 +86,6 @@ angular.module('angularFireHangoutApp')
 		sound_mgr.PinThree_sound.connect(audio_context.destination);
 	}
 	this.Cursol = function(){
-		console.log("cursol");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}
@@ -105,7 +96,6 @@ angular.module('angularFireHangoutApp')
 	}
 
 	this.SpeechStart = function(){
-		console.log("speech start");
 		if(!sound_mgr.SpeechStart_sound){
 			return;
 		}

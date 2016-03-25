@@ -489,10 +489,6 @@ angular.module('angularFireHangoutApp')
       if(debate_style == "BP"){
         adopt_ParticipantObj_BP();
       }
-      console.log("participant obj");
-      console.log(ParticipantMgr_Object.participant_obj);
-      console.log("audience array");
-      console.log(ParticipantMgr_Object.audience_array);
       update_member_variable();
     });
   }
@@ -514,10 +510,6 @@ angular.module('angularFireHangoutApp')
         ParticipantMgr_Object.participant_obj_bp_close[role_key] = ParticipantMgr_Object.participant_obj[role_key];
       }
     }
-    console.log("participant_obj_bp_open");
-    console.log(ParticipantMgr_Object.participant_obj_bp_open);
-    console.log("participant_obj_bp_close");
-    console.log(ParticipantMgr_Object.participant_obj_bp_close);
   }
 
 
@@ -555,11 +547,6 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.own_side = ParticipantMgr_Object.participant_obj[role_key].side;
         }
       }
-      console.log("update_member_variable");
-      console.log(ParticipantMgr_Object.own_role_array);
-      console.log(ParticipantMgr_Object.own_group);
-      console.log(ParticipantMgr_Object.own_group_id);
-      console.log(ParticipantMgr_Object.is_audience_or_debater);
 
   }
 
