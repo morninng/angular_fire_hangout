@@ -105,7 +105,6 @@ angular.module('angularFireHangoutApp')
         scope.$on("$destroy", function() {
             own_note_content_ref.off("child_added");
             own_note_content_ref.off("child_changed");
-            content_focused_ref.off("value");
         });
 
 

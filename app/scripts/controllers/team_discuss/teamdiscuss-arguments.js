@@ -38,6 +38,7 @@ angular.module('angularFireHangoutApp')
 
   });
  
+ var defintro_id_ref = null;
 
   function construct_discussion_note(){
 
@@ -69,7 +70,7 @@ angular.module('angularFireHangoutApp')
 
 	var defintro_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
 				+ deb_style_val + "/" + team_val + "/def_intro";
-	var defintro_id_ref = root_ref.child(defintro_id_path);
+	defintro_id_ref = root_ref.child(defintro_id_path);
 	defintro_id_ref.on("child_added", function(snapshot, previousKey){
 		var defintro_id_key = snapshot.key();
 		$timeout(function(){

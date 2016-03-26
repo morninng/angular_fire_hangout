@@ -49,11 +49,11 @@ angular.module('angularFireHangoutApp')
 
 	$scope.add_argument = function(deb_style_val, team_val){
 
-		var argument_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
+		var argument_id_path_add = "event_related/Article_Context/" + event_id_val + "/identifier/" 
 					+ deb_style_val + "/" + team_val + "/arguments";
-		var argument_id_ref = root_ref.child(argument_id_path);
+		var argument_id_add_ref = root_ref.child(argument_id_path_add);
 		var dummy_content = {dummy:true};
-		argument_id_ref.push(dummy_content);
+		argument_id_add_ref.push(dummy_content);
 
 	};
 
