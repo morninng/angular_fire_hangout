@@ -77,6 +77,7 @@ angular.module('angularFireHangoutApp')
 	$scope.$on("$destroy", function() {
 		booboo_ref.off("value");
 		hearhear_ref.off("value");
+
 	});
 
 
