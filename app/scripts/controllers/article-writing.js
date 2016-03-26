@@ -143,7 +143,9 @@ angular.module('angularFireHangoutApp')
 		$timeout(function() {});
 
 	}
-
+	$scope.$on("$destroy", function() {
+		argument_id_ref.off("value");
+	});
 
  
 

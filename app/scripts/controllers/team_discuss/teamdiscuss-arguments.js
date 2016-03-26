@@ -129,7 +129,10 @@ angular.module('angularFireHangoutApp')
 			set_pain_size();
 		}
 	}
-
+   $scope.$on("$destroy", function() {
+   		defintro_id_ref.off("child_added");
+   		deb_style_ref.off("value");
+    });
 
 
   }]);

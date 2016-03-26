@@ -18,7 +18,7 @@ angular.module('angularFireHangoutApp')
   	var url_list_array = new Array();
 
 
-  	$scope.$watch('participant_mgr.own_group', 
+  	$scope.cancel_group_watch = $scope.$watch('participant_mgr.own_group', 
   		function(newValue, oldValue){
   			update_link();
   		}
@@ -27,9 +27,8 @@ angular.module('angularFireHangoutApp')
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var hangoutlist_team_ref = root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/team_discussion");
   hangoutlist_team_ref.on("value", function(snapshot) {
-	url_list_array = snapshot.val();
-	update_link();
-    
+  	url_list_array = snapshot.val();
+  	update_link();
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 
@@ -76,7 +75,13 @@ angular.module('angularFireHangoutApp')
                      "^" + fourth_query_value + "^" + fifth_query_value;
   		$scope.team_hangout_array.push(team_obj);
   	}
-    $timeout(function() {});
+    $timeout(function(){});
   }
+
+  $scope.$on("$destroy", function() {
+    hangoutlist_team_ref.off("value");
+    $scope.cancel_group_watch();
+  });
+
 
   }]);

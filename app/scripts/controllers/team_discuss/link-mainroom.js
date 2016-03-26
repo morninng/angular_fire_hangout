@@ -35,6 +35,9 @@ angular.module('angularFireHangoutApp')
 	});
 
 
+    $scope.$on("$destroy", function() {
+    	hangoutlist_team_ref.off("value");
+    });
 
 
   }]);

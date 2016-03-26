@@ -14,8 +14,8 @@ angular.module('angularFireHangoutApp')
 	var start_time = null;
 
 	var root_ref = new Firebase("https://mixidea.firebaseio.com/");
-	var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
-	mapping_data_ref.on("value", function(snapshot){
+	var preptime_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
+	preptime_ref.on("value", function(snapshot){
 		start_time = snapshot.val();
 	}, function(){
 		console.log("fail to load timer data");
@@ -42,10 +42,18 @@ angular.module('angularFireHangoutApp')
 		elapled_second = ("0" + elapled_second).slice(-2);
 		elapsed_minute = ("0" + elapsed_minute).slice(-2);
 
-		$timeout(function() {
-			$scope.prep_time = elapsed_minute + ":" + elapled_second + " has passed";
-		});
+		
+		$scope.prep_time = elapsed_minute + ":" + elapled_second + " has passed";
+		$timeout(function() {});
 
 	}, 1000);
+
+
+	$scope.$on("$destroy", function() {
+		clearInterval(timer);
+		preptime_ref.off("value")
+	});
+
+
 
   }]);

@@ -24,12 +24,12 @@ var global_own_team_side = null;
   
   
   if(global_room_type == "team_discussion"){
-    global_team_side = "Gov";
-    global_own_team_side = "Opp";
+    global_team_side = "OG";
+    global_own_team_side = "OG";
   }
 
-  var dummy_hangout_id = "BBCCBBBBB";
-  set_mapping_data(global_own_user_id, dummy_hangout_id);
+  global_own_hangout_id = "BBCCBBBBB";
+  set_mapping_data(global_own_user_id, global_own_hangout_id);
 
 
 
@@ -45,7 +45,8 @@ angular.module('angularFireHangoutApp')
     hangout_appid: "211272797315",
     team_discuss_team_side: global_team_side,
     team_discuss_own_team: global_own_team_side,
-    recording_domain: 'https://recording.mixidea.org:3000/'
+    recording_domain: 'https://recording.mixidea.org:3000/',
+    hangout_execution: false
   });
 
 

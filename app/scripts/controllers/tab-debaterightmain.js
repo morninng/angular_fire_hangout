@@ -14,8 +14,8 @@ angular.module('angularFireHangoutApp')
   	$scope.participant_mgr = ParticipantMgrService;
   	$scope.layout_style = null;
 
-	$scope.$watch('participant_mgr.own_group',function(){goto_child_state();} );
-	$scope.$watch('participant_mgr.is_audience_or_debater',function(){goto_child_state();} );
+	$scope.cancel_group_watch = $scope.$watch('participant_mgr.own_group',function(){goto_child_state();} );
+	$scope.cancel_aud_deb_watch = $scope.$watch('participant_mgr.is_audience_or_debater',function(){goto_child_state();} );
 
 	function goto_child_state(){
 	  	var own_group = $scope.participant_mgr.own_group;
@@ -70,9 +70,13 @@ angular.module('angularFireHangoutApp')
 		set_pain_size();
 	}
 
-
 	goto_child_state();
 
+
+	$scope.$on("$destroy", function() {
+		$scope.cancel_group_watch();
+		$scope.cancel_aud_deb_watch();
+	});
 
 
   }]);

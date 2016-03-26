@@ -107,16 +107,22 @@ angular.module('angularFireHangoutApp')
 
 // mapping data
 
+
+
+
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var mapping_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
   mapping_ref.on("value", function(snapshot) {
+    console.log("mapping data updated");
     var value  = snapshot.val();
+    console.log(value);
     var key  = snapshot.key();
     if(value){
       mapping_object = value;
     }else{
       mapping_object = new Object();
     }
+    //check_ownexistence_addifnot();
     update_ParticipantMgr_Object();
 
   }, function (errorObject) {
@@ -124,6 +130,78 @@ angular.module('angularFireHangoutApp')
     console.log("The read failed: " + errorObject.code);
 
   });
+
+
+  window.addEventListener("online", 
+    function(){
+      console.log("online event");
+      check_ownexistence_addifnot();
+      setTimeout(function() {check_ownexistence_addifnot();}, 3000);
+    }
+  );
+
+
+
+
+  function check_ownexistence_addifnot(){
+
+    var own_exist = false;
+    for(var key in mapping_object){
+      if(key == MixideaSetting.own_user_id){
+        own_exist = true;
+        return;
+      }
+    }
+    if(!own_exist){
+      var own_mapping_ref = mapping_ref.child(MixideaSetting.own_user_id);
+      var own_hangout_id = global_own_hangout_id;
+      if(!own_hangout_id){
+        if(MixideaSetting.hangout_execution){
+          own_hangout_id = gapi.hangout.getLocalParticipantId();
+        }
+      }
+      own_mapping_ref.set(own_hangout_id);
+    }
+  }
+
+
+  if(MixideaSetting.hangout_execution){
+    console.log("before api ready within participant mgr")
+    gapi.hangout.onApiReady.add(function(e){
+      console.log("api ready within participantmgr is called")
+      if(e.isApiReady){
+        console.log("become ready status within participant mgr");
+        gapi.hangout.onParticipantsChanged.add(function(participant_change) {
+          console.log("function added to participant changed");
+          update_hangout_participants();
+        });
+      }
+    });
+  }
+
+  function update_hangout_participants(){
+    console.log("update_hangout_participants");
+    var participant_obj_array = gapi.hangout.getParticipants();
+    console.log(participant_obj_array);
+
+    for(var key in mapping_object){
+      var exist = false;
+      for(var i=0; i< participant_obj_array.length; i++){
+        if(mapping_object[key] == participant_obj_array[i]){
+          exist = true;
+          break;
+        }
+      }
+      if(!exist){
+        console.log("user" + key + "do not login within hangout" + mapping_object[key]);
+        var non_exist_person_ref = mapping_ref.child(key);
+        non_exist_person_ref.set(null);
+      }
+    }
+    check_ownexistence_addifnot();
+    setTimeout(function() {check_ownexistence_addifnot();}, 3000);
+  }
+
 
 // game role
 

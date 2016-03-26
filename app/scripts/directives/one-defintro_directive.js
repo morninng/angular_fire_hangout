@@ -81,6 +81,12 @@ angular.module('angularFireHangoutApp')
         content_own_focused_ref.onDisconnect().remove();
 
 
+        scope.$on("$destroy", function() {
+            content_own_focused_ref.set(null);
+            content_ref.off("value");
+            content_focused_ref.off("value");
+        });
+
 
       }
     };

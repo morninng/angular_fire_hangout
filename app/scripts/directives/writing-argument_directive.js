@@ -235,6 +235,22 @@ angular.module('angularFireHangoutApp')
           one_argument_id_ref.set(null);
         }
 
+        scope.$on("$destroy", function() {
+          title_ref.off("value");
+          content_ref.off("value");
+          refute_ref.off("value");
+
+          title_focused_ref.off("value");
+          content_focused_ref.off("value");
+          refute_focused_ref.off("value");
+          
+          title_own_focused_ref.set(null);
+          content_own_focused_ref.set(null);
+          refute_own_focused_ref.set(null);
+        });
+
+
+
 
       }
     };

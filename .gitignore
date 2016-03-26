@@ -7,3 +7,6 @@
 /credentials*
 *~
 app/.sass-cache/*
+app/script_mini/*
+app/css/*
+

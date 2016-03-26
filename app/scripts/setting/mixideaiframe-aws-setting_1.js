@@ -27,8 +27,8 @@ var global_own_team_side = null;
   }
 
   
-  var dummy_hangout_id = "11111111111";
-  set_mapping_data(global_own_user_id, dummy_hangout_id)
+  var global_own_hangout_id = "11111111111";
+  set_mapping_data(global_own_user_id, global_own_hangout_id);
 
 }());
 
@@ -42,7 +42,8 @@ angular.module('angularFireHangoutApp')
     hangout_appid: "211272797315",
     team_discuss_team_side: global_team_side,
     team_discuss_own_team: global_own_team_side,
-    recording_domain: 'https://recording.mixidea.org:3000/'
+    recording_domain: 'https://recording.mixidea.org:3000/',
+    hangout_execution: false
   });
 
 

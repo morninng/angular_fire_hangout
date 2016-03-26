@@ -428,7 +428,9 @@ angular.module('angularFireHangoutApp')
 		$timeout(function() {});
 
 	}
-
+	$scope.$on("$destroy", function() {
+		argument_id_ref.off("value");
+	});
 
  
 
@@ -450,8 +452,8 @@ angular.module('angularFireHangoutApp')
 	var start_time = null;
 
 	var root_ref = new Firebase("https://mixidea.firebaseio.com/");
-	var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
-	mapping_data_ref.on("value", function(snapshot){
+	var preptime_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
+	preptime_ref.on("value", function(snapshot){
 		start_time = snapshot.val();
 	}, function(){
 		console.log("fail to load timer data");
@@ -478,11 +480,19 @@ angular.module('angularFireHangoutApp')
 		elapled_second = ("0" + elapled_second).slice(-2);
 		elapsed_minute = ("0" + elapsed_minute).slice(-2);
 
-		$timeout(function() {
-			$scope.prep_time = elapsed_minute + ":" + elapled_second + " has passed";
-		});
+		
+		$scope.prep_time = elapsed_minute + ":" + elapled_second + " has passed";
+		$timeout(function() {});
 
 	}, 1000);
+
+
+	$scope.$on("$destroy", function() {
+		clearInterval(timer);
+		preptime_ref.off("value")
+	});
+
+
 
   }]);
 
@@ -501,7 +511,7 @@ angular.module('angularFireHangoutApp')
 
 	$scope.participant_mgr = ParticipantMgrService;
 	$scope.debater_array = [];
-	$scope.$watch('participant_mgr.debate_style',function(){update_debater_array()} );
+	$scope.cancel_style_watch = $scope.$watch('participant_mgr.debate_style',function(){update_debater_array()} );
 
 
 	var debater_array_NA = ["PM","LO","MG","MO","PMR","LOR"];
@@ -561,10 +571,16 @@ angular.module('angularFireHangoutApp')
 				update_speaker(role_name);
 			}
 		}
-		
 	}, function(error){
 		console.log("fail while to retrieve speaker obj" + error);
 	})
+
+	$scope.$on("$destroy", function() {
+		speaker_ref.off("value");
+		$scope.cancel_style_watch();
+	});
+
+
 
 
   }]);
@@ -645,6 +661,10 @@ angular.module('angularFireHangoutApp')
 		console.log(error_obj);
 	})
 
+	$scope.$on("$destroy", function() {
+		booboo_ref.off("value");
+		hearhear_ref.off("value");
+	});
 
 
   }]);
@@ -669,7 +689,7 @@ angular.module('angularFireHangoutApp')
   	var url_list_array = new Array();
 
 
-  	$scope.$watch('participant_mgr.own_group', 
+  	$scope.cancel_group_watch = $scope.$watch('participant_mgr.own_group', 
   		function(newValue, oldValue){
   			update_link();
   		}
@@ -678,9 +698,8 @@ angular.module('angularFireHangoutApp')
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var hangoutlist_team_ref = root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/team_discussion");
   hangoutlist_team_ref.on("value", function(snapshot) {
-	url_list_array = snapshot.val();
-	update_link();
-    
+  	url_list_array = snapshot.val();
+  	update_link();
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
 
@@ -727,8 +746,14 @@ angular.module('angularFireHangoutApp')
                      "^" + fourth_query_value + "^" + fifth_query_value;
   		$scope.team_hangout_array.push(team_obj);
   	}
-    $timeout(function() {});
+    $timeout(function(){});
   }
+
+  $scope.$on("$destroy", function() {
+    hangoutlist_team_ref.off("value");
+    $scope.cancel_group_watch();
+  });
+
 
   }]);
 
@@ -750,48 +775,45 @@ angular.module('angularFireHangoutApp')
 
 	$scope.$watch('game_status_service.game_status', function(newValue, oldValue){
 
-		$timeout(function() {
-			switch(newValue){
-				case "introduction":
-					$scope.top_right_width = {width:"0px"};
-					$scope.main_left_above_left_width = {width:"300px"}
-					$scope.main_left_above_right_width = {width:"250px"};
-					$scope.main_left_below_width = {width:"550px"};
-					$scope.main_right_width = {width:"550px"};
-				break;
-				case "preparation":
-					$scope.top_right_width = {width:"0px"};
-					$scope.main_left_above_left_width = {width:"300px"}
-					$scope.main_left_above_right_width = {width:"250px"};
-					$scope.main_left_below_width = {width:"550px"};
-					$scope.main_right_width = {width:"550px"};
-				break;
-				case "debate":
-					$scope.top_right_width = {width:"250px"};
-					$scope.main_left_above_left_width = {width:"300px"}
-					$scope.main_left_above_right_width = {width:"0px"};
-					$scope.main_left_below_width = {width:"0px"};
-					$scope.main_width = {width:null};
-					$scope.main_right_width = {width:null};
+		
+		switch(newValue){
+			case "introduction":
+				$scope.top_right_width = {width:"0px"};
+				$scope.main_left_above_left_width = {width:"300px"}
+				$scope.main_left_above_right_width = {width:"250px"};
+				$scope.main_left_below_width = {width:"550px"};
+				$scope.main_right_width = {width:"550px"};
+			break;
+			case "preparation":
+				$scope.top_right_width = {width:"0px"};
+				$scope.main_left_above_left_width = {width:"300px"}
+				$scope.main_left_above_right_width = {width:"250px"};
+				$scope.main_left_below_width = {width:"550px"};
+				$scope.main_right_width = {width:"550px"};
+			break;
+			case "debate":
+				$scope.top_right_width = {width:"250px"};
+				$scope.main_left_above_left_width = {width:"300px"}
+				$scope.main_left_above_right_width = {width:"0px"};
+				$scope.main_left_below_width = {width:"0px"};
+				$scope.main_width = {width:null};
+				$scope.main_right_width = {width:null};
 
 
-				break;
-				case "reflection":
-					$scope.top_right_width = {width:"250px"};
-					$scope.main_left_above_left_width = {width:"0px"}
-					$scope.main_left_above_right_width = {width:"0px"};
-					$scope.main_left_below_width = {width:"0px"};
-					$scope.main_width = {width:"100%"};
-					$scope.main_right_width = {width:"100%"};
-				break;
-				case "complete":
-					$scope.top_right_width = {width:"250px"};
-				break;
-			}
-		});
-
-
-
+			break;
+			case "reflection":
+				$scope.top_right_width = {width:"250px"};
+				$scope.main_left_above_left_width = {width:"0px"}
+				$scope.main_left_above_right_width = {width:"0px"};
+				$scope.main_left_below_width = {width:"0px"};
+				$scope.main_width = {width:"100%"};
+				$scope.main_right_width = {width:"100%"};
+			break;
+			case "complete":
+				$scope.top_right_width = {width:"250px"};
+			break;
+		}
+		$timeout(function() {});
 
 	});
 
@@ -846,7 +868,7 @@ angular.module('angularFireHangoutApp')
 		{name:"OW", shown_name:"Opposition Whip"},
 	];
 
-	$scope.$watch('participant_mgr.debate_style',function(){update_own_role_array();} );
+	$scope.cancel_style_watch = $scope.$watch('participant_mgr.debate_style',function(){update_own_role_array();} );
 
 	function update_own_role_array(){
 
@@ -876,13 +898,17 @@ angular.module('angularFireHangoutApp')
 				var role = updated_speaker_obj[key].role;
 			}
 		}
-		$timeout(function() {
-			$scope.current_role = role;
-		});
+		$scope.current_role = role;
+		$timeout(function() {});
   	}, function(error){
   		console.log("fail while to retrieve speaker obj" + error);
   	})
 
+
+	$scope.$on("$destroy", function() {
+		speaker_ref.off("value");
+		$scope.cancel_style_watch();
+	});
 
 
 
@@ -1005,7 +1031,6 @@ angular.module('angularFireHangoutApp')
 	    var diff_height = expected_height - reflec_layout_current_height;
 	    var diff_height_abs = Math.abs(diff_height);
 
-
 /*width*/
 	    var left_position = tab_layout_element.offsetLeft;
 	    var parent_width = window.innerWidth;
@@ -1026,11 +1051,13 @@ angular.module('angularFireHangoutApp')
 	set_pain_size();
 	setTimeout(set_pain_size,1000);
 	var reflec_layout_element = document.getElementById("reflec_tab_container");
-	reflec_layout_element.onscroll = function(){
-		set_pain_size();
-	}
+	reflec_layout_element.addEventListener("scroll",set_pain_size);
 
 
+   $scope.$on("$destroy", function() {
+    	console.log("reflec tab destroy");
+    	reflec_layout_element.removeEventListener("scroll",set_pain_size);
+    });
 
 
   }]);
@@ -1105,33 +1132,36 @@ angular.module('angularFireHangoutApp')
   	$scope.status_complete = "status_bar_element_last";
   	$scope.game_status_service = StatusMgrService;
 
-  	$scope.$watch('game_status_service.game_status', function(newValue, oldValue){
+  	$scope.cancel_status_watch = $scope.$watch('game_status_service.game_status', function(newValue, oldValue){
 		$scope.status_intro = "status_bar_element";
 		$scope.status_prep = "status_bar_element";
 		$scope.status_debate = "status_bar_element";
 		$scope.status_reflec = "status_bar_element";
 		$scope.status_complete = "status_bar_element_last";
 
-		$timeout(function() {
-			switch(newValue){
-				case "introduction":
-				$scope.status_intro = "status_bar_element_selected";
-				break;
-				case "preparation":
-				$scope.status_prep = "status_bar_element_selected";
-				break;
-				case "debate":
-				$scope.status_debate = "status_bar_element_selected";
-				break;
-				case "reflection":
-				$scope.status_reflec = "status_bar_element_selected";
-				break;
-				case "complete":
-				$scope.status_complete = "status_bar_element_selected";
-				break;
-			}
-		});
+		switch(newValue){
+			case "introduction":
+			$scope.status_intro = "status_bar_element_selected";
+			break;
+			case "preparation":
+			$scope.status_prep = "status_bar_element_selected";
+			break;
+			case "debate":
+			$scope.status_debate = "status_bar_element_selected";
+			break;
+			case "reflection":
+			$scope.status_reflec = "status_bar_element_selected";
+			break;
+			case "complete":
+			$scope.status_complete = "status_bar_element_selected";
+			break;
+		}
+		$timeout(function() {});
   	})
+
+	$scope.$on("$destroy", function() {
+		$scope.cancel_status_watch();
+	});
 
 
   }]);
@@ -1152,8 +1182,8 @@ angular.module('angularFireHangoutApp')
   	$scope.participant_mgr = ParticipantMgrService;
   	$scope.layout_style = null;
 
-	$scope.$watch('participant_mgr.own_group',function(){goto_child_state();} );
-	$scope.$watch('participant_mgr.is_audience_or_debater',function(){goto_child_state();} );
+	$scope.cancel_group_watch = $scope.$watch('participant_mgr.own_group',function(){goto_child_state();} );
+	$scope.cancel_aud_deb_watch = $scope.$watch('participant_mgr.is_audience_or_debater',function(){goto_child_state();} );
 
 	function goto_child_state(){
 	  	var own_group = $scope.participant_mgr.own_group;
@@ -1208,9 +1238,13 @@ angular.module('angularFireHangoutApp')
 		set_pain_size();
 	}
 
-
 	goto_child_state();
 
+
+	$scope.$on("$destroy", function() {
+		$scope.cancel_group_watch();
+		$scope.cancel_aud_deb_watch();
+	});
 
 
   }]);
@@ -1236,31 +1270,31 @@ angular.module('angularFireHangoutApp')
 	var title_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/motion")
 
 	title_ref.on("value", function(snapshot) {
-		$timeout(function() {
-			$scope.data.motion = snapshot.val();
+		
+		$scope.data.motion = snapshot.val();
 
-			if(!$scope.data.motion){
-				$scope.motion_sentence = "motion_sentence_Red_xlarge";
-  				$scope.data.motion = "input motion here";
-  				$scope.data.motion_exist = false;
-  				return;	
-			}
-			var title_len = $scope.data.motion.length;			
-			if(title_len == 0){
-				$scope.motion_sentence = "motion_sentence_Red_xlarge";
-  				$scope.data.motion = "input motion here";
-  				$scope.data.motion_exist = false;
-			}if(title_len < 60 ){
-				$scope.motion_sentence = "motion_sentence_large";
-  				$scope.data.motion_exist = true;
-			}else if (title_len < 100){
-				$scope.motion_sentence = "motion_sentence_middle";
-  				$scope.data.motion_exist = true;
-			}else{
-				$scope.motion_sentence = "motion_sentence_small";
-  				$scope.data.motion_exist = true;
-			}
-		});
+		if(!$scope.data.motion){
+			$scope.motion_sentence = "motion_sentence_Red_xlarge";
+				$scope.data.motion = "input motion here";
+				$scope.data.motion_exist = false;
+				return;	
+		}
+		var title_len = $scope.data.motion.length;			
+		if(title_len == 0){
+			$scope.motion_sentence = "motion_sentence_Red_xlarge";
+				$scope.data.motion = "input motion here";
+				$scope.data.motion_exist = false;
+		}if(title_len < 60 ){
+			$scope.motion_sentence = "motion_sentence_large";
+				$scope.data.motion_exist = true;
+		}else if (title_len < 100){
+			$scope.motion_sentence = "motion_sentence_middle";
+				$scope.data.motion_exist = true;
+		}else{
+			$scope.motion_sentence = "motion_sentence_small";
+				$scope.data.motion_exist = true;
+		}
+		$timeout(function() {});
 	}, function (errorObject) {
 		console.log("The read failed: " + errorObject.code);
 	});
@@ -1300,6 +1334,10 @@ angular.module('angularFireHangoutApp')
 	$scope.cancel = function(){
 		$scope.under_edit = false;
 	}
+
+	$scope.$on("$destroy", function() {
+		title_ref.off("value");
+	});
 
 
   }]);
@@ -1384,7 +1422,9 @@ angular.module('angularFireHangoutApp')
 
 	}
 
-
+  $scope.$on("$destroy", function() {
+    url_ref.off("child_added");
+  });
 
 
   }]);
@@ -1451,27 +1491,28 @@ angular.module('angularFireHangoutApp')
   	}
 
   	speaker_ref.on("value", function(snapshot){
-  		var updated_speaker_obj = snapshot.val();
+      var updated_speaker_obj = snapshot.val();
+      console.log(updated_speaker_obj);
 
-  		if(!updated_speaker_obj){
-  			for(var key in $scope.speaker_obj){
-  				delete $scope.speaker_obj[key]
-  			}
-  		}else{
-			var obj = new Object();
-			for(var key in updated_speaker_obj){
-				var speaker_user_id = key;
-				$scope.speaker_obj.id = speaker_user_id;
-				var obj = updated_speaker_obj[speaker_user_id];
-				$scope.speaker_obj.name = obj.name;
-				$scope.speaker_obj.role = obj.role;
-        current_speaker = obj.role;
-				$scope.speaker_obj.side = obj.side;
-				$scope.speaker_obj.full_role_name = obj.full_role_name;
-        $scope.speech_start_time = obj.speech_start_time;
-			}
-		}
-		update_video_status()
+      if(!updated_speaker_obj){
+        for(var key in $scope.speaker_obj){
+        delete $scope.speaker_obj[key]
+        }
+      }else{
+        var obj = new Object();
+        for(var key in updated_speaker_obj){
+          var speaker_user_id = key;
+          $scope.speaker_obj.id = speaker_user_id;
+          var obj = updated_speaker_obj[speaker_user_id];
+          $scope.speaker_obj.name = obj.name;
+          $scope.speaker_obj.role = obj.role;
+          current_speaker = obj.role;
+          $scope.speaker_obj.side = obj.side;
+          $scope.speaker_obj.full_role_name = obj.full_role_name;
+          $scope.speech_start_time = obj.speech_start_time;
+        }
+      }
+      update_video_status()
 
   	}, function(error){
   		console.log("fail while to retrieve speaker obj" + error);
@@ -1534,52 +1575,51 @@ angular.module('angularFireHangoutApp')
   			poi_user_id = key;
         poi_user_group = poi_taken_obj[key]
   		}
-		if(poi_user_id){
-			$scope.poi_speaker_obj.id = poi_user_id;
-			$scope.poi_speaker_obj.speaker_group = 'Poi from ' + poi_user_group;
-		//	$scope.poi_speaker_obj.name = $scope.participant_mgr.user_object_data[poi_user_id].first_name;
-		}else{
-			for(var key in $scope.poi_speaker_obj){
-				delete $scope.poi_speaker_obj[key]
-			}
-		}
+  		if(poi_user_id){
+  			$scope.poi_speaker_obj.id = poi_user_id;
+  			$scope.poi_speaker_obj.speaker_group = 'Poi from ' + poi_user_group;
+  		//	$scope.poi_speaker_obj.name = $scope.participant_mgr.user_object_data[poi_user_id].first_name;
+  		}else{
+  			for(var key in $scope.poi_speaker_obj){
+  				delete $scope.poi_speaker_obj[key]
+  			}
+  		}
 		
   		update_video_status();
   	});
 
   	function update_video_status(){
 
-  		$timeout(function() {
-  			if($scope.poi_speaker_obj.id){
-          //poi
-          if($scope.status=="speech"){
-            poi_start();
-          }
-          manage_speaker($scope.poi_speaker_obj.id, "poi");
-  				$scope.status = "poi";
 
+      if($scope.poi_speaker_obj.id){
+      //poi
+        if($scope.status=="speech"){
+          poi_start();
+        }
+        manage_speaker($scope.poi_speaker_obj.id, "poi");
+        $scope.status = "poi";
 
-  			}else if ($scope.speaker_obj.id){
-          //speech
-          if($scope.status=="break"){
-            speech_execution_start();
-          }else if($scope.status=="poi"){
-            poi_stop();
-          }
-          manage_speaker($scope.speaker_obj.id, "speech");
-  				$scope.status = "speech";
-  			}else{
-          //break
-          if($scope.status !="break"){
-            speech_execution_stop();
-          }
-          manage_speaker(null, "break");
-  				$scope.status = "break";
-  			}
+      }else if ($scope.speaker_obj.id){
+        //speech
+        if($scope.status=="break"){
+          speech_execution_start();
+        }else if($scope.status=="poi"){
+          poi_stop();
+        }
+        manage_speaker($scope.speaker_obj.id, "speech");
+        $scope.status = "speech";
+      }else{
+        //break
+        if($scope.status !="break"){
+          speech_execution_stop();
+        }
+        manage_speaker(null, "break");
+        $scope.status = "break";
+      }
 
-        setTimeout(update_video_canvas_position, 100);
-        setTimeout(update_video_canvas_position, 1000);
-  		});
+      setTimeout(update_video_canvas_position, 100);
+      setTimeout(update_video_canvas_position, 1000);
+      $timeout(function() {});
 
   	}
 
@@ -1694,26 +1734,41 @@ angular.module('angularFireHangoutApp')
 
     function manage_speaker(speaker_id, type){
 
+      var deb_style = $scope.participant_mgr.debate_style;
+
       if(speaker_id == MixideaSetting.own_user_id){
-        //Recording.start();
-        RecognitionService.start(type, current_speaker  ,$scope.speech_start_time);
+        RecognitionService.start(deb_style, type, current_speaker  ,$scope.speech_start_time);
         RecordingService.record_start_api(type, current_speaker, $scope.speech_start_time);
         HangoutService.enable_microphone();
-        //microphone.enable();
+
       }else if(speaker_id){
         RecognitionService.stop();
-        RecordingService.record_finish_api("other", current_speaker, $scope.speech_start_time);
+        RecordingService.record_finish_api("other",deb_style, current_speaker, $scope.speech_start_time);
         HangoutService.disable_microphone();
-        //microphone.disabled();
+
       }else{
         RecognitionService.stop();
-        RecordingService.record_finish_api("break", current_speaker, $scope.speech_start_time);
+        RecordingService.record_finish_api("break",deb_style, current_speaker, $scope.speech_start_time);
         HangoutService.enable_microphone();
-        //microphone.enable();
+
       }
       $scope.current_speaker == speaker_id;
 
     }
+
+
+    $scope.$on("$destroy", function() {
+        console.log("video scope is destroyed");
+        
+        speaker_ref_own.set(null);
+        poi_candidate_ref_own.set(null);
+        poi_taken_ref_own.set(null);
+
+        speaker_ref.off("value");
+        poi_candidate_ref.off("value");
+        poi_taken_ref.off("value");
+
+    });
 
 
 
@@ -1734,7 +1789,10 @@ angular.module('angularFireHangoutApp')
 
     function update_video_width(){
       var video_area_element = document.getElementById("static__dummy_layout");
-      var video_width = video_area_element.offsetWidth;
+      var video_width = 300;
+      if(video_area_element){
+       video_width = video_area_element.offsetWidth;
+      }
       var ratio = HangoutService.get_video_ratio;
       var video_area_height = video_width / ratio;
       var video_area_height_val = video_area_height + "px"
@@ -1902,22 +1960,19 @@ angular.module('angularFireHangoutApp')
 
         var content_ref = argument_content_ref.child("content");
         content_ref.on("value", function(snapshot){
-          $timeout(function(){
-            scope.content = snapshot.val();
-            scope.content_div = UtilService.add_linebreak_html(scope.content);
-            update_content_height()
-
-          });
+          scope.content = snapshot.val();
+          scope.content_div = UtilService.add_linebreak_html(scope.content);
+          update_content_height()
+          $timeout(function(){});
         }); 
 
         function update_content_height(){
-            $timeout(function(){
-              var content_div_element = scope.element[0].getElementsByClassName("MainArg_Content");
-              var content_div_height = content_div_element[0].offsetHeight;
-              content_div_height = content_div_height + 15;
-              content_div_height = String(content_div_height) + "px";
-              scope.textearea_height = {height:content_div_height};
-            });
+            var content_div_element = scope.element[0].getElementsByClassName("MainArg_Content");
+            var content_div_height = content_div_element[0].offsetHeight;
+            content_div_height = content_div_height + 15;
+            content_div_height = String(content_div_height) + "px";
+            scope.textearea_height = {height:content_div_height};
+            $timeout(function(){});
         }
 
         scope.change_content = function(){
@@ -1938,23 +1993,23 @@ angular.module('angularFireHangoutApp')
 
         var title_focused_ref = argument_focused_ref.child("title");
         title_focused_ref.on("value", function(snapshot){
-          $timeout(function(){
-            var focused_user_obj = snapshot.val();
-            scope.others_writing_title = false;
-            for(var key in focused_user_obj){
-              if(key != MixideaSetting.own_user_id){
-                scope.others_writing_title = true;
-                scope.others_id_title = key;
-              }
+          
+          var focused_user_obj = snapshot.val();
+          scope.others_writing_title = false;
+          for(var key in focused_user_obj){
+            if(key != MixideaSetting.own_user_id){
+              scope.others_writing_title = true;
+              scope.others_id_title = key;
             }
-            if(scope.others_writing_title){
-              scope.show_hide_title_textarea = "child_hide";
-              scope.show_hide_title_content = "child_show";
-            }else{
-              scope.show_hide_title_textarea = "child_show";
-              scope.show_hide_title_content = "child_hide";
-            }
-          });
+          }
+          if(scope.others_writing_title){
+            scope.show_hide_title_textarea = "child_hide";
+            scope.show_hide_title_content = "child_show";
+          }else{
+            scope.show_hide_title_textarea = "child_show";
+            scope.show_hide_title_content = "child_hide";
+          }
+          $timeout(function(){});
         }); 
         var title_own_focused_ref = argument_focused_ref.child("title/" + MixideaSetting.own_user_id);
         scope.title_focused = function(){
@@ -1970,23 +2025,23 @@ angular.module('angularFireHangoutApp')
 
         var content_focused_ref = argument_focused_ref.child("content");
         content_focused_ref.on("value", function(snapshot){
-          $timeout(function(){
-            var focused_user_obj = snapshot.val();
-            scope.others_writing_content = false;
-            for(var key in focused_user_obj){
-              if(key != MixideaSetting.own_user_id){
-                scope.others_writing_content = true;
-                scope.others_id_content = key;
-              }
+          
+          var focused_user_obj = snapshot.val();
+          scope.others_writing_content = false;
+          for(var key in focused_user_obj){
+            if(key != MixideaSetting.own_user_id){
+              scope.others_writing_content = true;
+              scope.others_id_content = key;
             }
-            if(scope.others_writing_content){
-              scope.show_hide_content_textarea = "child_hide";
-              scope.show_hide_content_content = "child_show";
-            }else{
-              scope.show_hide_content_textarea = "child_show";
-              scope.show_hide_content_content = "child_hide";
-            }
-          });
+          }
+          if(scope.others_writing_content){
+            scope.show_hide_content_textarea = "child_hide";
+            scope.show_hide_content_content = "child_show";
+          }else{
+            scope.show_hide_content_textarea = "child_show";
+            scope.show_hide_content_content = "child_hide";
+          }
+          $timeout(function(){});
         }); 
         var content_own_focused_ref = argument_focused_ref.child("content/" + MixideaSetting.own_user_id);
         scope.content_focused = function(){
@@ -2005,6 +2060,18 @@ angular.module('angularFireHangoutApp')
         scope.remove_argument = function(){
           one_argument_id_ref.set(null);
         }
+
+
+        scope.$on("$destroy", function() {
+            console.log("one argument destroy");
+            title_own_focused_ref.set(null);
+            content_own_focused_ref.set(null);
+
+            title_ref.off("value");
+            title_focused_ref.off("value");
+            content_ref.off("value");
+            content_focused_ref.off("value");
+        });
 
 
       }
@@ -2094,6 +2161,12 @@ angular.module('angularFireHangoutApp')
         content_own_focused_ref.onDisconnect().remove();
 
 
+        scope.$on("$destroy", function() {
+            content_own_focused_ref.set(null);
+            content_ref.off("value");
+            content_focused_ref.off("value");
+        });
+
 
       }
     };
@@ -2135,16 +2208,17 @@ angular.module('angularFireHangoutApp')
         var own_note_score_ref = own_note_ref.child("score");
 
         own_note_content_ref.on("child_added", function(snapshot){
-        	$timeout(function(){
-	        	var obj = new Object();
-	        	obj.id = snapshot.key();
-	        	obj.content = snapshot.val().content;
-	        	obj.counter = snapshot.val().counter;
-	        	obj.content_html = UtilService.add_linebreak_html(obj.content);
-	        	obj.type = snapshot.val().type;
-	        	obj.under_edit = false;
-        		scope.own_note_obj_array.push(obj);
-        	});
+    	
+        	var obj = new Object();
+        	obj.id = snapshot.key();
+        	obj.content = snapshot.val().content;
+        	obj.counter = snapshot.val().counter;
+        	obj.content_html = UtilService.add_linebreak_html(obj.content);
+        	obj.type = snapshot.val().type;
+        	obj.under_edit = false;
+    		scope.own_note_obj_array.push(obj);
+        	$timeout(function(){});
+            
         })
         own_note_content_ref.on("child_changed", function(snapshot){
         	var updated_data = snapshot.val();
@@ -2201,6 +2275,14 @@ angular.module('angularFireHangoutApp')
         	scope.input_data.content = null;
         	scope.input_data.type = "note";
         }
+
+        scope.$on("$destroy", function() {
+            own_note_content_ref.off("child_added");
+            own_note_content_ref.off("child_changed");
+            content_focused_ref.off("value");
+        });
+
+
 
       }
     };
@@ -2443,6 +2525,22 @@ angular.module('angularFireHangoutApp')
           one_argument_id_ref.set(null);
         }
 
+        scope.$on("$destroy", function() {
+          title_ref.off("value");
+          content_ref.off("value");
+          refute_ref.off("value");
+
+          title_focused_ref.off("value");
+          content_focused_ref.off("value");
+          refute_focused_ref.off("value");
+          
+          title_own_focused_ref.set(null);
+          content_own_focused_ref.set(null);
+          refute_own_focused_ref.set(null);
+        });
+
+
+
 
       }
     };
@@ -2547,7 +2645,12 @@ angular.module('angularFireHangoutApp')
         }
         defintro_own_focused_ref.onDisconnect().remove();
 
-      		
+
+        scope.$on("$destroy", function() {
+          defintro_content_ref.off("value");
+          defIntro_focused_ref.off("value");
+          defintro_own_focused_ref.set(null);
+        });
 
       }
     };
@@ -2734,16 +2837,22 @@ angular.module('angularFireHangoutApp')
 
 // mapping data
 
+
+
+
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var mapping_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
   mapping_ref.on("value", function(snapshot) {
+    console.log("mapping data updated");
     var value  = snapshot.val();
+    console.log(value);
     var key  = snapshot.key();
     if(value){
       mapping_object = value;
     }else{
       mapping_object = new Object();
     }
+    //check_ownexistence_addifnot();
     update_ParticipantMgr_Object();
 
   }, function (errorObject) {
@@ -2751,6 +2860,78 @@ angular.module('angularFireHangoutApp')
     console.log("The read failed: " + errorObject.code);
 
   });
+
+
+  window.addEventListener("online", 
+    function(){
+      console.log("online event");
+      check_ownexistence_addifnot();
+      setTimeout(function() {check_ownexistence_addifnot();}, 3000);
+    }
+  );
+
+
+
+
+  function check_ownexistence_addifnot(){
+
+    var own_exist = false;
+    for(var key in mapping_object){
+      if(key == MixideaSetting.own_user_id){
+        own_exist = true;
+        return;
+      }
+    }
+    if(!own_exist){
+      var own_mapping_ref = mapping_ref.child(MixideaSetting.own_user_id);
+      var own_hangout_id = global_own_hangout_id;
+      if(!own_hangout_id){
+        if(MixideaSetting.hangout_execution){
+          own_hangout_id = gapi.hangout.getLocalParticipantId();
+        }
+      }
+      own_mapping_ref.set(own_hangout_id);
+    }
+  }
+
+
+  if(MixideaSetting.hangout_execution){
+    console.log("before api ready within participant mgr")
+    gapi.hangout.onApiReady.add(function(e){
+      console.log("api ready within participantmgr is called")
+      if(e.isApiReady){
+        console.log("become ready status within participant mgr");
+        gapi.hangout.onParticipantsChanged.add(function(participant_change) {
+          console.log("function added to participant changed");
+          update_hangout_participants();
+        });
+      }
+    });
+  }
+
+  function update_hangout_participants(){
+    console.log("update_hangout_participants");
+    var participant_obj_array = gapi.hangout.getParticipants();
+    console.log(participant_obj_array);
+
+    for(var key in mapping_object){
+      var exist = false;
+      for(var i=0; i< participant_obj_array.length; i++){
+        if(mapping_object[key] == participant_obj_array[i]){
+          exist = true;
+          break;
+        }
+      }
+      if(!exist){
+        console.log("user" + key + "do not login within hangout" + mapping_object[key]);
+        var non_exist_person_ref = mapping_ref.child(key);
+        non_exist_person_ref.set(null);
+      }
+    }
+    check_ownexistence_addifnot();
+    setTimeout(function() {check_ownexistence_addifnot();}, 3000);
+  }
+
 
 // game role
 
@@ -3239,7 +3420,7 @@ angular.module('angularFireHangoutApp')
 		}
 	};
 
-    this.start = function(type, speaker_role, time_value){
+    this.start = function(deb_style, type, speaker_role, time_value){
     	if(!available){
     		return;
     	}
@@ -3248,7 +3429,7 @@ angular.module('angularFireHangoutApp')
     	
     	speech_type = type;
     	transcription_ref = root_ref.child("event_related/audio_transcript/" + 
-    						MixideaSetting.event_id + "/" + speaker_role + 
+    						MixideaSetting.event_id + "/" + deb_style + "/" + speaker_role + 
     						"/" + String(speech_start_time) + "/spech_context/" + short_split_id_value);
 
         //set user data and speech type to short split context
@@ -3344,7 +3525,7 @@ angular.module('angularFireHangoutApp')
 
     }
 
-    this.record_finish_api = function(type, speaker_role_name, speech_id){
+    this.record_finish_api = function(type,deb_style, speaker_role_name, speech_id){
 		if(!audio_available || !socket_available || !under_recording){
 			return;
 		}
@@ -3353,7 +3534,7 @@ angular.module('angularFireHangoutApp')
 		var file_name = MixideaSetting.event_id + "_" + speaker_role_name + "_" + speech_id;
 		switch(type){
 			case "break":
-				stop_record_save(file_name, speaker_role_name, speech_id);
+				stop_record_save(file_name,deb_style, speaker_role_name, speech_id);
 			break;
 			case "other":
 				suspend_record(file_name);
@@ -3457,7 +3638,7 @@ angular.module('angularFireHangoutApp')
 		} 	
     }
 
-    function stop_record_save(in_file_name, in_role_name, speech_id_val){
+    function stop_record_save(in_file_name,deb_style_val, in_role_name, speech_id_val){
 
 		var self = this;
 		if(!socket_available || !audio_available){
@@ -3468,7 +3649,7 @@ angular.module('angularFireHangoutApp')
 			stream.end();
 			stream = null;
 			var room_name_val = MixideaSetting.event_id;
-			var stop_emit_obj = {filename:in_file_name, role_name: in_role_name, room_name: room_name_val, speech_id: speech_id_val }
+			var stop_emit_obj = {filename:in_file_name,deb_style: deb_style_val, role_name: in_role_name, room_name: room_name_val, speech_id: speech_id_val }
 			console.log(stop_emit_obj);
 			socket_io.emit('audio_record_end', stop_emit_obj);
 		}
@@ -3932,6 +4113,9 @@ angular.module('angularFireHangoutApp')
 	});
 
 
+    $scope.$on("$destroy", function() {
+    	hangoutlist_team_ref.off("value");
+    });
 
 
   }]);
@@ -4067,7 +4251,10 @@ angular.module('angularFireHangoutApp')
 			set_pain_size();
 		}
 	}
-
+   $scope.$on("$destroy", function() {
+   		defintro_id_ref.off("child_added");
+   		deb_style_ref.off("value");
+    });
 
 
   }]);

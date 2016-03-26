@@ -36,7 +36,7 @@ angular.module('angularFireHangoutApp')
 		}
 	};
 
-    this.start = function(type, speaker_role, time_value){
+    this.start = function(deb_style, type, speaker_role, time_value){
     	if(!available){
     		return;
     	}
@@ -45,7 +45,7 @@ angular.module('angularFireHangoutApp')
     	
     	speech_type = type;
     	transcription_ref = root_ref.child("event_related/audio_transcript/" + 
-    						MixideaSetting.event_id + "/" + speaker_role + 
+    						MixideaSetting.event_id + "/" + deb_style + "/" + speaker_role + 
     						"/" + String(speech_start_time) + "/spech_context/" + short_split_id_value);
 
         //set user data and speech type to short split context

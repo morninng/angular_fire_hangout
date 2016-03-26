@@ -96,7 +96,12 @@ angular.module('angularFireHangoutApp')
         }
         defintro_own_focused_ref.onDisconnect().remove();
 
-      		
+
+        scope.$on("$destroy", function() {
+          defintro_content_ref.off("value");
+          defIntro_focused_ref.off("value");
+          defintro_own_focused_ref.set(null);
+        });
 
       }
     };

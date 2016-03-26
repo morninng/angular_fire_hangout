@@ -34,16 +34,17 @@ angular.module('angularFireHangoutApp')
         var own_note_score_ref = own_note_ref.child("score");
 
         own_note_content_ref.on("child_added", function(snapshot){
-        	$timeout(function(){
-	        	var obj = new Object();
-	        	obj.id = snapshot.key();
-	        	obj.content = snapshot.val().content;
-	        	obj.counter = snapshot.val().counter;
-	        	obj.content_html = UtilService.add_linebreak_html(obj.content);
-	        	obj.type = snapshot.val().type;
-	        	obj.under_edit = false;
-        		scope.own_note_obj_array.push(obj);
-        	});
+    	
+        	var obj = new Object();
+        	obj.id = snapshot.key();
+        	obj.content = snapshot.val().content;
+        	obj.counter = snapshot.val().counter;
+        	obj.content_html = UtilService.add_linebreak_html(obj.content);
+        	obj.type = snapshot.val().type;
+        	obj.under_edit = false;
+    		scope.own_note_obj_array.push(obj);
+        	$timeout(function(){});
+            
         })
         own_note_content_ref.on("child_changed", function(snapshot){
         	var updated_data = snapshot.val();
@@ -100,6 +101,14 @@ angular.module('angularFireHangoutApp')
         	scope.input_data.content = null;
         	scope.input_data.type = "note";
         }
+
+        scope.$on("$destroy", function() {
+            own_note_content_ref.off("child_added");
+            own_note_content_ref.off("child_changed");
+            content_focused_ref.off("value");
+        });
+
+
 
       }
     };

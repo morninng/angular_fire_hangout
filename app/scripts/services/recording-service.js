@@ -46,7 +46,7 @@ angular.module('angularFireHangoutApp')
 
     }
 
-    this.record_finish_api = function(type, speaker_role_name, speech_id){
+    this.record_finish_api = function(type,deb_style, speaker_role_name, speech_id){
 		if(!audio_available || !socket_available || !under_recording){
 			return;
 		}
@@ -55,7 +55,7 @@ angular.module('angularFireHangoutApp')
 		var file_name = MixideaSetting.event_id + "_" + speaker_role_name + "_" + speech_id;
 		switch(type){
 			case "break":
-				stop_record_save(file_name, speaker_role_name, speech_id);
+				stop_record_save(file_name,deb_style, speaker_role_name, speech_id);
 			break;
 			case "other":
 				suspend_record(file_name);
@@ -159,7 +159,7 @@ angular.module('angularFireHangoutApp')
 		} 	
     }
 
-    function stop_record_save(in_file_name, in_role_name, speech_id_val){
+    function stop_record_save(in_file_name,deb_style_val, in_role_name, speech_id_val){
 
 		var self = this;
 		if(!socket_available || !audio_available){
@@ -170,7 +170,7 @@ angular.module('angularFireHangoutApp')
 			stream.end();
 			stream = null;
 			var room_name_val = MixideaSetting.event_id;
-			var stop_emit_obj = {filename:in_file_name, role_name: in_role_name, room_name: room_name_val, speech_id: speech_id_val }
+			var stop_emit_obj = {filename:in_file_name,deb_style: deb_style_val, role_name: in_role_name, room_name: room_name_val, speech_id: speech_id_val }
 			console.log(stop_emit_obj);
 			socket_io.emit('audio_record_end', stop_emit_obj);
 		}

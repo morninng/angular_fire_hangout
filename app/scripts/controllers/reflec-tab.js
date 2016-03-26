@@ -26,7 +26,6 @@ angular.module('angularFireHangoutApp')
 	    var diff_height = expected_height - reflec_layout_current_height;
 	    var diff_height_abs = Math.abs(diff_height);
 
-
 /*width*/
 	    var left_position = tab_layout_element.offsetLeft;
 	    var parent_width = window.innerWidth;
@@ -47,11 +46,13 @@ angular.module('angularFireHangoutApp')
 	set_pain_size();
 	setTimeout(set_pain_size,1000);
 	var reflec_layout_element = document.getElementById("reflec_tab_container");
-	reflec_layout_element.onscroll = function(){
-		set_pain_size();
-	}
+	reflec_layout_element.addEventListener("scroll",set_pain_size);
 
 
+   $scope.$on("$destroy", function() {
+    	console.log("reflec tab destroy");
+    	reflec_layout_element.removeEventListener("scroll",set_pain_size);
+    });
 
 
   }]);

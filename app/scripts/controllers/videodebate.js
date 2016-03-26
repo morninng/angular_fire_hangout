@@ -60,27 +60,28 @@ angular.module('angularFireHangoutApp')
   	}
 
   	speaker_ref.on("value", function(snapshot){
-  		var updated_speaker_obj = snapshot.val();
+      var updated_speaker_obj = snapshot.val();
+      console.log(updated_speaker_obj);
 
-  		if(!updated_speaker_obj){
-  			for(var key in $scope.speaker_obj){
-  				delete $scope.speaker_obj[key]
-  			}
-  		}else{
-			var obj = new Object();
-			for(var key in updated_speaker_obj){
-				var speaker_user_id = key;
-				$scope.speaker_obj.id = speaker_user_id;
-				var obj = updated_speaker_obj[speaker_user_id];
-				$scope.speaker_obj.name = obj.name;
-				$scope.speaker_obj.role = obj.role;
-        current_speaker = obj.role;
-				$scope.speaker_obj.side = obj.side;
-				$scope.speaker_obj.full_role_name = obj.full_role_name;
-        $scope.speech_start_time = obj.speech_start_time;
-			}
-		}
-		update_video_status()
+      if(!updated_speaker_obj){
+        for(var key in $scope.speaker_obj){
+        delete $scope.speaker_obj[key]
+        }
+      }else{
+        var obj = new Object();
+        for(var key in updated_speaker_obj){
+          var speaker_user_id = key;
+          $scope.speaker_obj.id = speaker_user_id;
+          var obj = updated_speaker_obj[speaker_user_id];
+          $scope.speaker_obj.name = obj.name;
+          $scope.speaker_obj.role = obj.role;
+          current_speaker = obj.role;
+          $scope.speaker_obj.side = obj.side;
+          $scope.speaker_obj.full_role_name = obj.full_role_name;
+          $scope.speech_start_time = obj.speech_start_time;
+        }
+      }
+      update_video_status()
 
   	}, function(error){
   		console.log("fail while to retrieve speaker obj" + error);
@@ -143,52 +144,51 @@ angular.module('angularFireHangoutApp')
   			poi_user_id = key;
         poi_user_group = poi_taken_obj[key]
   		}
-		if(poi_user_id){
-			$scope.poi_speaker_obj.id = poi_user_id;
-			$scope.poi_speaker_obj.speaker_group = 'Poi from ' + poi_user_group;
-		//	$scope.poi_speaker_obj.name = $scope.participant_mgr.user_object_data[poi_user_id].first_name;
-		}else{
-			for(var key in $scope.poi_speaker_obj){
-				delete $scope.poi_speaker_obj[key]
-			}
-		}
+  		if(poi_user_id){
+  			$scope.poi_speaker_obj.id = poi_user_id;
+  			$scope.poi_speaker_obj.speaker_group = 'Poi from ' + poi_user_group;
+  		//	$scope.poi_speaker_obj.name = $scope.participant_mgr.user_object_data[poi_user_id].first_name;
+  		}else{
+  			for(var key in $scope.poi_speaker_obj){
+  				delete $scope.poi_speaker_obj[key]
+  			}
+  		}
 		
   		update_video_status();
   	});
 
   	function update_video_status(){
 
-  		$timeout(function() {
-  			if($scope.poi_speaker_obj.id){
-          //poi
-          if($scope.status=="speech"){
-            poi_start();
-          }
-          manage_speaker($scope.poi_speaker_obj.id, "poi");
-  				$scope.status = "poi";
 
+      if($scope.poi_speaker_obj.id){
+      //poi
+        if($scope.status=="speech"){
+          poi_start();
+        }
+        manage_speaker($scope.poi_speaker_obj.id, "poi");
+        $scope.status = "poi";
 
-  			}else if ($scope.speaker_obj.id){
-          //speech
-          if($scope.status=="break"){
-            speech_execution_start();
-          }else if($scope.status=="poi"){
-            poi_stop();
-          }
-          manage_speaker($scope.speaker_obj.id, "speech");
-  				$scope.status = "speech";
-  			}else{
-          //break
-          if($scope.status !="break"){
-            speech_execution_stop();
-          }
-          manage_speaker(null, "break");
-  				$scope.status = "break";
-  			}
+      }else if ($scope.speaker_obj.id){
+        //speech
+        if($scope.status=="break"){
+          speech_execution_start();
+        }else if($scope.status=="poi"){
+          poi_stop();
+        }
+        manage_speaker($scope.speaker_obj.id, "speech");
+        $scope.status = "speech";
+      }else{
+        //break
+        if($scope.status !="break"){
+          speech_execution_stop();
+        }
+        manage_speaker(null, "break");
+        $scope.status = "break";
+      }
 
-        setTimeout(update_video_canvas_position, 100);
-        setTimeout(update_video_canvas_position, 1000);
-  		});
+      setTimeout(update_video_canvas_position, 100);
+      setTimeout(update_video_canvas_position, 1000);
+      $timeout(function() {});
 
   	}
 
@@ -303,26 +303,41 @@ angular.module('angularFireHangoutApp')
 
     function manage_speaker(speaker_id, type){
 
+      var deb_style = $scope.participant_mgr.debate_style;
+
       if(speaker_id == MixideaSetting.own_user_id){
-        //Recording.start();
-        RecognitionService.start(type, current_speaker  ,$scope.speech_start_time);
+        RecognitionService.start(deb_style, type, current_speaker  ,$scope.speech_start_time);
         RecordingService.record_start_api(type, current_speaker, $scope.speech_start_time);
         HangoutService.enable_microphone();
-        //microphone.enable();
+
       }else if(speaker_id){
         RecognitionService.stop();
-        RecordingService.record_finish_api("other", current_speaker, $scope.speech_start_time);
+        RecordingService.record_finish_api("other",deb_style, current_speaker, $scope.speech_start_time);
         HangoutService.disable_microphone();
-        //microphone.disabled();
+
       }else{
         RecognitionService.stop();
-        RecordingService.record_finish_api("break", current_speaker, $scope.speech_start_time);
+        RecordingService.record_finish_api("break",deb_style, current_speaker, $scope.speech_start_time);
         HangoutService.enable_microphone();
-        //microphone.enable();
+
       }
       $scope.current_speaker == speaker_id;
 
     }
+
+
+    $scope.$on("$destroy", function() {
+        console.log("video scope is destroyed");
+        
+        speaker_ref_own.set(null);
+        poi_candidate_ref_own.set(null);
+        poi_taken_ref_own.set(null);
+
+        speaker_ref.off("value");
+        poi_candidate_ref.off("value");
+        poi_taken_ref.off("value");
+
+    });
 
 
 

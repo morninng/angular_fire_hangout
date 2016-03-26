@@ -44,7 +44,7 @@ angular.module('angularFireHangoutApp')
 		{name:"OW", shown_name:"Opposition Whip"},
 	];
 
-	$scope.$watch('participant_mgr.debate_style',function(){update_own_role_array();} );
+	$scope.cancel_style_watch = $scope.$watch('participant_mgr.debate_style',function(){update_own_role_array();} );
 
 	function update_own_role_array(){
 
@@ -74,13 +74,17 @@ angular.module('angularFireHangoutApp')
 				var role = updated_speaker_obj[key].role;
 			}
 		}
-		$timeout(function() {
-			$scope.current_role = role;
-		});
+		$scope.current_role = role;
+		$timeout(function() {});
   	}, function(error){
   		console.log("fail while to retrieve speaker obj" + error);
   	})
 
+
+	$scope.$on("$destroy", function() {
+		speaker_ref.off("value");
+		$scope.cancel_style_watch();
+	});
 
 
 

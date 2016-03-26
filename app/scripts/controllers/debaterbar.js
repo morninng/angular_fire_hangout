@@ -13,7 +13,7 @@ angular.module('angularFireHangoutApp')
 
 	$scope.participant_mgr = ParticipantMgrService;
 	$scope.debater_array = [];
-	$scope.$watch('participant_mgr.debate_style',function(){update_debater_array()} );
+	$scope.cancel_style_watch = $scope.$watch('participant_mgr.debate_style',function(){update_debater_array()} );
 
 
 	var debater_array_NA = ["PM","LO","MG","MO","PMR","LOR"];
@@ -73,10 +73,16 @@ angular.module('angularFireHangoutApp')
 				update_speaker(role_name);
 			}
 		}
-		
 	}, function(error){
 		console.log("fail while to retrieve speaker obj" + error);
 	})
+
+	$scope.$on("$destroy", function() {
+		speaker_ref.off("value");
+		$scope.cancel_style_watch();
+	});
+
+
 
 
   }]);

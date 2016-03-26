@@ -19,31 +19,31 @@ angular.module('angularFireHangoutApp')
 	var title_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/motion")
 
 	title_ref.on("value", function(snapshot) {
-		$timeout(function() {
-			$scope.data.motion = snapshot.val();
+		
+		$scope.data.motion = snapshot.val();
 
-			if(!$scope.data.motion){
-				$scope.motion_sentence = "motion_sentence_Red_xlarge";
-  				$scope.data.motion = "input motion here";
-  				$scope.data.motion_exist = false;
-  				return;	
-			}
-			var title_len = $scope.data.motion.length;			
-			if(title_len == 0){
-				$scope.motion_sentence = "motion_sentence_Red_xlarge";
-  				$scope.data.motion = "input motion here";
-  				$scope.data.motion_exist = false;
-			}if(title_len < 60 ){
-				$scope.motion_sentence = "motion_sentence_large";
-  				$scope.data.motion_exist = true;
-			}else if (title_len < 100){
-				$scope.motion_sentence = "motion_sentence_middle";
-  				$scope.data.motion_exist = true;
-			}else{
-				$scope.motion_sentence = "motion_sentence_small";
-  				$scope.data.motion_exist = true;
-			}
-		});
+		if(!$scope.data.motion){
+			$scope.motion_sentence = "motion_sentence_Red_xlarge";
+				$scope.data.motion = "input motion here";
+				$scope.data.motion_exist = false;
+				return;	
+		}
+		var title_len = $scope.data.motion.length;			
+		if(title_len == 0){
+			$scope.motion_sentence = "motion_sentence_Red_xlarge";
+				$scope.data.motion = "input motion here";
+				$scope.data.motion_exist = false;
+		}if(title_len < 60 ){
+			$scope.motion_sentence = "motion_sentence_large";
+				$scope.data.motion_exist = true;
+		}else if (title_len < 100){
+			$scope.motion_sentence = "motion_sentence_middle";
+				$scope.data.motion_exist = true;
+		}else{
+			$scope.motion_sentence = "motion_sentence_small";
+				$scope.data.motion_exist = true;
+		}
+		$timeout(function() {});
 	}, function (errorObject) {
 		console.log("The read failed: " + errorObject.code);
 	});
@@ -83,6 +83,10 @@ angular.module('angularFireHangoutApp')
 	$scope.cancel = function(){
 		$scope.under_edit = false;
 	}
+
+	$scope.$on("$destroy", function() {
+		title_ref.off("value");
+	});
 
 
   }]);

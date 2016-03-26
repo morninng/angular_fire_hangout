@@ -78,7 +78,9 @@ angular.module('angularFireHangoutApp')
 
 	}
 
-
+  $scope.$on("$destroy", function() {
+    url_ref.off("child_added");
+  });
 
 
   }]);

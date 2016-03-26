@@ -13,7 +13,10 @@ angular.module('angularFireHangoutApp')
 
     function update_video_width(){
       var video_area_element = document.getElementById("static__dummy_layout");
-      var video_width = video_area_element.offsetWidth;
+      var video_width = 300;
+      if(video_area_element){
+       video_width = video_area_element.offsetWidth;
+      }
       var ratio = HangoutService.get_video_ratio;
       var video_area_height = video_width / ratio;
       var video_area_height_val = video_area_height + "px"
