@@ -334,11 +334,11 @@ angular.module('angularFireHangoutApp')
 
 	$scope.add_argument = function(deb_style_val, team_val){
 
-		var argument_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
+		var argument_id_path_add = "event_related/Article_Context/" + event_id_val + "/identifier/" 
 					+ deb_style_val + "/" + team_val + "/arguments";
-		var argument_id_ref = root_ref.child(argument_id_path);
+		var argument_id_add_ref = root_ref.child(argument_id_path_add);
 		var dummy_content = {dummy:true};
-		argument_id_ref.push(dummy_content);
+		argument_id_add_ref.push(dummy_content);
 
 	};
 
@@ -664,6 +664,7 @@ angular.module('angularFireHangoutApp')
 	$scope.$on("$destroy", function() {
 		booboo_ref.off("value");
 		hearhear_ref.off("value");
+
 	});
 
 
@@ -1336,7 +1337,7 @@ angular.module('angularFireHangoutApp')
 	}
 
 	$scope.$on("$destroy", function() {
-		title_ref.off("value");
+	//	title_ref.off("value");
 	});
 
 
@@ -4158,22 +4159,20 @@ angular.module('angularFireHangoutApp')
     alert("fail to retrieve debate style" + errorObject.code);
 
   });
- 
- var defintro_id_ref = null;
-
+  
   function construct_discussion_note(){
 
 	var argument_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
 				+ deb_style_val + "/" + team_val + "/arguments";
-	var argument_id_ref = root_ref.child(argument_id_path);
-	argument_id_ref.on("child_added", function(snapshot, previousKey){
+	$scope.argument_id_ref = root_ref.child(argument_id_path);
+	$scope.argument_id_ref.on("child_added", function(snapshot, previousKey){
 		var arg_id_key = snapshot.key();
 		$timeout(function(){
 			$scope.arg_list.push({arg_id:arg_id_key,event_id:event_id_val, team:team_val,deb_style: deb_style_val});
 		});
 	});
 
-	argument_id_ref.on("child_removed", function(snapshot, previousKey){
+	$scope.argument_id_ref.on("child_removed", function(snapshot, previousKey){
 		var arg_id_key_removed = snapshot.key();
 		var current_id_array = $scope.arg_list;
 		var n = -1
@@ -4191,8 +4190,8 @@ angular.module('angularFireHangoutApp')
 
 	var defintro_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
 				+ deb_style_val + "/" + team_val + "/def_intro";
-	defintro_id_ref = root_ref.child(defintro_id_path);
-	defintro_id_ref.on("child_added", function(snapshot, previousKey){
+	$scope.defintro_id_ref = root_ref.child(defintro_id_path);
+	$scope.defintro_id_ref.on("child_added", function(snapshot, previousKey){
 		var defintro_id_key = snapshot.key();
 		$timeout(function(){
 			$scope.defintro_list.push({arg_id:defintro_id_key,event_id:event_id_val, team:team_val,deb_style: deb_style_val});
@@ -4202,7 +4201,7 @@ angular.module('angularFireHangoutApp')
 	$scope.add_argument = function(){
 		console.log("add argument");
 		var dummy_content = {dummy:true};
-		argument_id_ref.push(dummy_content);
+		$scope.argument_id_ref.push(dummy_content);
 	}
 
   }
@@ -4252,7 +4251,9 @@ angular.module('angularFireHangoutApp')
 		}
 	}
    $scope.$on("$destroy", function() {
-   		defintro_id_ref.off("child_added");
+   		$scope.defintro_id_ref.off("child_added");
+   		$scope.argument_id_ref.off("child_added");
+   		$scope.argument_id_ref.off("child_removed");
    		deb_style_ref.off("value");
     });
 
