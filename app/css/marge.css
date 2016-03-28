@@ -403,6 +403,94 @@
   background-color: #FFF8DC;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000335}}
+#explanation_container {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  width: 400px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 999999;
+  position: absolute;
+  border: solid 2px;
+  border-color: #FFFF00;
+  top: 10px;
+  left: 580px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000349}}
+#explanation_container img {
+  margin-bottom: 10px;
+  border: solid 2px;
+  border-color: #8A2BE2;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000354}}
+#explanation_title {
+  font-weight: bold;
+  background-color: white;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  display: inline-block;
+  margin-bottom: 20px;
+  text-decoration: underline;
+  width: 300px;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000366}}
+.explanation_description {
+  background-color: white;
+  display: inline-block;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  width: 300px;
+  text-align: left;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000381}}
+.animated.ng-enter,
+.animated.ng-leave,
+.animated.ng-move {
+  -webkit-transition: opacity 0.15s linear;
+  transition: opacity 0.3s linear;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000387}}
+.animated.ng-enter {
+  opacity: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000390}}
+.animated.ng-enter.ng-enter-active {
+  opacity: 1;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000393}}
+.animated.ng-leave {
+  opacity: 1;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000396}}
+.animated.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\0000399}}
+.animated.ng-move {
+  opacity: .5;
+}
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_InfoBar\.scss}line{font-family:\00003102}}
+.animated.ng-move.ng-move-active {
+  opacity: 1;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_global\.scss}line{font-family:\000031}}
 textarea {
   resize: none;
@@ -1772,7 +1860,7 @@ fieldset[disabled] .btn-danger.active {
   background-color: #00FFFF;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_impression_expression\.scss}line{font-family:\000035}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_impression_expression\.scss}line{font-family:\000033}}
 #impression_container {
   display: flex;
   direction: row;
@@ -1780,14 +1868,14 @@ fieldset[disabled] .btn-danger.active {
   justify-content: space-around;
   background-color: #FFE4E1;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_impression_expression\.scss}line{font-family:\0000312}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_impression_expression\.scss}line{font-family:\0000310}}
 #impression_container .impression_click_img {
   width: 50px;
   height: 50px;
   padding: 5px;
   cursor: pointer;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_impression_expression\.scss}line{font-family:\0000319}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_impression_expression\.scss}line{font-family:\0000317}}
 #impression_container .impression_member_img {
   width: 50px;
   height: 50px;
