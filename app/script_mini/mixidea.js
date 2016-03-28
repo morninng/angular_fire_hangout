@@ -934,6 +934,7 @@ angular.module('angularFireHangoutApp')
   $scope.change_shown = false;
   $scope.participant_mgr = ParticipantMgrService;
 
+  var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style");
 
 
 
@@ -941,12 +942,10 @@ angular.module('angularFireHangoutApp')
     $scope.change_shown = true;
   }
 
-  $scope.change_style = function(){
+  $scope.change_style = function(style){
     $scope.change_shown = false;
-    var style = $scope.participant_mgr.debate_style;
-    var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style");
     deb_style_ref.set(style);
-    console.log(style);
+    console.log("change style " + style);
   }
 
   $scope.mouseout_change_style = function(){
@@ -1260,48 +1259,18 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('TitleMgrCtrl',['$scope', 'MixideaSetting','$timeout', function ($scope, MixideaSetting, $timeout) {
+  .controller('TitleMgrCtrl',['$scope', 'MixideaSetting','$timeout','TitleService', function ($scope, MixideaSetting, $timeout, TitleService) {
 
 
   	$scope.under_edit = false;
-  	$scope.data = new Object();
-  	$scope.data.motion = "";
+  	$scope.dynamic_width = new Object();
+  	$scope.title_data = TitleService;
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var title_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/motion")
 
-	title_ref.on("value", function(snapshot) {
-		
-		$scope.data.motion = snapshot.val();
-
-		if(!$scope.data.motion){
-			$scope.motion_sentence = "motion_sentence_Red_xlarge";
-				$scope.data.motion = "input motion here";
-				$scope.data.motion_exist = false;
-				return;	
-		}
-		var title_len = $scope.data.motion.length;			
-		if(title_len == 0){
-			$scope.motion_sentence = "motion_sentence_Red_xlarge";
-				$scope.data.motion = "input motion here";
-				$scope.data.motion_exist = false;
-		}if(title_len < 60 ){
-			$scope.motion_sentence = "motion_sentence_large";
-				$scope.data.motion_exist = true;
-		}else if (title_len < 100){
-			$scope.motion_sentence = "motion_sentence_middle";
-				$scope.data.motion_exist = true;
-		}else{
-			$scope.motion_sentence = "motion_sentence_small";
-				$scope.data.motion_exist = true;
-		}
-		$timeout(function() {});
-	}, function (errorObject) {
-		console.log("The read failed: " + errorObject.code);
-	});
 
 	function update_input_text_width(){
-		var motion_length = $scope.data.motion.length;
+
+		var motion_length = TitleService.motion_screen.length;
 		var input_width_em = 0;
 		if(motion_length > 45){
 			input_width_em = 45;
@@ -1319,26 +1288,24 @@ angular.module('angularFireHangoutApp')
 	}
 
 	$scope.edit_start = function(){
-		update_input_text_width()
-		if(!$scope.data.motion_exist){
-			$scope.data.motion = "";
-		}
+		TitleService.edit_start()
 		$scope.under_edit = true;
+		update_input_text_width();
 	}
 
 	$scope.save = function(){
-		title_ref.set($scope.data.motion);
+
+		TitleService.save();
 		$scope.under_edit = false;
 
 	}
 
 	$scope.cancel = function(){
+		TitleService.cancel();
 		$scope.under_edit = false;
 	}
 
-	$scope.$on("$destroy", function() {
-	//	title_ref.off("value");
-	});
+
 
 
   }]);
@@ -2763,7 +2730,6 @@ angular.module('angularFireHangoutApp')
 
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var game_role_obj_all_style = new Object();
-  var debate_style = null;
   var full_participants_object = new Object();
   var mapping_object = new Object();
   var total_number_participants = 0;
@@ -2773,10 +2739,9 @@ angular.module('angularFireHangoutApp')
 
   var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
   deb_style_ref.on("value", function(snapshot) {
-    debate_style  = snapshot.val();
-    $timeout(function() {
-      ParticipantMgr_Object.debate_style = debate_style;
-    });
+
+    var style_val  = snapshot.val();
+    ParticipantMgr_Object.debate_style = style_val;
     update_ParticipantMgr_Object();
 
   }, function (errorObject) {
@@ -2806,6 +2771,8 @@ angular.module('angularFireHangoutApp')
     for(key in ParticipantMgr_Object.user_object_data){
       delete ParticipantMgr_Object.user_object_data[key]
     }
+    ParticipantMgr_Object.user_object_data = null;
+    ParticipantMgr_Object.user_object_data = new Object();
     total_number_participants = 0;
     for(var key in full_participants_object){
       retrieve_participant(key);
@@ -2957,9 +2924,14 @@ angular.module('angularFireHangoutApp')
 
   function update_ParticipantMgr_Object(){
 
-    $timeout(function() {
+      ParticipantMgr_Object.participant_obj = null;
+      ParticipantMgr_Object.participant_obj = new Object();
+      ParticipantMgr_Object.participant_obj_bp_open = null;
+      ParticipantMgr_Object.participant_obj_bp_open = new Object();
+      ParticipantMgr_Object.participant_obj_bp_close = null;
+      ParticipantMgr_Object.participant_obj_bp_close = new Object();
       var no_applicant_img = MixideaSetting.source_domain + "images/want_you.png";
-      switch(debate_style){
+      switch(ParticipantMgr_Object.debate_style){
         case "NA":
           ParticipantMgr_Object.participant_obj = {
             PM:{
@@ -3294,11 +3266,11 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.audience_array[i].css_style = "participant_box_login";
         }
       }
-      if(debate_style == "BP"){
+      if(ParticipantMgr_Object.debate_style == "BP"){
         adopt_ParticipantObj_BP();
       }
       update_member_variable();
-    });
+      $timeout(function() {});
   }
 
   function adopt_ParticipantObj_BP(){
@@ -3323,7 +3295,7 @@ angular.module('angularFireHangoutApp')
 
   function update_member_variable(){
 
-      switch(debate_style){
+      switch(ParticipantMgr_Object.debate_style){
         case "NA":
           ParticipantMgr_Object.all_group_name_array = ["Gov","Opp"];
           ParticipantMgr_Object.all_group_id = [0,1];
@@ -3983,6 +3955,86 @@ angular.module('angularFireHangoutApp')
   return StatusMgr_Object;
     
 }]);
+
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.TitleService
+ * @description
+ * # TitleService
+ * Factory in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+  .factory('TitleService',['MixideaSetting','$timeout', function (MixideaSetting, $timeout) {
+ 
+    var title_obj = new Object();
+    title_obj.motion_server = null;
+    title_obj.motion_screen = null;
+    title_obj.style = null;
+
+    var root_ref = new Firebase(MixideaSetting.firebase_url);
+    var title_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/motion")
+
+
+    title_ref.on("value", function(snapshot) {
+      title_obj.motion_server = snapshot.val();
+      organize_data();
+    }, function (errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+
+
+    var  organize_data = function(){
+
+      title_obj.motion_screen = title_obj.motion_server
+      if(!title_obj.motion_server){
+        title_obj.style = "motion_sentence_Red_xlarge";
+        title_obj.motion_screen = "input motion here";
+        title_obj.motion_exist = false;
+      }else{
+        var title_len = title_obj.motion_server.length;      
+        if(title_len == 0){
+          title_obj.style = "motion_sentence_Red_xlarge";
+          $scope.data.motion_screen = "input motion here";
+          title_obj.motion_exist = false;
+        }if(title_len < 60 ){
+          title_obj.style = "motion_sentence_large";
+          title_obj.motion_exist = true;
+        }else if (title_len < 100){
+          title_obj.style = "motion_sentence_middle";
+          title_obj.motion_exist = true;
+        }else{
+          title_obj.style= "motion_sentence_small";
+          title_obj.motion_exist = true;
+        }
+      }
+      $timeout(function() {});
+
+    }
+
+
+    title_obj.save = function(){
+      title_ref.set(title_obj.motion_screen);
+    }
+
+    title_obj.cancel = function(){
+      organize_data();
+    }
+
+    title_obj.edit_start = function(){
+      if(!title_obj.motion_exist){
+        title_obj.motion_screen = "";
+      }
+    }
+
+    // Public API here
+    return title_obj
+
+
+
+
+  }]);
 
 'use strict';
 

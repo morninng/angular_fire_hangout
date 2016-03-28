@@ -33,7 +33,6 @@ angular.module('angularFireHangoutApp')
 
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   var game_role_obj_all_style = new Object();
-  var debate_style = null;
   var full_participants_object = new Object();
   var mapping_object = new Object();
   var total_number_participants = 0;
@@ -43,10 +42,9 @@ angular.module('angularFireHangoutApp')
 
   var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
   deb_style_ref.on("value", function(snapshot) {
-    debate_style  = snapshot.val();
-    $timeout(function() {
-      ParticipantMgr_Object.debate_style = debate_style;
-    });
+
+    var style_val  = snapshot.val();
+    ParticipantMgr_Object.debate_style = style_val;
     update_ParticipantMgr_Object();
 
   }, function (errorObject) {
@@ -76,6 +74,8 @@ angular.module('angularFireHangoutApp')
     for(key in ParticipantMgr_Object.user_object_data){
       delete ParticipantMgr_Object.user_object_data[key]
     }
+    ParticipantMgr_Object.user_object_data = null;
+    ParticipantMgr_Object.user_object_data = new Object();
     total_number_participants = 0;
     for(var key in full_participants_object){
       retrieve_participant(key);
@@ -227,9 +227,14 @@ angular.module('angularFireHangoutApp')
 
   function update_ParticipantMgr_Object(){
 
-    $timeout(function() {
+      ParticipantMgr_Object.participant_obj = null;
+      ParticipantMgr_Object.participant_obj = new Object();
+      ParticipantMgr_Object.participant_obj_bp_open = null;
+      ParticipantMgr_Object.participant_obj_bp_open = new Object();
+      ParticipantMgr_Object.participant_obj_bp_close = null;
+      ParticipantMgr_Object.participant_obj_bp_close = new Object();
       var no_applicant_img = MixideaSetting.source_domain + "images/want_you.png";
-      switch(debate_style){
+      switch(ParticipantMgr_Object.debate_style){
         case "NA":
           ParticipantMgr_Object.participant_obj = {
             PM:{
@@ -564,11 +569,11 @@ angular.module('angularFireHangoutApp')
           ParticipantMgr_Object.audience_array[i].css_style = "participant_box_login";
         }
       }
-      if(debate_style == "BP"){
+      if(ParticipantMgr_Object.debate_style == "BP"){
         adopt_ParticipantObj_BP();
       }
       update_member_variable();
-    });
+      $timeout(function() {});
   }
 
   function adopt_ParticipantObj_BP(){
@@ -593,7 +598,7 @@ angular.module('angularFireHangoutApp')
 
   function update_member_variable(){
 
-      switch(debate_style){
+      switch(ParticipantMgr_Object.debate_style){
         case "NA":
           ParticipantMgr_Object.all_group_name_array = ["Gov","Opp"];
           ParticipantMgr_Object.all_group_id = [0,1];

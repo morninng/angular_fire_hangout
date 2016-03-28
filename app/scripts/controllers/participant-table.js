@@ -17,6 +17,7 @@ angular.module('angularFireHangoutApp')
   $scope.change_shown = false;
   $scope.participant_mgr = ParticipantMgrService;
 
+  var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style");
 
 
 
@@ -24,12 +25,10 @@ angular.module('angularFireHangoutApp')
     $scope.change_shown = true;
   }
 
-  $scope.change_style = function(){
+  $scope.change_style = function(style){
     $scope.change_shown = false;
-    var style = $scope.participant_mgr.debate_style;
-    var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style");
     deb_style_ref.set(style);
-    console.log(style);
+    console.log("change style " + style);
   }
 
   $scope.mouseout_change_style = function(){
