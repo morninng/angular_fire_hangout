@@ -681,7 +681,7 @@ angular.module('angularFireHangoutApp')
  */
 angular.module('angularFireHangoutApp')
   .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout', function ($scope, ParticipantMgrService, MixideaSetting, $timeout) {
-  	$scope.aaa = "name";
+
  
   	$scope.participant_mgr = ParticipantMgrService;
   	$scope.team_hangout_array = new Array();
@@ -754,6 +754,20 @@ angular.module('angularFireHangoutApp')
     hangoutlist_team_ref.off("value");
     $scope.cancel_group_watch();
   });
+
+
+  $scope.show_explanation = false;
+
+  $scope.teamlink_enter = function(){
+    $scope.show_explanation = true;
+    console.log("teamlink_enter");
+  }
+
+  $scope.teamlink_leave = function(){
+    $scope.show_explanation = false;
+    console.log("teamlink_leave");
+  }
+
 
 
   }]);
