@@ -173,12 +173,13 @@ angular.module('angularFireHangoutApp')
         console.log("become ready status within participant mgr");
         gapi.hangout.onParticipantsChanged.add(function(participant_change) {
           console.log("function added to participant changed");
-          update_hangout_participants();
+          //update_hangout_participants();
+          check_ownexistence_addifnot()
         });
       }
     });
   }
-
+/*
   function update_hangout_participants(){
     console.log("update_hangout_participants");
     var participant_obj_array = gapi.hangout.getParticipants();
@@ -201,7 +202,7 @@ angular.module('angularFireHangoutApp')
     check_ownexistence_addifnot();
     setTimeout(function() {check_ownexistence_addifnot();}, 3000);
   }
-
+*/
 
 // game role
 

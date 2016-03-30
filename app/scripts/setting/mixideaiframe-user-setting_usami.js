@@ -16,8 +16,8 @@ var global_own_team_side = null;
 
 (function () {
 
-  global_event_id = "-KDwNyoNHGV48upuhT-B";
-  global_own_user_id = "facebook:514784482056936";
+  global_event_id = "-KE1WlizVMb74yz2191z";
+  global_own_user_id = "facebook:1023172297758186";
   //global_room_type = "team_discussion";
   global_room_type = "main";
 
@@ -26,8 +26,7 @@ var global_own_team_side = null;
     global_own_team_side = "Prop";
   }
 
-  
-  var global_own_hangout_id = "11111111111";
+  var global_own_hangout_id = "2222222222";
   set_mapping_data(global_own_user_id, global_own_hangout_id);
 
 }());

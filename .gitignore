@@ -5,8 +5,8 @@
 /bower_components
 /deploy-keys.json
 /credentials*
+/app/script_mini
 *~
 app/.sass-cache/*
-/app/script_mini/*
 app/css/*
 
