@@ -21,7 +21,9 @@ angular.module('angularFireHangoutApp')
 	    var expected_height = parent_height - top_position - 10;
 
 	    var reflec_layout_element = document.getElementById("reflec_tab_container");
-	    var reflec_layout_current_height = reflec_layout_element.offsetHeight;
+	    if(reflec_layout_element){
+	    	var reflec_layout_current_height = reflec_layout_element.offsetHeight;
+		}
 
 	    var diff_height = expected_height - reflec_layout_current_height;
 	    var diff_height_abs = Math.abs(diff_height);

@@ -36,7 +36,9 @@ yo angular:controller team-discuss-arguments
  yo angular:service SoundPlay-Service
  yo angular:service Recognition-Service
  yo angular:service Recording-Service
+ yo angular:service SocketStreams-Service
  yo angular:factory Title-Service
+ yo angular:factory DebateStyle-Service
 
  yo angular:service Util-Service
 

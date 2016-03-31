@@ -42,15 +42,18 @@ angular.module('angularFireHangoutApp')
 
   var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
   deb_style_ref.on("value", function(snapshot) {
-
     var style_val  = snapshot.val();
+    console.log("style update event : " + style_val);
     ParticipantMgr_Object.debate_style = style_val;
     update_ParticipantMgr_Object();
 
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
-
   });
+
+  ParticipantMgr_Object.set_style = function(value){
+    deb_style_ref.set(value);
+  }
 
 // full participants
 

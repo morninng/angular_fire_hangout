@@ -18,23 +18,28 @@ angular.module('angularFireHangoutApp')
     var transcription_ref = null;
     var speech_type=null;
     var speech_start_time = 0;
+    var recognition = null;
 
-	if(!window.webkitSpeechRecognition){
-		available = false;
-		return;
-	}
-	var recognition = new webkitSpeechRecognition();
-	recognition.continuous = true;
-	recognition.lang = "en-US";  /*should use mixidea setting*/
+    function recognition_initialization(){
 
-	recognition.onresult = function(e){
-		var results = e.results;
-		for(var i = e.resultIndex; i<results.length; i++){
-			if(results[i].isFinal){
-				StoreData(results[i][0].transcript);
-			}
-		}
-	};
+    	if(!window.webkitSpeechRecognition){
+    		available = false;
+    		return;
+    	}
+    	recognition = new webkitSpeechRecognition();
+    	recognition.continuous = true;
+    	recognition.lang = "en-US";  /*should use mixidea setting*/
+
+    	recognition.onresult = function(e){
+    		var results = e.results;
+    		for(var i = e.resultIndex; i<results.length; i++){
+    			if(results[i].isFinal){
+    				StoreData(results[i][0].transcript);
+    			}
+    		}
+    	};
+
+    }
 
     this.start = function(deb_style, type, speaker_role, time_value){
     	if(!available){
@@ -90,5 +95,6 @@ angular.module('angularFireHangoutApp')
     // it might be better to save it with audio_time as a key and rest are the values
     //so it is ordered by the audio time order
 
+    recognition_initialization();
 
   }]);

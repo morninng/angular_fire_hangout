@@ -948,7 +948,7 @@ angular.module('angularFireHangoutApp')
   $scope.change_shown = false;
   $scope.participant_mgr = ParticipantMgrService;
 
-  var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style");
+ // var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style");
 
 
 
@@ -957,9 +957,12 @@ angular.module('angularFireHangoutApp')
   }
 
   $scope.change_style = function(style){
+    console.log("change style clicked :  " + style);
     $scope.change_shown = false;
-    deb_style_ref.set(style);
-    console.log("change style " + style);
+    $scope.participant_mgr.set_style(style);
+
+    //deb_style_ref.set(style);
+    //console.log("change style " + style);
   }
 
   $scope.mouseout_change_style = function(){
@@ -1040,7 +1043,9 @@ angular.module('angularFireHangoutApp')
 	    var expected_height = parent_height - top_position - 10;
 
 	    var reflec_layout_element = document.getElementById("reflec_tab_container");
-	    var reflec_layout_current_height = reflec_layout_element.offsetHeight;
+	    if(reflec_layout_element){
+	    	var reflec_layout_current_height = reflec_layout_element.offsetHeight;
+		}
 
 	    var diff_height = expected_height - reflec_layout_current_height;
 	    var diff_height_abs = Math.abs(diff_height);
@@ -2753,15 +2758,18 @@ angular.module('angularFireHangoutApp')
 
   var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
   deb_style_ref.on("value", function(snapshot) {
-
     var style_val  = snapshot.val();
+    console.log("style update event : " + style_val);
     ParticipantMgr_Object.debate_style = style_val;
     update_ParticipantMgr_Object();
 
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
-
   });
+
+  ParticipantMgr_Object.set_style = function(value){
+    deb_style_ref.set(value);
+  }
 
 // full participants
 
@@ -3389,23 +3397,28 @@ angular.module('angularFireHangoutApp')
     var transcription_ref = null;
     var speech_type=null;
     var speech_start_time = 0;
+    var recognition = null;
 
-	if(!window.webkitSpeechRecognition){
-		available = false;
-		return;
-	}
-	var recognition = new webkitSpeechRecognition();
-	recognition.continuous = true;
-	recognition.lang = "en-US";  /*should use mixidea setting*/
+    function recognition_initialization(){
 
-	recognition.onresult = function(e){
-		var results = e.results;
-		for(var i = e.resultIndex; i<results.length; i++){
-			if(results[i].isFinal){
-				StoreData(results[i][0].transcript);
-			}
-		}
-	};
+    	if(!window.webkitSpeechRecognition){
+    		available = false;
+    		return;
+    	}
+    	recognition = new webkitSpeechRecognition();
+    	recognition.continuous = true;
+    	recognition.lang = "en-US";  /*should use mixidea setting*/
+
+    	recognition.onresult = function(e){
+    		var results = e.results;
+    		for(var i = e.resultIndex; i<results.length; i++){
+    			if(results[i].isFinal){
+    				StoreData(results[i][0].transcript);
+    			}
+    		}
+    	};
+
+    }
 
     this.start = function(deb_style, type, speaker_role, time_value){
     	if(!available){
@@ -3461,6 +3474,7 @@ angular.module('angularFireHangoutApp')
     // it might be better to save it with audio_time as a key and rest are the values
     //so it is ordered by the audio time order
 
+    recognition_initialization();
 
   }]);
 
@@ -3474,23 +3488,19 @@ angular.module('angularFireHangoutApp')
  * Service in the angularFireHangoutApp.
  */
 angular.module('angularFireHangoutApp')
-  .service('RecordingService',['MixideaSetting', function (MixideaSetting) {
+  .service('RecordingService',['MixideaSetting','SocketStreamsService', function (MixideaSetting, SocketStreamsService) {
     // AngularJS will instantiate a singleton by calling "new" on this function
 
 	var audio_available = false;
-	var socket_available = false;
 	var stored_speech_id = null;
-	var socket_io = null;
-	var stream = null;
 	var context = null;
 	var sample_rate_value = null;
 	var scriptNode = null;
-
     var under_recording = false;
 
     this.record_start_api = function(type, speaker_role_name, speech_id){
 
-		if(!audio_available || !socket_available){
+		if(!audio_available || !SocketStreamsService.socket_available){
 			return;
 		}
 
@@ -3499,13 +3509,13 @@ angular.module('angularFireHangoutApp')
 		switch(type){
 			case "speech":
 				if(stored_speech_id == speech_id){
-					resume_record(file_name);
+					SocketStreamsService.resume_record(file_name);
 				}else{
-					start_record(file_name);
+					SocketStreamsService.start_record(file_name, sample_rate_value);
 				}
 			break;
 			case "poi":
-				resume_record(file_name);
+				SocketStreamsService.resume_record(file_name);
 			break;
 		}
 		stored_speech_id = speech_id;
@@ -3513,7 +3523,7 @@ angular.module('angularFireHangoutApp')
     }
 
     this.record_finish_api = function(type,deb_style, speaker_role_name, speech_id){
-		if(!audio_available || !socket_available || !under_recording){
+		if(!audio_available || !SocketStreamsService.socket_available || !under_recording){
 			return;
 		}
 		under_recording = false;
@@ -3521,43 +3531,15 @@ angular.module('angularFireHangoutApp')
 		var file_name = MixideaSetting.event_id + "_" + speaker_role_name + "_" + speech_id;
 		switch(type){
 			case "break":
-				stop_record_save(file_name,deb_style, speaker_role_name, speech_id);
+				SocketStreamsService.stop_record_save(file_name,deb_style, speaker_role_name, speech_id);
 			break;
 			case "other":
-				suspend_record(file_name);
+				SocketStreamsService.suspend_record(file_name);
 			break;
 		}
     }
 
 
-    function sockt_initialize(){
-
-		socket_io = io.connect(MixideaSetting.recording_domain);
-
-		socket_io.on('connect', function(){
-			console.log("connect socket id=" + socket_io.id);
-			socket_available = true;
-
-			socket_io.emit('join_room', {'room_name':MixideaSetting.event_id});
-
-			socket_io.on('audio_saved', function(data){
-				console.log('record complete ' + data.file_saved);
-				audio_transcript_obj.update();
-			});
-			
-
-			socket_io.on('disconnect', function(){
-				console.log('disconnected');
-				socket_available = false;
-				if(stream){
-					console.log("disconnected");
-					under_recording = false;
-					stream.end();
-					stream = null;
-				}
-			});
-		});
-    }
 
     function recording_initialize(){
 		if (!navigator.getUserMedia){
@@ -3571,76 +3553,19 @@ angular.module('angularFireHangoutApp')
 				{audio:true},
 				function(local_media_stream){
 					audio_available = true;
+					console.log("audio is a vailable by user concensus");
+					//sockt_initialize();
 				 	start_audio_polling(local_media_stream);
 				},
-				function(e) {console.log('Error'); } );
+				function(e) {
+					console.log('Error'); 
+				} );
 		} else{
 			console.log('getUserMedia not supported');
 		}
 
     }
 
-    function start_record(in_file_name){
-		if(!socket_available || !audio_available){
-			return;
-		}
-
-		if(!stream){
-			console.log(" start record socket id=" + socket_io.id);
-			stream = ss.createStream();
-			console.log("audio polling stream id " + stream.id);
-			var start_emit_obj = {filename:in_file_name,sample_rate:sample_rate_value};
-			console.log(start_emit_obj);
-			ss(socket_io).emit('audio_record_start', stream, start_emit_obj );
-		}else{
-			console.log("recording is already on going");
-		}
-    }
-
-    function resume_record(in_file_name){
-
-		if(!socket_available || !audio_available){
-			return;
-		}
-
-		if(!stream){
-			console.log("resume recording");
-			stream = ss.createStream();
-			console.log("audio polling stream id " + stream.id)
-			ss(socket_io).emit('audio_record_resume', stream, {filename:in_file_name,sample_rate:sample_rate_value} );
-		}else{
-			console.log("recording is already on going");
-		}
-    }
-
-    function suspend_record(in_file_name){
-		if(!socket_available || !audio_available){
-			return;
-		}
-		console.log("suspend recording");
-		if(stream){
-			stream.end();
-			stream = null;
-			socket_io.emit('audio_record_suspend', {filename:in_file_name});
-		} 	
-    }
-
-    function stop_record_save(in_file_name,deb_style_val, in_role_name, speech_id_val){
-
-		var self = this;
-		if(!socket_available || !audio_available){
-			return;
-		}
-		if(stream){
-			console.log("stop record socket id=" + socket_io.id);
-			stream.end();
-			stream = null;
-			var room_name_val = MixideaSetting.event_id;
-			var stop_emit_obj = {filename:in_file_name,deb_style: deb_style_val, role_name: in_role_name, room_name: room_name_val, speech_id: speech_id_val }
-			console.log(stop_emit_obj);
-			socket_io.emit('audio_record_end', stop_emit_obj);
-		}
-    }
 
     function start_audio_polling(local_media_stream){
 		var audioContext = window.AudioContext || window.webkitAudioContext;
@@ -3654,13 +3579,15 @@ angular.module('angularFireHangoutApp')
 		scriptNode.connect(context.destination); 
 
 		scriptNode.onaudioprocess = function(audioProcessingEvent){
-		  if(!under_recording || !socket_io ){
+		  if(!under_recording ){
 		   return;
 		  }
 		  var left = audioProcessingEvent.inputBuffer.getChannelData(0);
 		  var audio_array_buffer = convertoFloat32ToInt16(left);
-		  var stream_buffer = new ss.Buffer(audio_array_buffer);
-		  stream.write(stream_buffer, 'buffer');
+		  SocketStreamsService.stream_record_process(audio_array_buffer);
+
+		  //var stream_buffer = new ss.Buffer(audio_array_buffer);
+		  //stream.write(stream_buffer, 'buffer');
 		}
     }
 
@@ -3669,6 +3596,7 @@ angular.module('angularFireHangoutApp')
 	  context.close();
 	  context = null;
     }
+
 
 	function convertoFloat32ToInt16(buffer) {
 	  var len = buffer.length;
@@ -3686,8 +3614,135 @@ angular.module('angularFireHangoutApp')
 
 	// initial execution
 
-	sockt_initialize();
 	recording_initialize();
+
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc service
+ * @name angularFireHangoutApp.SocketStreamsService
+ * @description
+ * # SocketStreamsService
+ * Service in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+  .factory('SocketStreamsService',['MixideaSetting', function (MixideaSetting) {
+    // AngularJS will instantiate a singleton by calling "new" on this function
+
+    var SocketStream_Object = new Object();
+
+	SocketStream_Object.socket_available = false;
+	var socket_io = null;
+	var stream = null;
+	var a = "c";
+
+    function sockt_initialize(){
+
+		socket_io = io.connect(MixideaSetting.recording_domain);
+
+		socket_io.on('connect', function(){
+			console.log("connect socket id=" + socket_io.id);
+			SocketStream_Object.socket_available = true;
+			socket_io.emit('join_room', {'room_name':MixideaSetting.event_id});
+			socket_io.on('audio_saved', function(data){
+				console.log('record complete ' + data.file_saved);
+			});
+			
+			socket_io.on('disconnect', function(){
+				console.log('disconnected');
+				SocketStream_Object.socket_available = false;
+				if(stream){
+					console.log("disconnected");
+				//	under_recording = false;
+					stream.end();
+					stream = null;
+				}
+			});
+		});
+    }
+
+
+    SocketStream_Object.start_record = function(in_file_name, sample_rate_value){
+		if(!this.socket_available ){
+			return;
+		}
+
+		if(!stream){
+			console.log(" start record socket id=" + socket_io.id);
+			stream = ss.createStream();
+			console.log("audio polling stream id " + stream.id);
+			var start_emit_obj = {filename:in_file_name,sample_rate:sample_rate_value};
+			console.log(start_emit_obj);
+			ss(socket_io).emit('audio_record_start', stream, start_emit_obj );
+		}else{
+			console.log("recording is already on going");
+		}
+    }
+
+
+    SocketStream_Object.suspend_record = function(in_file_name){
+		if(!this.socket_available){
+			return;
+		}
+		console.log("suspend recording");
+		if(stream){
+			stream.end();
+			stream = null;
+			socket_io.emit('audio_record_suspend', {filename:in_file_name});
+		} 	
+    }
+
+
+
+    SocketStream_Object.resume_record = function(in_file_name){
+
+		if(!this.socket_available ){
+			return;
+		}
+
+		if(!stream){
+			console.log("resume recording");
+			stream = ss.createStream();
+			console.log("audio polling stream id " + stream.id)
+			ss(socket_io).emit('audio_record_resume', stream, {filename:in_file_name,sample_rate:sample_rate_value} );
+		}else{
+			console.log("recording is already on going");
+		}
+    }
+
+
+    SocketStream_Object.stop_record_save = function(in_file_name,deb_style_val, in_role_name, speech_id_val){
+
+		var self = this;
+		if(!this.socket_available ){
+			return;
+		}
+		if(stream){
+			console.log("stop record socket id=" + socket_io.id);
+			stream.end();
+			stream = null;
+			var room_name_val = MixideaSetting.event_id;
+			var stop_emit_obj = {filename:in_file_name,deb_style: deb_style_val, role_name: in_role_name, room_name: room_name_val, speech_id: speech_id_val }
+			console.log(stop_emit_obj);
+			socket_io.emit('audio_record_end', stop_emit_obj);
+		}
+    }
+
+
+    SocketStream_Object.stream_record_process = function(audio_array_buffer){
+    	if(!stream){
+    		return
+    	}
+		var stream_buffer = new ss.Buffer(audio_array_buffer);
+		stream.write(stream_buffer, 'buffer');
+    }
+
+
+    sockt_initialize();
+
+    return SocketStream_Object;
 
   }]);
 
