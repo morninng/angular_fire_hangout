@@ -24,10 +24,10 @@ angular.module('angularFireHangoutApp')
         scope.participant_mgr = ParticipantMgrService;
         scope.others_writing = false;
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+       // var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
         				+ arg_id;
-        var argument_content_ref = root_ref.child(argument_content_path);
+        var argument_content_ref = global_firebase_root_ref.child(argument_content_path);
 
         var content_ref = argument_content_ref.child("content");
         content_ref.on("value", function(snapshot){
@@ -44,10 +44,10 @@ angular.module('angularFireHangoutApp')
         }
 
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+       // var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
                 + arg_id;
-        var argument_focused_ref = root_ref.child(argument_focused_path);
+        var argument_focused_ref = global_firebase_root_ref.child(argument_focused_path);
 
         var content_focused_ref = argument_focused_ref.child("content");
         content_focused_ref.on("value", function(snapshot){

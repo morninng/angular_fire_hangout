@@ -25,10 +25,10 @@ angular.module('angularFireHangoutApp')
         scope.element = element;
         scope.participant_mgr = ParticipantMgrService;
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+      //  var root_ref = new Firebase(MixideaSetting.firebase_url);
         var defintro_content_path = "event_related/Article_Context/" + event_id + "/context/" 
         				+ arg_id + "/" + "content";
-        var defintro_content_ref = root_ref.child(defintro_content_path);
+        var defintro_content_ref = global_firebase_root_ref.child(defintro_content_path);
 
         defintro_content_ref.on("value", function(snapshot){
           $timeout(function(){
@@ -61,7 +61,7 @@ angular.module('angularFireHangoutApp')
 /*** focus***/
         var defIntro_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
                 + arg_id + "/def_intro";
-        var defIntro_focused_ref = root_ref.child(defIntro_focused_path)
+        var defIntro_focused_ref = global_firebase_root_ref.child(defIntro_focused_path)
 
         defIntro_focused_ref.on("value", function(snapshot){
           $timeout(function(){

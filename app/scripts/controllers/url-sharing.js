@@ -15,8 +15,8 @@ angular.module('angularFireHangoutApp')
   $scope.url_share = null;
 
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var url_ref = root_ref.child("event_related/url_link/" + MixideaSetting.event_id)
+	// var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var url_ref = global_firebase_root_ref.child("event_related/url_link/" + MixideaSetting.event_id)
 
 	url_ref.on("child_added", function(snapshot, prevChildKey) {
 		var url_id = snapshot.key();
@@ -64,7 +64,7 @@ angular.module('angularFireHangoutApp')
 
 	function retrieve_ogp_data(url_id){
 
-    var ogp_content_ref = root_ref.child("url_related/url/" + url_id);
+    var ogp_content_ref = global_firebase_root_ref.child("url_related/url/" + url_id);
     ogp_content_ref.on("value", function(snapshot) {
       var ogp_obj  = snapshot.val();
 

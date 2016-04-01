@@ -22,9 +22,9 @@ angular.module('angularFireHangoutApp')
     $scope.speech_start_time = 0;
 
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
+//	var root_ref = new Firebase(MixideaSetting.firebase_url);
 
-	var video_status_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
+	var video_status_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
 	var speaker_ref = video_status_ref.child("speaker");
 	var speaker_ref_own = video_status_ref.child("speaker/" + MixideaSetting.own_user_id);
 	var poi_ref = video_status_ref.child("poi");

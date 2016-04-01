@@ -25,11 +25,11 @@ angular.module('angularFireHangoutApp')
         var role_name = scope.role_object.name;
 
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+      //  var root_ref = new Firebase(MixideaSetting.firebase_url);
         var own_note_path = "event_related/own_note/" + MixideaSetting.event_id + "/" 
         				+ MixideaSetting.own_user_id + "/"
         				+ role_name;
-        var own_note_ref = root_ref.child(own_note_path);
+        var own_note_ref = global_firebase_root_ref.child(own_note_path);
         var own_note_content_ref = own_note_ref.child("content");
         var own_note_score_ref = own_note_ref.child("score");
 

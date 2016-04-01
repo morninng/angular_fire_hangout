@@ -40,7 +40,7 @@ angular.module('angularFireHangoutApp')
 
 //debate style
 
-  var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
+  var deb_style_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
   deb_style_ref.on("value", function(snapshot) {
     var style_val  = snapshot.val();
     console.log("style update event : " + style_val);
@@ -113,8 +113,8 @@ angular.module('angularFireHangoutApp')
 
 
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
-  var mapping_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
+ // var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var mapping_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
   mapping_ref.on("value", function(snapshot) {
     console.log("mapping data updated");
     var value  = snapshot.val();
@@ -209,7 +209,7 @@ angular.module('angularFireHangoutApp')
 
 // game role
 
-  var game_role_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
+  var game_role_ref = global_firebase_root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
   game_role_ref.on("value", function(snapshot) {
     var value  = snapshot.val();
     if(value){

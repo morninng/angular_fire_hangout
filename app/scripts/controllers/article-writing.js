@@ -29,9 +29,9 @@ angular.module('angularFireHangoutApp')
 	var event_id_val = MixideaSetting.event_id;
 
 
-    var root_ref = new Firebase(MixideaSetting.firebase_url);
+    //var root_ref = new Firebase(MixideaSetting.firebase_url);
 	var argument_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/";
-	var argument_id_ref = root_ref.child(argument_id_path);
+	var argument_id_ref = global_firebase_root_ref.child(argument_id_path);
 
 	argument_id_ref.on("value", function(snapshot){
 		$scope.argument_id_data = snapshot.val();

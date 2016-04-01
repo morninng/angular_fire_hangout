@@ -11,8 +11,8 @@ angular.module('angularFireHangoutApp')
   .controller('StatusUpdateCtrl',['$scope','MixideaSetting', function ($scope, MixideaSetting) {
 
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
-  var game_status_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
+  // var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var game_status_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
   
 
   $scope.update_status = function(new_status){
@@ -35,8 +35,8 @@ angular.module('angularFireHangoutApp')
 
   	var current_time = Date.now();
 
-	  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
-	  var prep_time_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
+	  // var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+	  var prep_time_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
 	  prep_time_ref.set(current_time, function(error) {
 	    if (error) {
 	      console.log("setting time failed" + error);

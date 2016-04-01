@@ -14,6 +14,7 @@ var global_room_type = null;
 var global_own_hangout_id = null;
 var global_team_side  = null;
 var global_own_team_side = null;
+var global_firebase_root_ref = null;
 
 (function () {
 
@@ -52,6 +53,7 @@ angular.module('angularFireHangoutApp')
 
 function set_mapping_data(user_id, hangout_id)
 {
+
   var root_ref = new Firebase("https://mixidea.firebaseio.com/");
   var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + global_event_id + "/mapping_data/" + global_own_user_id)
   mapping_data_ref.set(hangout_id, function(error) {

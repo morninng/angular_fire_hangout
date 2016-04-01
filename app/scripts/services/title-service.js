@@ -15,8 +15,8 @@ angular.module('angularFireHangoutApp')
     title_obj.motion_screen = null;
     title_obj.style = null;
 
-    var root_ref = new Firebase(MixideaSetting.firebase_url);
-    var title_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/motion")
+   // var root_ref = new Firebase(MixideaSetting.firebase_url);
+    var title_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/motion")
 
 
     title_ref.on("value", function(snapshot) {

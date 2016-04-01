@@ -56,8 +56,8 @@ angular.module('angularFireHangoutApp')
 	}
 
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var video_status_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
+	//var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var video_status_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
 	var speaker_ref = video_status_ref.child("speaker");
 
 	speaker_ref.on("value", function(snapshot){

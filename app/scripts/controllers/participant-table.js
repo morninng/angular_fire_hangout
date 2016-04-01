@@ -13,7 +13,7 @@ angular.module('angularFireHangoutApp')
 
   $scope.participant_mgr = ParticipantMgrService;
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
+  //var root_ref = new Firebase(MixideaSetting.firebase_url);
   $scope.change_shown = false;
   $scope.participant_mgr = ParticipantMgrService;
 
@@ -46,18 +46,28 @@ angular.module('angularFireHangoutApp')
     $scope.change_shown = false;
   }
 
+
+  $scope.$on("$destroy", function() {
+    console.log("destroy parent table is called");
+
+  });
+
+
 }]);
+
+
+
 
 
 angular.module('angularFireHangoutApp')
   .controller('ParticipantTableChildCtrl',['$scope','ParticipantMgrService', 'MixideaSetting',function ($scope, ParticipantMgrService,MixideaSetting) {
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
+  //var root_ref = new Firebase(MixideaSetting.firebase_url);
   $scope.participant_mgr = ParticipantMgrService;
   $scope.own_user_id = MixideaSetting.own_user_id
 
 	$scope.join = function(role_name){
-    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
+    var role_participants_ref = global_firebase_root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
     role_participants_ref.transaction(function(current_value){
       if(current_value){
         alert("someone has already take this role")
@@ -76,7 +86,7 @@ angular.module('angularFireHangoutApp')
   }
 
   function remove_user(role_name){
-    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
+    var role_participants_ref = global_firebase_root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
     role_participants_ref.set(null,  function(error) {
       if (error) {
         console.log("cannot cancel" + error);
@@ -85,6 +95,13 @@ angular.module('angularFireHangoutApp')
       }
     });
   }
+
+  $scope.$on("$destroy", function() {
+    console.log("destroy child table is called");
+
+  });
+
+
 
 
   }]);

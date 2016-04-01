@@ -13,6 +13,7 @@ var global_event_id = null;
 var global_room_type = null;
 var global_team_side  = null;
 var global_own_team_side = null;
+var global_firebase_root_ref = null;
 
 (function () {
 
