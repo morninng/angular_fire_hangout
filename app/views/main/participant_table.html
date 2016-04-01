@@ -4,15 +4,15 @@
 
 	<div id="change_style_pain" ng-if="change_shown" ng-mouseleave="mouseout_change_style()">
 		change debate style
-		<div><label><input type="radio" ng-model="participant_mgr.debate_style" ng-change="change_style('NA')" value="NA">NA</label></div>
-		<div><label><input type="radio" ng-model="participant_mgr.debate_style" ng-change="change_style('Asian')" value="Asian">Asian</label></div>
-		<div><label><input type="radio" ng-model="participant_mgr.debate_style" ng-change="change_style('BP')" value="BP">BP</label></div>
+		<div><label><input type="radio" ng-model="deb_style_obj.deb_style" ng-change="change_style('NA')" value="NA">NA</label></div>
+		<div><label><input type="radio" ng-model="deb_style_obj.deb_style" ng-change="change_style('Asian')" value="Asian">Asian</label></div>
+		<div><label><input type="radio" ng-model="deb_style_obj.deb_style" ng-change="change_style('BP')" value="BP">BP</label></div>
 		<input type="button" value="cancel" ng-click="cancel_change_style()">
 	</div>
  
 </div> 
 
-<span ng-switch="participant_mgr.debate_style">
+<span ng-switch="deb_style_obj.deb_style">
 
 	<span ng-switch-when="NA" ng-controller="ParticipantTableChildCtrl">
 

@@ -8,7 +8,7 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('ParticipantTableParentCtrl',['$scope','MixideaSetting','ParticipantMgrService',  function ($scope, MixideaSetting, ParticipantMgrService) {
+  .controller('ParticipantTableParentCtrl',['$scope','MixideaSetting','ParticipantMgrService','DataDebstyleService',  function ($scope, MixideaSetting, ParticipantMgrService, DataDebstyleService) {
 
 
   $scope.participant_mgr = ParticipantMgrService;
@@ -16,6 +16,7 @@ angular.module('angularFireHangoutApp')
   var root_ref = new Firebase(MixideaSetting.firebase_url);
   $scope.change_shown = false;
   $scope.participant_mgr = ParticipantMgrService;
+  $scope.deb_style_obj = DataDebstyleService
 
  // var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style");
 
@@ -28,7 +29,7 @@ angular.module('angularFireHangoutApp')
   $scope.change_style = function(style){
     console.log("change style clicked :  " + style);
     $scope.change_shown = false;
-    $scope.participant_mgr.set_style(style);
+    $scope.deb_style_obj.set_style(style);
 
     //deb_style_ref.set(style);
     //console.log("change style " + style);
@@ -57,7 +58,7 @@ angular.module('angularFireHangoutApp')
   $scope.own_user_id = MixideaSetting.own_user_id
 
 	$scope.join = function(role_name){
-    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
+    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.deb_style_obj.deb_style + "/" + role_name);
     role_participants_ref.transaction(function(current_value){
       if(current_value){
         alert("someone has already take this role")
@@ -76,7 +77,7 @@ angular.module('angularFireHangoutApp')
   }
 
   function remove_user(role_name){
-    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
+    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.deb_style_obj.deb_style + "/" + role_name);
     role_participants_ref.set(null,  function(error) {
       if (error) {
         console.log("cannot cancel" + error);

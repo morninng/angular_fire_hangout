@@ -40,6 +40,11 @@ yo angular:controller team-discuss-arguments
  yo angular:factory Title-Service
  yo angular:factory DebateStyle-Service
 
+ yo angular:factory DataDebstyle-Service
+ yo angular:factory DataFullparticipant-Service
+ yo angular:factory DataMapping-Service
+ yo angular:factory DataGamerole-Service
+
  yo angular:service Util-Service
 
 
