@@ -35,6 +35,7 @@ angular.module('angularFireHangoutApp')
   var game_role_obj_all_style = new Object();
   var full_participants_object = new Object();
   var mapping_object = new Object();
+  var accumulate_mapping_object = new Object();
   var total_number_participants = 0;
   var role_group_name_mappin = new Object();
   var debate_style_fireobj = null;
@@ -146,6 +147,7 @@ angular.module('angularFireHangoutApp')
     var key  = snapshot.key();
     if(value){
       mapping_object = value;
+      accumulate_mapping_user();
     }else{
       mapping_object = new Object();
     }
@@ -158,6 +160,14 @@ angular.module('angularFireHangoutApp')
 
   });
 
+  var accumulate_mapping_user = function(){
+
+    for(var key in mapping_object){
+      accumulate_mapping_object[key] = mapping_object[key];
+    }
+
+  }
+
 
   window.addEventListener("online", 
     function(){
@@ -167,6 +177,15 @@ angular.module('angularFireHangoutApp')
     }
   );
 
+ParticipantMgr_Object.getUserid_fromHangoutid = function(hangout_id){
+  
+
+    for(var key in accumulate_mapping_object){
+      if(hangout_id == accumulate_mapping_object[key]){
+        return key;
+      }
+    }
+}
 
 
 
@@ -247,8 +266,6 @@ angular.module('angularFireHangoutApp')
     console.log("The read failed: " + errorObject.code);
 
   });
-
-
 
 
 

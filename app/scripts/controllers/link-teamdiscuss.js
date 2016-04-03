@@ -8,7 +8,7 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout', function ($scope, ParticipantMgrService, MixideaSetting, $timeout) {
+  .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout','SpeechStatus_object', function ($scope, ParticipantMgrService, MixideaSetting, $timeout, SpeechStatus_object) {
 
  
   	$scope.participant_mgr = ParticipantMgrService;
@@ -96,6 +96,6 @@ angular.module('angularFireHangoutApp')
     console.log("teamlink_leave");
   }
 
-
+  SpeechStatus_object.Clear_AllSpeechData();
 
   }]);

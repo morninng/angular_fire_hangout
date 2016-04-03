@@ -8,11 +8,12 @@
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('DebaterbarCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout', function ($scope, ParticipantMgrService, MixideaSetting, $timeout) {
+  .controller('DebaterbarCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout','SpeechStatusService', function ($scope, ParticipantMgrService, MixideaSetting, $timeout, SpeechStatusService) {
 
 
 	$scope.participant_mgr = ParticipantMgrService;
 	$scope.debater_array = [];
+	$scope.speech_status = SpeechStatusService;
 	$scope.cancel_style_watch = $scope.$watch('participant_mgr.debate_style',function(){update_debater_array()} );
 
 
@@ -56,6 +57,8 @@ angular.module('angularFireHangoutApp')
 	}
 
 
+
+/*
 	//var root_ref = new Firebase(MixideaSetting.firebase_url);
 	var video_status_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
 	var speaker_ref = video_status_ref.child("speaker");
@@ -76,9 +79,9 @@ angular.module('angularFireHangoutApp')
 	}, function(error){
 		console.log("fail while to retrieve speaker obj" + error);
 	})
-
+*/
 	$scope.$on("$destroy", function() {
-		speaker_ref.off("value");
+//		speaker_ref.off("value");
 		$scope.cancel_style_watch();
 	});
 

@@ -234,6 +234,7 @@ angular.module('angularFireHangoutApp')
 
     $scope.$on("$destroy", function() {
         console.log("video scope is destroyed");
+        SpeechStatusService.Clear_AllSpeechData();
 
 /*
         speaker_ref_own.set(null);
