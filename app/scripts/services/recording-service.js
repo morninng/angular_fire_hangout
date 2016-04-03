@@ -35,7 +35,7 @@ angular.module('angularFireHangoutApp')
 				}
 			break;
 			case "poi":
-				SocketStreamsService.resume_record(file_name);
+				SocketStreamsService.resume_record(file_name, sample_rate_value);
 			break;
 		}
 		stored_speech_id = speech_id;

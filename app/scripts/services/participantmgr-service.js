@@ -8,7 +8,7 @@
  * Factory in the angularFireHangoutApp.
  */
 angular.module('angularFireHangoutApp')
-.factory('ParticipantMgrService',['MixideaSetting','$timeout', function (MixideaSetting, $timeout) {
+.factory('ParticipantMgrService',['MixideaSetting','$timeout','$firebaseObject', function (MixideaSetting, $timeout, $firebaseObject) {
 
 
   var ParticipantMgr_Object = new Object();
@@ -37,22 +37,46 @@ angular.module('angularFireHangoutApp')
   var mapping_object = new Object();
   var total_number_participants = 0;
   var role_group_name_mappin = new Object();
+  var debate_style_fireobj = null;
 
 //debate style
 
   var deb_style_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
+  debate_style_fireobj = $firebaseObject(deb_style_ref);
+
+  debate_style_fireobj.$watch(function() {
+    ParticipantMgr_Object.debate_style = debate_style_fireobj.$value;
+    update_ParticipantMgr_Object();
+  });
+
+  /*
+  debate_style_fireobj.$save().then(function(deb_style_ref) {
+    ParticipantMgr_Object.debate_style = debate_style_fireobj.$value;
+    update_ParticipantMgr_Object();
+  });
+*/
+/*
   deb_style_ref.on("value", function(snapshot) {
     var style_val  = snapshot.val();
     console.log("style update event : " + style_val);
     ParticipantMgr_Object.debate_style = style_val;
-    update_ParticipantMgr_Object();
+    
 
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
+*/
+
+
 
   ParticipantMgr_Object.set_style = function(value){
-    deb_style_ref.set(value);
+    debate_style_fireobj.$value = value;
+    debate_style_fireobj.$save()
+    /*
+    debate_style_fireobj.$save().then(
+          function(data){console.log(data);}, 
+          function(error){console.log(error)}
+          );*/
   }
 
 // full participants

@@ -39,6 +39,7 @@ yo angular:controller team-discuss-arguments
  yo angular:service SocketStreams-Service
  yo angular:factory Title-Service
  yo angular:factory DebateStyle-Service
+ yo angular:factory SpeechStatus-Service
 
  yo angular:service Util-Service
 

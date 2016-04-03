@@ -20,9 +20,9 @@ angular
 
 
 angular.module('angularFireHangoutApp')
-  .run(['$state','MixideaSetting', function($state, MixideaSetting) {
+  .run(['$state','MixideaSetting','$window', function($state, MixideaSetting, $window) {
 
-  	global_firebase_root_ref = new Firebase(MixideaSetting.firebase_url);
+  	global_firebase_root_ref = new $window.Firebase(MixideaSetting.firebase_url);
 
   	console.log("mixidea setting")
   	console.log(MixideaSetting)
