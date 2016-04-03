@@ -96,7 +96,7 @@ angular.module('angularFireHangoutApp')
 	    var parent_height = window.innerHeight;
 	    var expected_height = parent_height - main_position - 10;
 
-	    var argument_layout_element = document.getElementById("argument_container");
+	    var argument_layout_element = document.getElementById("teamdiscuss_argument_container");
 	    var argument_layout_current_height = argument_layout_element.offsetHeight;
 
 	    var diff_height = expected_height - argument_layout_current_height;
@@ -123,7 +123,7 @@ angular.module('angularFireHangoutApp')
 	if(MixideaSetting.room_type == "team_discussion"){
 		set_pain_size();
 		setTimeout(set_pain_size,1000);
-		var argument_layout_element = document.getElementById("argument_container");
+		var argument_layout_element = document.getElementById("teamdiscuss_argument_container");
 		argument_layout_element.onscroll = function(){
 			set_pain_size();
 		}

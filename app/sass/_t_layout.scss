@@ -32,14 +32,24 @@
 
 }
 
-
-
-.add_arg_button{
-	width:100%;
-	input {
-		margin-top:10px;
-		margin-bottom:5px;
-		margin-right:30px;
-		float:right;
+#teamdiscuss_argument_container{
+	
+	.argument_elements_parent{
+		display:table-row;
+		background-color:#E0FFFF;
 	}
+
+	.add_arg_button{
+	
+		width:100%;
+		float:right;
+		input {
+			margin-top:10px;
+			margin-bottom:5px;
+			margin-right:30px;
+			float:right;
+		}
+	}
+
 }
+

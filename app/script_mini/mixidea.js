@@ -685,7 +685,7 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout','SpeechStatus_object', function ($scope, ParticipantMgrService, MixideaSetting, $timeout, SpeechStatus_object) {
+  .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout','SpeechStatusService', function ($scope, ParticipantMgrService, MixideaSetting, $timeout, SpeechStatusService) {
 
  
   	$scope.participant_mgr = ParticipantMgrService;
@@ -773,7 +773,7 @@ angular.module('angularFireHangoutApp')
     console.log("teamlink_leave");
   }
 
-  SpeechStatus_object.Clear_AllSpeechData();
+  SpeechStatusService.Clear_AllSpeechData();
 
   }]);
 
@@ -4040,7 +4040,7 @@ angular.module('angularFireHangoutApp')
             hangout_participant_removed(removed_participant_array);
           });
           hangout_status_speaker();
-            hangout_status_poitaken();
+          hangout_status_poitaken();
         }
       });
     }else{
@@ -4111,7 +4111,7 @@ angular.module('angularFireHangoutApp')
 
       if(!key){
         for(var key in SpeechStatus_object.speaker_obj){
-        delete SpeechStatus_object.speaker_obj[key]
+          delete SpeechStatus_object.speaker_obj[key]
         }
       }else{
         SpeechStatus_object.speaker_obj.id = key;
@@ -4150,8 +4150,9 @@ angular.module('angularFireHangoutApp')
       }else{
         speaker_fireobj[MixideaSetting.own_user_id] = speaker_obj;
         speaker_fireobj.$save();
+        speaker_ref_own.onDisconnect().set(null);
       }    
-      //speaker_ref_own.onDisconnect().set(null);
+      
   }
 
 
@@ -4223,7 +4224,6 @@ angular.module('angularFireHangoutApp')
 
   SpeechStatus_object.take_poi = function(user_id, group){
 
-    poi_taken_fireobj[user_id] = group;
 
     if(MixideaSetting.hangout_execution){
       var poi_taken_obj = new Object();
@@ -4231,6 +4231,7 @@ angular.module('angularFireHangoutApp')
       var poi_taken_str = JSON.stringify(poi_taken_obj);
       gapi.hangout.data.submitDelta({"poi_taken":poi_taken_str});
     }else{
+      poi_taken_fireobj[user_id] = group;
       poi_taken_fireobj.$save();
     }
     poi_candidate_fireobj.$remove();
@@ -4292,8 +4293,6 @@ angular.module('angularFireHangoutApp')
 
 
   initial_execution();
-
-
 
 
 
@@ -4658,7 +4657,7 @@ angular.module('angularFireHangoutApp')
 	    var parent_height = window.innerHeight;
 	    var expected_height = parent_height - main_position - 10;
 
-	    var argument_layout_element = document.getElementById("argument_container");
+	    var argument_layout_element = document.getElementById("teamdiscuss_argument_container");
 	    var argument_layout_current_height = argument_layout_element.offsetHeight;
 
 	    var diff_height = expected_height - argument_layout_current_height;
@@ -4685,7 +4684,7 @@ angular.module('angularFireHangoutApp')
 	if(MixideaSetting.room_type == "team_discussion"){
 		set_pain_size();
 		setTimeout(set_pain_size,1000);
-		var argument_layout_element = document.getElementById("argument_container");
+		var argument_layout_element = document.getElementById("teamdiscuss_argument_container");
 		argument_layout_element.onscroll = function(){
 			set_pain_size();
 		}
