@@ -22,6 +22,7 @@ angular.module('angularFireHangoutApp')
   	$scope.timer_value = null;
     $scope.speech_start_time = 0;
 
+    SpeechStatusService.initial_execution();
 
 
 
@@ -234,7 +235,7 @@ angular.module('angularFireHangoutApp')
 
     $scope.$on("$destroy", function() {
         console.log("video scope is destroyed");
-        SpeechStatusService.Clear_AllSpeechData();
+        SpeechStatusService.Finalize_Service();
 
 /*
         speaker_ref_own.set(null);
