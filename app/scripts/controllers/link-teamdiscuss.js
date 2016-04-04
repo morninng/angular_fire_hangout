@@ -96,6 +96,6 @@ angular.module('angularFireHangoutApp')
     console.log("teamlink_leave");
   }
 
-  SpeechStatusService.Finalize_Service();
+  SpeechStatusService.Clear_AllSpeechData();
 
   }]);

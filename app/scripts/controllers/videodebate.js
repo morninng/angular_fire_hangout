@@ -20,7 +20,6 @@ angular.module('angularFireHangoutApp')
   	//$scope.poi_speaker_obj = new Object();
   //	$scope.poi_candidate_userobj_array = new Array();
   	$scope.timer_value = null;
-    $scope.speech_start_time = 0;
 
     SpeechStatusService.initial_execution();
 
@@ -213,18 +212,18 @@ angular.module('angularFireHangoutApp')
       var deb_style = $scope.participant_mgr.debate_style;
 
       if(speaker_id == MixideaSetting.own_user_id){
-        RecognitionService.start(deb_style, type, $scope.speech_status.current_speaker  ,$scope.speech_start_time);
-        RecordingService.record_start_api(type, $scope.speech_status.current_speaker, $scope.speech_start_time);
+        RecognitionService.start(deb_style, type, $scope.speech_status.current_speaker  ,$scope.speech_status.speech_start_time);
+        RecordingService.record_start_api(type, $scope.speech_status.current_speaker, $scope.speech_status.speech_start_time);
         HangoutService.enable_microphone();
 
       }else if(speaker_id){
         RecognitionService.stop();
-        RecordingService.record_finish_api("other",deb_style, $scope.speech_status.current_speaker, $scope.speech_start_time);
+        RecordingService.record_finish_api("other",deb_style, $scope.speech_status.current_speaker, $scope.speech_status.speech_start_time);
         HangoutService.disable_microphone();
 
       }else{
         RecognitionService.stop();
-        RecordingService.record_finish_api("break",deb_style, $scope.speech_status.current_speaker, $scope.speech_start_time);
+        RecordingService.record_finish_api("break",deb_style, $scope.speech_status.current_speaker, $scope.speech_status.speech_start_time);
         HangoutService.enable_microphone();
 
       }

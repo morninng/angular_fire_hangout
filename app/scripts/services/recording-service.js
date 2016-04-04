@@ -78,7 +78,7 @@ angular.module('angularFireHangoutApp')
 				 	start_audio_polling(local_media_stream);
 				},
 				function(e) {
-					console.log('Error'); 
+					console.log('using audio is blocked by user'); 
 				} );
 		} else{
 			console.log('getUserMedia not supported');

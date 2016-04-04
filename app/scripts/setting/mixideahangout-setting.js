@@ -15,6 +15,7 @@ var global_own_hangout_id = null;
 var global_team_side  = null;
 var global_own_team_side = null;
 var global_firebase_root_ref = null;
+//var global_audio_allowed = null;
 
 (function () {
 
@@ -35,6 +36,34 @@ var global_firebase_root_ref = null;
       set_mapping_data(global_own_user_id, global_own_hangout_id);
     }
   });
+
+/*
+  console.log("before executing getusermedia");
+  if (!navigator.getUserMedia){
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia || navigator.msGetUserMedia;
+  }
+  if (navigator.getUserMedia) {
+    console.log("initial get user media execution");
+    navigator.getUserMedia(
+      {audio:true},
+      function(local_media_stream){
+        global_audio_allowed = "accepted";
+        console.log("accepted")
+      },
+      function(e) {
+        global_audio_allowed = "denied";
+        console.log("audio was denied");
+      }
+    );
+  }else{
+    global_audio_allowed = "not_supported";
+    console.log("not supported")
+  }
+
+*/
+
+
 
 }());
 
