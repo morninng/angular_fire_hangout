@@ -13,6 +13,7 @@ angular.module('angularFireHangoutApp')
 
   var ParticipantMgr_Object = new Object();
   ParticipantMgr_Object.debate_style = null;
+  var previous_debate_style_val = null;
   ParticipantMgr_Object.participant_obj = new Object();
   ParticipantMgr_Object.participant_obj_bp_open = new Object();
   ParticipantMgr_Object.participant_obj_bp_close = new Object();
@@ -42,43 +43,46 @@ angular.module('angularFireHangoutApp')
 
 //debate style
 
+
+/*firebase sync*/
   var deb_style_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
   debate_style_fireobj = $firebaseObject(deb_style_ref);
 
   debate_style_fireobj.$watch(function() {
-    ParticipantMgr_Object.debate_style = debate_style_fireobj.$value;
-    update_ParticipantMgr_Object();
+    var updated_deb_style = debate_style_fireobj.$value;
+    update_debstyle(updated_deb_style);
   });
-
-  /*
-  debate_style_fireobj.$save().then(function(deb_style_ref) {
-    ParticipantMgr_Object.debate_style = debate_style_fireobj.$value;
-    update_ParticipantMgr_Object();
-  });
-*/
-/*
-  deb_style_ref.on("value", function(snapshot) {
-    var style_val  = snapshot.val();
-    console.log("style update event : " + style_val);
-    ParticipantMgr_Object.debate_style = style_val;
-    
-
-  }, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
-  });
-*/
-
+  function hangout_status_debstyle(){
+    var updated_deb_style = gapi.hangout.data.getValue("deb_style"); 
+    update_debstyle(updated_deb_style);
+  }
+  function update_debstyle(updated_deb_style){
+    if(updated_deb_style !=previous_debate_style_val){
+      ParticipantMgr_Object.debate_style = updated_deb_style;
+      update_ParticipantMgr_Object();
+      previous_debate_style_val = updated_deb_style;
+    }
+  }
+/*hangout sync*/
+  if(MixideaSetting.hangout_execution){
+    gapi.hangout.onApiReady.add(function(e){
+      if(e.isApiReady){
+        gapi.hangout.data.onStateChanged.add(hangout_status_debstyle);
+      }
+    });
+  }
 
 
   ParticipantMgr_Object.set_style = function(value){
+    /*firebase sync*/
     debate_style_fireobj.$value = value;
     debate_style_fireobj.$save()
-    /*
-    debate_style_fireobj.$save().then(
-          function(data){console.log(data);}, 
-          function(error){console.log(error)}
-          );*/
+    /* hangout status sync*/
+    gapi.hangout.data.submitDelta({"deb_style":value});
   }
+
+
+
 
 // full participants
 
@@ -212,14 +216,9 @@ ParticipantMgr_Object.getUserid_fromHangoutid = function(hangout_id){
 
 
   if(MixideaSetting.hangout_execution){
-    console.log("before api ready within participant mgr")
     gapi.hangout.onApiReady.add(function(e){
-      console.log("api ready within participantmgr is called")
       if(e.isApiReady){
-        console.log("become ready status within participant mgr");
         gapi.hangout.onParticipantsChanged.add(function(participant_change) {
-          console.log("function added to participant changed");
-          //update_hangout_participants();
           check_ownexistence_addifnot()
         });
       }
