@@ -20,7 +20,9 @@ angular
 
 
 angular.module('angularFireHangoutApp')
-  .run(['$state','MixideaSetting', function($state, MixideaSetting) {
+  .run(['$state','MixideaSetting','$window', function($state, MixideaSetting, $window) {
+
+  	global_firebase_root_ref = new $window.Firebase(MixideaSetting.firebase_url);
 
   	console.log("mixidea setting")
   	console.log(MixideaSetting)
@@ -314,9 +316,9 @@ angular.module('angularFireHangoutApp')
 	var event_id_val = MixideaSetting.event_id;
 
 
-    var root_ref = new Firebase(MixideaSetting.firebase_url);
+    //var root_ref = new Firebase(MixideaSetting.firebase_url);
 	var argument_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/";
-	var argument_id_ref = root_ref.child(argument_id_path);
+	var argument_id_ref = global_firebase_root_ref.child(argument_id_path);
 
 	argument_id_ref.on("value", function(snapshot){
 		$scope.argument_id_data = snapshot.val();
@@ -451,8 +453,8 @@ angular.module('angularFireHangoutApp')
 	$scope.prep_time = "start preparation";
 	var start_time = null;
 
-	var root_ref = new Firebase("https://mixidea.firebaseio.com/");
-	var preptime_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
+	//var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+	var preptime_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
 	preptime_ref.on("value", function(snapshot){
 		start_time = snapshot.val();
 	}, function(){
@@ -506,11 +508,12 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('DebaterbarCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout', function ($scope, ParticipantMgrService, MixideaSetting, $timeout) {
+  .controller('DebaterbarCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout','SpeechStatusService', function ($scope, ParticipantMgrService, MixideaSetting, $timeout, SpeechStatusService) {
 
 
 	$scope.participant_mgr = ParticipantMgrService;
 	$scope.debater_array = [];
+	$scope.speech_status = SpeechStatusService;
 	$scope.cancel_style_watch = $scope.$watch('participant_mgr.debate_style',function(){update_debater_array()} );
 
 
@@ -554,8 +557,10 @@ angular.module('angularFireHangoutApp')
 	}
 
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var video_status_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
+
+/*
+	//var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var video_status_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
 	var speaker_ref = video_status_ref.child("speaker");
 
 	speaker_ref.on("value", function(snapshot){
@@ -574,9 +579,9 @@ angular.module('angularFireHangoutApp')
 	}, function(error){
 		console.log("fail while to retrieve speaker obj" + error);
 	})
-
+*/
 	$scope.$on("$destroy", function() {
-		speaker_ref.off("value");
+//		speaker_ref.off("value");
 		$scope.cancel_style_watch();
 	});
 
@@ -601,8 +606,8 @@ angular.module('angularFireHangoutApp')
 
   	$scope.hearhear_users_array = new Array();
   	$scope.booboo_users_array = new Array();
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var impression_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/impression_expression");
+	// var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var impression_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/impression_expression");
 	var hearhear_ref = impression_ref.child("hearhear");
 	var hearhear_own_ref = hearhear_ref.child(MixideaSetting.own_user_id)
 	var booboo_ref = impression_ref.child("booboo");
@@ -680,7 +685,7 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout', function ($scope, ParticipantMgrService, MixideaSetting, $timeout) {
+  .controller('LinkTeamdiscussCtrl',['$scope','ParticipantMgrService','MixideaSetting','$timeout','SpeechStatusService', function ($scope, ParticipantMgrService, MixideaSetting, $timeout, SpeechStatusService) {
 
  
   	$scope.participant_mgr = ParticipantMgrService;
@@ -696,8 +701,8 @@ angular.module('angularFireHangoutApp')
   		}
   	);
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
-  var hangoutlist_team_ref = root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/team_discussion");
+  // var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var hangoutlist_team_ref = global_firebase_root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/team_discussion");
   hangoutlist_team_ref.on("value", function(snapshot) {
   	url_list_array = snapshot.val();
   	update_link();
@@ -768,7 +773,7 @@ angular.module('angularFireHangoutApp')
     console.log("teamlink_leave");
   }
 
-
+  SpeechStatusService.Finalize_Service();
 
   }]);
 
@@ -901,8 +906,8 @@ angular.module('angularFireHangoutApp')
 	}
 
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var video_status_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
+	//var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var video_status_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
 	var speaker_ref = video_status_ref.child("speaker");
 
 	speaker_ref.on("value", function(snapshot){
@@ -944,7 +949,7 @@ angular.module('angularFireHangoutApp')
 
   $scope.participant_mgr = ParticipantMgrService;
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
+  //var root_ref = new Firebase(MixideaSetting.firebase_url);
   $scope.change_shown = false;
   $scope.participant_mgr = ParticipantMgrService;
 
@@ -977,18 +982,28 @@ angular.module('angularFireHangoutApp')
     $scope.change_shown = false;
   }
 
+
+  $scope.$on("$destroy", function() {
+    console.log("destroy parent table is called");
+
+  });
+
+
 }]);
+
+
+
 
 
 angular.module('angularFireHangoutApp')
   .controller('ParticipantTableChildCtrl',['$scope','ParticipantMgrService', 'MixideaSetting',function ($scope, ParticipantMgrService,MixideaSetting) {
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
+  //var root_ref = new Firebase(MixideaSetting.firebase_url);
   $scope.participant_mgr = ParticipantMgrService;
   $scope.own_user_id = MixideaSetting.own_user_id
 
 	$scope.join = function(role_name){
-    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
+    var role_participants_ref = global_firebase_root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
     role_participants_ref.transaction(function(current_value){
       if(current_value){
         alert("someone has already take this role")
@@ -1007,7 +1022,7 @@ angular.module('angularFireHangoutApp')
   }
 
   function remove_user(role_name){
-    var role_participants_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
+    var role_participants_ref = global_firebase_root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/" + $scope.participant_mgr.debate_style + "/" + role_name);
     role_participants_ref.set(null,  function(error) {
       if (error) {
         console.log("cannot cancel" + error);
@@ -1016,6 +1031,13 @@ angular.module('angularFireHangoutApp')
       }
     });
   }
+
+  $scope.$on("$destroy", function() {
+    console.log("destroy child table is called");
+
+  });
+
+
 
 
   }]);
@@ -1045,26 +1067,29 @@ angular.module('angularFireHangoutApp')
 	    var reflec_layout_element = document.getElementById("reflec_tab_container");
 	    if(reflec_layout_element){
 	    	var reflec_layout_current_height = reflec_layout_element.offsetHeight;
-		}
+		
 
-	    var diff_height = expected_height - reflec_layout_current_height;
-	    var diff_height_abs = Math.abs(diff_height);
+		    var diff_height = expected_height - reflec_layout_current_height;
+		    var diff_height_abs = Math.abs(diff_height);
 
-/*width*/
-	    var left_position = tab_layout_element.offsetLeft;
-	    var parent_width = window.innerWidth;
-	    var expected_width = parent_width - left_position - 10
-	    var reflec_layout_current_width = reflec_layout_element.offsetWidth;
-	    var diff_width = expected_width - reflec_layout_current_width;
-	    var diff_width_abs = Math.abs(diff_width);
+	/*width*/
+		    var left_position = tab_layout_element.offsetLeft;
+		    var parent_width = window.innerWidth;
+		    var expected_width = parent_width - left_position - 10
+		 
+		    var reflec_layout_current_width = reflec_layout_element.offsetWidth;
+		    var diff_width = expected_width - reflec_layout_current_width;
+		    var diff_width_abs = Math.abs(diff_width);
+			
 
 
-	    if( diff_height_abs > 5 || diff_width_abs > 5){
-	    	var adjust_height_str = String(expected_height) + "px";
-	    	var adjust_width_str = String(expected_width) + "px";
-    		$scope.layout_style = {height:adjust_height_str,width:adjust_width_str, overflow:"scroll"};
-    		$timeout(function() {});
-    	}
+		    if( diff_height_abs > 5 || diff_width_abs > 5){
+		    	var adjust_height_str = String(expected_height) + "px";
+		    	var adjust_width_str = String(expected_width) + "px";
+	    		$scope.layout_style = {height:adjust_height_str,width:adjust_width_str, overflow:"scroll"};
+	    		$timeout(function() {});
+	    	}
+	    }
 	}
 
 	set_pain_size();
@@ -1094,8 +1119,8 @@ angular.module('angularFireHangoutApp')
   .controller('StatusUpdateCtrl',['$scope','MixideaSetting', function ($scope, MixideaSetting) {
 
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
-  var game_status_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
+  // var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var game_status_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
   
 
   $scope.update_status = function(new_status){
@@ -1118,8 +1143,8 @@ angular.module('angularFireHangoutApp')
 
   	var current_time = Date.now();
 
-	  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
-	  var prep_time_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
+	  // var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+	  var prep_time_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
 	  prep_time_ref.set(current_time, function(error) {
 	    if (error) {
 	      console.log("setting time failed" + error);
@@ -1346,8 +1371,8 @@ angular.module('angularFireHangoutApp')
   $scope.url_share = null;
 
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var url_ref = root_ref.child("event_related/url_link/" + MixideaSetting.event_id)
+	// var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var url_ref = global_firebase_root_ref.child("event_related/url_link/" + MixideaSetting.event_id)
 
 	url_ref.on("child_added", function(snapshot, prevChildKey) {
 		var url_id = snapshot.key();
@@ -1395,7 +1420,7 @@ angular.module('angularFireHangoutApp')
 
 	function retrieve_ogp_data(url_id){
 
-    var ogp_content_ref = root_ref.child("url_related/url/" + url_id);
+    var ogp_content_ref = global_firebase_root_ref.child("url_related/url/" + url_id);
     ogp_content_ref.on("value", function(snapshot) {
       var ogp_obj  = snapshot.val();
 
@@ -1426,174 +1451,82 @@ angular.module('angularFireHangoutApp')
  * Controller of the angularFireHangoutApp
  */
 angular.module('angularFireHangoutApp')
-  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService","RecordingService","HangoutService",  function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService, RecordingService, HangoutService) {
+  .controller('VideodebateCtrl',["$scope","MixideaSetting", "ParticipantMgrService","$timeout","SoundPlayService","RecognitionService","UtilService","RecordingService","HangoutService",'$firebaseObject','SpeechStatusService',   function ($scope,MixideaSetting ,ParticipantMgrService, $timeout, SoundPlayService, RecognitionService, UtilService, RecordingService, HangoutService, $firebaseObject, SpeechStatusService) {
 
   	$scope.participant_mgr = ParticipantMgrService;
     $scope.own_user_id = MixideaSetting.own_user_id;
+    $scope.speech_status = SpeechStatusService;
 
 /*******ui related part****************/
   	$scope.status = "break";
-  	$scope.speaker_obj = new Object();
-  	$scope.poi_speaker_obj = new Object();
-  	$scope.poi_candidate_userobj_array = new Array();
+  //	$scope.speaker_obj = new Object();
+  	//$scope.poi_speaker_obj = new Object();
+  //	$scope.poi_candidate_userobj_array = new Array();
   	$scope.timer_value = null;
     $scope.speech_start_time = 0;
 
+    SpeechStatusService.initial_execution();
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
 
-	var video_status_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
-	var speaker_ref = video_status_ref.child("speaker");
-	var speaker_ref_own = video_status_ref.child("speaker/" + MixideaSetting.own_user_id);
-	var poi_ref = video_status_ref.child("poi");
-	var poi_candidate_ref = video_status_ref.child("poi/candidate");
-	var poi_candidate_ref_own = video_status_ref.child("poi/candidate/" + MixideaSetting.own_user_id);
-	var poi_taken_ref = video_status_ref.child("poi/taken");
-	var poi_taken_ref_own = video_status_ref.child("poi/taken/" + MixideaSetting.own_user_id);
 
-  var current_speaker = null;
+  $scope.speech_start = function(role){
+    SpeechStatusService.speech_start(role);
+  		
+  }
 
-  	$scope.speech_start = function(role){
-  		var own_side = $scope.participant_mgr.own_side;
-  		var own_name = $scope.participant_mgr.own_first_name;
-  		var full_role_name = UtilService.get_full_role_name(role);
-      var speech_start_time_value = Date.now();
+  $scope.complete_speech = function(){
+    SpeechStatusService.complete_speech();
+    //video_status_fireobj.$remove();
 
-  		var speaker_obj = {
-  			role: role,
-  			name:own_name,
-  			side: own_side,
-  			full_role_name: full_role_name,
-        speech_start_time: speech_start_time_value
-  		}
-  		var own_speaker_obj = new Object();
-  		own_speaker_obj[MixideaSetting.own_user_id] = speaker_obj;
-  		speaker_ref.transaction(function(current_value){
-  			if(current_value){
-  				return;
-  			}
-  			return own_speaker_obj;
-  		});
-  		speaker_ref_own.onDisconnect().set(null);
-  	}
+  }
 
-  	speaker_ref.on("value", function(snapshot){
-      var updated_speaker_obj = snapshot.val();
-      console.log(updated_speaker_obj);
+  $scope.$watch('speech_status.watch_counter', 
+    function(){
+    update_video_status();
+  });
 
-      if(!updated_speaker_obj){
-        for(var key in $scope.speaker_obj){
-        delete $scope.speaker_obj[key]
-        }
-      }else{
-        var obj = new Object();
-        for(var key in updated_speaker_obj){
-          var speaker_user_id = key;
-          $scope.speaker_obj.id = speaker_user_id;
-          var obj = updated_speaker_obj[speaker_user_id];
-          $scope.speaker_obj.name = obj.name;
-          $scope.speaker_obj.role = obj.role;
-          current_speaker = obj.role;
-          $scope.speaker_obj.side = obj.side;
-          $scope.speaker_obj.full_role_name = obj.full_role_name;
-          $scope.speech_start_time = obj.speech_start_time;
-        }
-      }
-      update_video_status()
-
-  	}, function(error){
-  		console.log("fail while to retrieve speaker obj" + error);
-  	})
-
-	$scope.complete_speech = function(){
-		video_status_ref.set(null);
-
-	}
 
 	$scope.poi = function(){
-    var own_group = $scope.participant_mgr.own_group
-		poi_candidate_ref_own.set(own_group);
-		poi_candidate_ref_own.onDisconnect().set(null);
-    poi_taken_ref_own.onDisconnect().set(null);
-    
+    SpeechStatusService.poi();
 	}
-	poi_candidate_ref.on("value", function(snapshot){
-		var poi_obj = snapshot.val();
-    var previous_num = $scope.poi_candidate_userobj_array.length;
-    var new_num = 0;
-		$scope.poi_candidate_userobj_array.length=0;
-    for (var key in poi_obj){
-      var obj = {id: key, group:poi_obj[key]};
-      $scope.poi_candidate_userobj_array.push(obj);
-      new_num++;
-    }; 
-    // only when the number of poi user increase , sound is called
-    if(new_num - previous_num > 0){
-      SoundPlayService.Poi();
-    }
-		$timeout(function() {});
 
-	});
+
+
 	$scope.finish_poi = function(){
-		poi_ref.set(null);
+    SpeechStatusService.finish_poi();
+    
 	}
 
 	$scope.cancel_poi = function(){
-		poi_candidate_ref_own.set(null);
+    SpeechStatusService.cancel_poi();
 	}
 
 	$scope.take_poi = function(user_id, group){
-		var poi_taken_obj = new Object();
-		poi_taken_obj[user_id] = group;
-		poi_taken_ref.transaction(function(current_value){
-  			if(current_value){
-  				return;
-  			}
-  			return poi_taken_obj;
-  		});
-    poi_candidate_ref.set(null);
+    SpeechStatusService.take_poi(user_id, group);
 	}
 
-	poi_taken_ref.on("value", function(snapshot){
-  		var poi_taken_obj = snapshot.val();
-  		var poi_user_id = null;
-      var poi_user_group = null;
-  		for(var key in poi_taken_obj){
-  			poi_user_id = key;
-        poi_user_group = poi_taken_obj[key]
-  		}
-  		if(poi_user_id){
-  			$scope.poi_speaker_obj.id = poi_user_id;
-  			$scope.poi_speaker_obj.speaker_group = 'Poi from ' + poi_user_group;
-  		//	$scope.poi_speaker_obj.name = $scope.participant_mgr.user_object_data[poi_user_id].first_name;
-  		}else{
-  			for(var key in $scope.poi_speaker_obj){
-  				delete $scope.poi_speaker_obj[key]
-  			}
-  		}
-		
-  		update_video_status();
-  	});
+
+
+
 
   	function update_video_status(){
 
-
-      if($scope.poi_speaker_obj.id){
+      if($scope.speech_status.poi_speaker_obj.id){
       //poi
         if($scope.status=="speech"){
           poi_start();
         }
-        manage_speaker($scope.poi_speaker_obj.id, "poi");
+        manage_speaker($scope.speech_status.poi_speaker_obj.id, "poi");
         $scope.status = "poi";
 
-      }else if ($scope.speaker_obj.id){
+      }else if ($scope.speech_status.speaker_obj.id){
         //speech
         if($scope.status=="break"){
           speech_execution_start();
         }else if($scope.status=="poi"){
           poi_stop();
         }
-        manage_speaker($scope.speaker_obj.id, "speech");
+        manage_speaker($scope.speech_status.speaker_obj.id, "speech");
         $scope.status = "speech";
       }else{
         //break
@@ -1717,43 +1650,59 @@ angular.module('angularFireHangoutApp')
 
 /*************speaker related part****************/
 
-    $scope.current_speaker = null;
 
     function manage_speaker(speaker_id, type){
 
       var deb_style = $scope.participant_mgr.debate_style;
 
       if(speaker_id == MixideaSetting.own_user_id){
-        RecognitionService.start(deb_style, type, current_speaker  ,$scope.speech_start_time);
-        RecordingService.record_start_api(type, current_speaker, $scope.speech_start_time);
+        RecognitionService.start(deb_style, type, $scope.speech_status.current_speaker  ,$scope.speech_start_time);
+        RecordingService.record_start_api(type, $scope.speech_status.current_speaker, $scope.speech_start_time);
         HangoutService.enable_microphone();
 
       }else if(speaker_id){
         RecognitionService.stop();
-        RecordingService.record_finish_api("other",deb_style, current_speaker, $scope.speech_start_time);
+        RecordingService.record_finish_api("other",deb_style, $scope.speech_status.current_speaker, $scope.speech_start_time);
         HangoutService.disable_microphone();
 
       }else{
         RecognitionService.stop();
-        RecordingService.record_finish_api("break",deb_style, current_speaker, $scope.speech_start_time);
+        RecordingService.record_finish_api("break",deb_style, $scope.speech_status.current_speaker, $scope.speech_start_time);
         HangoutService.enable_microphone();
 
       }
-      $scope.current_speaker == speaker_id;
+      //$scope.current_speaker == speaker_id;
 
     }
 
 
     $scope.$on("$destroy", function() {
         console.log("video scope is destroyed");
-        
+        SpeechStatusService.Finalize_Service();
+
+/*
         speaker_ref_own.set(null);
         poi_candidate_ref_own.set(null);
         poi_taken_ref_own.set(null);
+*/
+/*
+        poi_candidate_fireobj_own.$remove();
+        poi_taken_fireobj_own.$remove();
+        speaker_fireobj_own.$remove();
 
+        speaker_fireobj.destroy();
+        poi_candidate_fireobj.destroy();
+        poi_taken_fireobj.destroy();
+*/
+
+/*
         speaker_ref.off("value");
         poi_candidate_ref.off("value");
         poi_taken_ref.off("value");
+*/
+
+
+
 
     });
 
@@ -1833,6 +1782,7 @@ var global_room_type = null;
 var global_own_hangout_id = null;
 var global_team_side  = null;
 var global_own_team_side = null;
+var global_firebase_root_ref = null;
 
 (function () {
 
@@ -1914,10 +1864,10 @@ angular.module('angularFireHangoutApp')
         scope.others_writing_title = false;
         scope.others_writing_content = false;
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        //var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
         				+ arg_id;
-        var argument_content_ref = root_ref.child(argument_content_path);
+        var argument_content_ref = global_firebase_root_ref.child(argument_content_path);
 
 
         var title_ref = argument_content_ref.child("title");
@@ -1972,10 +1922,10 @@ angular.module('angularFireHangoutApp')
 
 
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        //var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
                 + arg_id;
-        var argument_focused_ref = root_ref.child(argument_focused_path);
+        var argument_focused_ref = global_firebase_root_ref.child(argument_focused_path);
 
 
         var title_focused_ref = argument_focused_ref.child("title");
@@ -2043,7 +1993,7 @@ angular.module('angularFireHangoutApp')
 
         var one_argument_id_path = "event_related/Article_Context/" + event_id + "/identifier/" 
                 + deb_style + "/" + team + "/arguments/" + arg_id;
-        var one_argument_id_ref = root_ref.child(one_argument_id_path);
+        var one_argument_id_ref = global_firebase_root_ref.child(one_argument_id_path);
         scope.remove_argument = function(){
           one_argument_id_ref.set(null);
         }
@@ -2091,10 +2041,10 @@ angular.module('angularFireHangoutApp')
         scope.participant_mgr = ParticipantMgrService;
         scope.others_writing = false;
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+       // var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
         				+ arg_id;
-        var argument_content_ref = root_ref.child(argument_content_path);
+        var argument_content_ref = global_firebase_root_ref.child(argument_content_path);
 
         var content_ref = argument_content_ref.child("content");
         content_ref.on("value", function(snapshot){
@@ -2111,10 +2061,10 @@ angular.module('angularFireHangoutApp')
         }
 
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+       // var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
                 + arg_id;
-        var argument_focused_ref = root_ref.child(argument_focused_path);
+        var argument_focused_ref = global_firebase_root_ref.child(argument_focused_path);
 
         var content_focused_ref = argument_focused_ref.child("content");
         content_focused_ref.on("value", function(snapshot){
@@ -2186,11 +2136,11 @@ angular.module('angularFireHangoutApp')
         var role_name = scope.role_object.name;
 
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+      //  var root_ref = new Firebase(MixideaSetting.firebase_url);
         var own_note_path = "event_related/own_note/" + MixideaSetting.event_id + "/" 
         				+ MixideaSetting.own_user_id + "/"
         				+ role_name;
-        var own_note_ref = root_ref.child(own_note_path);
+        var own_note_ref = global_firebase_root_ref.child(own_note_path);
         var own_note_content_ref = own_note_ref.child("content");
         var own_note_score_ref = own_note_ref.child("score");
 
@@ -2300,10 +2250,10 @@ angular.module('angularFireHangoutApp')
         scope.participant_mgr = ParticipantMgrService;
 
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+     //   var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
         				+ arg_id;
-        var argument_content_ref = root_ref.child(argument_content_path);
+        var argument_content_ref = global_firebase_root_ref.child(argument_content_path);
 
 /*title management*/
         var title_ref = argument_content_ref.child("title");
@@ -2393,7 +2343,7 @@ angular.module('angularFireHangoutApp')
 /*** focus***/
         var argument_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
                 + arg_id;
-        var argument_focused_ref = root_ref.child(argument_focused_path);
+        var argument_focused_ref = global_firebase_root_ref.child(argument_focused_path);
 
 
 /*title focus*/
@@ -2506,7 +2456,7 @@ angular.module('angularFireHangoutApp')
 
         var one_argument_id_path = "event_related/Article_Context/" + event_id + "/identifier/" 
                 + deb_style + "/" + team + "/arguments/" + arg_id;
-        var one_argument_id_ref = root_ref.child(one_argument_id_path);
+        var one_argument_id_ref = global_firebase_root_ref.child(one_argument_id_path);
         scope.remove_argument = function(){
           one_argument_id_ref.set(null);
         }
@@ -2560,10 +2510,10 @@ angular.module('angularFireHangoutApp')
         scope.element = element;
         scope.participant_mgr = ParticipantMgrService;
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+      //  var root_ref = new Firebase(MixideaSetting.firebase_url);
         var defintro_content_path = "event_related/Article_Context/" + event_id + "/context/" 
         				+ arg_id + "/" + "content";
-        var defintro_content_ref = root_ref.child(defintro_content_path);
+        var defintro_content_ref = global_firebase_root_ref.child(defintro_content_path);
 
         defintro_content_ref.on("value", function(snapshot){
           $timeout(function(){
@@ -2596,7 +2546,7 @@ angular.module('angularFireHangoutApp')
 /*** focus***/
         var defIntro_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
                 + arg_id + "/def_intro";
-        var defIntro_focused_ref = root_ref.child(defIntro_focused_path)
+        var defIntro_focused_ref = global_firebase_root_ref.child(defIntro_focused_path)
 
         defIntro_focused_ref.on("value", function(snapshot){
           $timeout(function(){
@@ -2724,7 +2674,7 @@ angular.module('angularFireHangoutApp')
  * Factory in the angularFireHangoutApp.
  */
 angular.module('angularFireHangoutApp')
-.factory('ParticipantMgrService',['MixideaSetting','$timeout', function (MixideaSetting, $timeout) {
+.factory('ParticipantMgrService',['MixideaSetting','$timeout','$firebaseObject', function (MixideaSetting, $timeout, $firebaseObject) {
 
 
   var ParticipantMgr_Object = new Object();
@@ -2751,24 +2701,49 @@ angular.module('angularFireHangoutApp')
   var game_role_obj_all_style = new Object();
   var full_participants_object = new Object();
   var mapping_object = new Object();
+  var accumulate_mapping_object = new Object();
   var total_number_participants = 0;
   var role_group_name_mappin = new Object();
+  var debate_style_fireobj = null;
 
 //debate style
 
-  var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
+  var deb_style_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
+  debate_style_fireobj = $firebaseObject(deb_style_ref);
+
+  debate_style_fireobj.$watch(function() {
+    ParticipantMgr_Object.debate_style = debate_style_fireobj.$value;
+    update_ParticipantMgr_Object();
+  });
+
+  /*
+  debate_style_fireobj.$save().then(function(deb_style_ref) {
+    ParticipantMgr_Object.debate_style = debate_style_fireobj.$value;
+    update_ParticipantMgr_Object();
+  });
+*/
+/*
   deb_style_ref.on("value", function(snapshot) {
     var style_val  = snapshot.val();
     console.log("style update event : " + style_val);
     ParticipantMgr_Object.debate_style = style_val;
-    update_ParticipantMgr_Object();
+    
 
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
+*/
+
+
 
   ParticipantMgr_Object.set_style = function(value){
-    deb_style_ref.set(value);
+    debate_style_fireobj.$value = value;
+    debate_style_fireobj.$save()
+    /*
+    debate_style_fireobj.$save().then(
+          function(data){console.log(data);}, 
+          function(error){console.log(error)}
+          );*/
   }
 
 // full participants
@@ -2829,8 +2804,8 @@ angular.module('angularFireHangoutApp')
 
 
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
-  var mapping_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
+ // var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var mapping_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
   mapping_ref.on("value", function(snapshot) {
     console.log("mapping data updated");
     var value  = snapshot.val();
@@ -2838,6 +2813,7 @@ angular.module('angularFireHangoutApp')
     var key  = snapshot.key();
     if(value){
       mapping_object = value;
+      accumulate_mapping_user();
     }else{
       mapping_object = new Object();
     }
@@ -2850,6 +2826,14 @@ angular.module('angularFireHangoutApp')
 
   });
 
+  var accumulate_mapping_user = function(){
+
+    for(var key in mapping_object){
+      accumulate_mapping_object[key] = mapping_object[key];
+    }
+
+  }
+
 
   window.addEventListener("online", 
     function(){
@@ -2859,6 +2843,15 @@ angular.module('angularFireHangoutApp')
     }
   );
 
+ParticipantMgr_Object.getUserid_fromHangoutid = function(hangout_id){
+  
+
+    for(var key in accumulate_mapping_object){
+      if(hangout_id == accumulate_mapping_object[key]){
+        return key;
+      }
+    }
+}
 
 
 
@@ -2925,7 +2918,7 @@ angular.module('angularFireHangoutApp')
 
 // game role
 
-  var game_role_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
+  var game_role_ref = global_firebase_root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
   game_role_ref.on("value", function(snapshot) {
     var value  = snapshot.val();
     if(value){
@@ -2939,8 +2932,6 @@ angular.module('angularFireHangoutApp')
     console.log("The read failed: " + errorObject.code);
 
   });
-
-
 
 
 
@@ -3393,7 +3384,7 @@ angular.module('angularFireHangoutApp')
     var under_recording = false;
     var available=true;
     var short_split_id_value=null;
-    var root_ref = new Firebase(MixideaSetting.firebase_url);
+    //var root_ref = new Firebase(MixideaSetting.firebase_url);
     var transcription_ref = null;
     var speech_type=null;
     var speech_start_time = 0;
@@ -3428,7 +3419,7 @@ angular.module('angularFireHangoutApp')
       	short_split_id_value = Date.now();
     	
     	speech_type = type;
-    	transcription_ref = root_ref.child("event_related/audio_transcript/" + 
+    	transcription_ref = global_firebase_root_ref.child("event_related/audio_transcript/" + 
     						MixideaSetting.event_id + "/" + deb_style + "/" + speaker_role + 
     						"/" + String(speech_start_time) + "/spech_context/" + short_split_id_value);
 
@@ -3515,7 +3506,7 @@ angular.module('angularFireHangoutApp')
 				}
 			break;
 			case "poi":
-				SocketStreamsService.resume_record(file_name);
+				SocketStreamsService.resume_record(file_name, sample_rate_value);
 			break;
 		}
 		stored_speech_id = speech_id;
@@ -3696,7 +3687,7 @@ angular.module('angularFireHangoutApp')
 
 
 
-    SocketStream_Object.resume_record = function(in_file_name){
+    SocketStream_Object.resume_record = function(in_file_name, sample_rate_value){
 
 		if(!this.socket_available ){
 			return;
@@ -3997,6 +3988,365 @@ angular.module('angularFireHangoutApp')
 
 /**
  * @ngdoc service
+ * @name angularFireHangoutApp.SpeechStatusService
+ * @description
+ * # SpeechStatusService
+ * Factory in the angularFireHangoutApp.
+ */
+angular.module('angularFireHangoutApp')
+  .factory('SpeechStatusService',['MixideaSetting', '$firebaseObject','ParticipantMgrService','UtilService','$timeout','SoundPlayService', function (MixideaSetting,$firebaseObject, ParticipantMgrService, UtilService, $timeout, SoundPlayService) {
+
+
+  var SpeechStatus_object = new Object();
+  SpeechStatus_object.speaker_obj = new Object();
+  SpeechStatus_object.poi_speaker_obj = new Object();
+  SpeechStatus_object.current_speaker = null
+  SpeechStatus_object.speech_start_time = 0;
+  SpeechStatus_object.watch_counter = 0;
+  SpeechStatus_object.poi_candidate_userobj_array = new Array();
+
+  var video_status_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/video_status");
+  var video_status_fireobj = $firebaseObject(video_status_ref);
+  var speaker_ref = video_status_ref.child("speaker");
+  var speaker_fireobj = $firebaseObject(speaker_ref);
+
+  var speaker_ref_own = video_status_ref.child("speaker/" + MixideaSetting.own_user_id);
+  var speaker_fireobj_own = $firebaseObject(speaker_ref_own);
+
+
+  var poi_ref = video_status_ref.child("poi");
+  var poi_fireobj = $firebaseObject(poi_ref);
+
+  var poi_candidate_ref = video_status_ref.child("poi/candidate");
+  var poi_candidate_fireobj = $firebaseObject(poi_candidate_ref);
+
+  var poi_candidate_ref_own = video_status_ref.child("poi/candidate/" + MixideaSetting.own_user_id);
+  var poi_candidate_fireobj_own = $firebaseObject(poi_candidate_ref_own);
+
+  var poi_taken_ref = video_status_ref.child("poi/taken");
+  var poi_taken_fireobj = $firebaseObject(poi_taken_ref);
+  var poi_taken_ref_own = video_status_ref.child("poi/taken/" + MixideaSetting.own_user_id);
+  var poi_taken_fireobj_own = $firebaseObject(poi_taken_ref_own);
+
+  var poitaken_fireobj_unwatch = null;
+  var speaker_fireobj_unwatch = null;
+
+  SpeechStatus_object.initial_execution = function(){
+
+
+    // in case of hangout both firebase and hangout synchronization execute
+    // update_syncdata_XXX function filter
+    if(MixideaSetting.hangout_execution){
+      gapi.hangout.onApiReady.add(function(e){
+        if(e.isApiReady){
+          /*
+          gapi.hangout.data.onStateChanged.add(function(event) {
+            hangout_status_speaker();
+            hangout_status_poitaken();
+          });
+          */
+          gapi.hangout.data.onStateChanged.add(hangout_status_speaker);
+          gapi.hangout.data.onStateChanged.add(hangout_status_poitaken);
+
+
+        //  gapi.hangout.onParticipantsRemoved.add(function(removed_participant_array) {
+        //    hangout_participant_removed(removed_participant_array);
+        //  });
+          gapi.hangout.onParticipantsRemoved.add(hangout_participant_removed);
+          hangout_status_speaker();
+          hangout_status_poitaken();
+        }
+      });
+    }
+
+    speaker_fireobj_unwatch =  speaker_fireobj.$watch(function(){
+      var speaker_obj = speaker_fireobj;
+      var keys = Object.keys(speaker_obj);
+      var filtered_key = keys.filter(function(element){return (element.charAt(0) !="$");});
+      var obj = new Object();
+      if(filtered_key.length > 0){
+        obj[filtered_key] = speaker_fireobj[filtered_key];
+      }
+      update_syncdata_speaker(obj);
+    });
+
+    poitaken_fireobj_unwatch = poi_taken_fireobj.$watch(function() {
+
+      var poi_taken_obj = poi_taken_fireobj;
+      var keys = Object.keys(poi_taken_obj);
+      var filtered_key = keys.filter(function(element){return (element.charAt(0) !="$");});
+      var obj = new Object();
+      if(filtered_key.length > 0){
+        obj[filtered_key] = poi_taken_obj[filtered_key];
+      }
+      update_syncdata_poi_taken(obj);
+    });
+
+  }
+
+  var hangout_participant_removed = function(Removed_obj){
+
+    var removed_participants_array = Removed_obj.removedParticipants;
+
+    for(var i=0; i< removed_participants_array.length; i++){
+      var hangout_id = removed_participants_array[i].id
+      var removed_user_id = ParticipantMgrService.getUserid_fromHangoutid(hangout_id);
+      if(removed_user_id){
+        if(SpeechStatus_object.speaker_obj && (removed_user_id == SpeechStatus_object.speaker_obj.id)){
+          SpeechStatus_object.Clear_AllSpeechData();
+
+        }else if(SpeechStatus_object.poi_speaker_obj && (removed_user_id == SpeechStatus_object.poi_speaker_obj.id)){
+          SpeechStatus_object.finish_poi();
+        }
+      }
+    }
+  }
+
+
+  var hangout_status_speaker = function(){
+
+    var speaker_status_str = gapi.hangout.data.getValue("speaker_status");
+    console.log("hangout speaker status" + speaker_status_str);
+    var speaker_obj = new Object();
+
+    if(speaker_status_str){
+      speaker_obj = JSON.parse(speaker_status_str);
+    }
+    update_syncdata_speaker(speaker_obj);
+
+  }
+
+
+  var update_syncdata_speaker = function(updated_speaker_obj){
+
+      var speaker_changed = false;
+      var key = Object.keys(updated_speaker_obj)[0];
+
+      if(!key){
+        if(SpeechStatus_object.speaker_obj.id){
+          speaker_changed = true;
+        }
+        for(var key in SpeechStatus_object.speaker_obj){
+          delete SpeechStatus_object.speaker_obj[key]
+        }
+        SpeechStatus_object.current_speaker = null;
+        SpeechStatus_object.speech_start_time = 0;
+      }else{
+        if(SpeechStatus_object.speaker_obj.id != key){
+          SpeechStatus_object.speaker_obj.id = key;
+          SpeechStatus_object.speaker_obj.name = updated_speaker_obj[key].name;
+          SpeechStatus_object.speaker_obj.role = updated_speaker_obj[key].role;
+          SpeechStatus_object.current_speaker = updated_speaker_obj[key].role;
+          SpeechStatus_object.speaker_obj.side = updated_speaker_obj[key].side;
+          SpeechStatus_object.speaker_obj.full_role_name = updated_speaker_obj[key].full_role_name;
+          SpeechStatus_object.speech_start_time = updated_speaker_obj[key].speech_start_time;
+          speaker_changed = true;
+        }
+      }
+      if(speaker_changed){
+        SpeechStatus_object.watch_counter++; 
+        $timeout(function() {});
+      }
+  }
+
+
+
+  SpeechStatus_object.speech_start = function(role){
+      var own_side = ParticipantMgrService.own_side;
+      var own_name = ParticipantMgrService.own_first_name;
+      var full_role_name = UtilService.get_full_role_name(role);
+      var speech_start_time_value = Date.now();
+
+      var speaker_obj = {
+        role: role,
+        name:own_name,
+        side: own_side,
+        full_role_name: full_role_name,
+        speech_start_time: speech_start_time_value
+      }
+
+      if(MixideaSetting.hangout_execution){
+        var own_speaker_obj = new Object();
+        own_speaker_obj[MixideaSetting.own_user_id] = speaker_obj;
+        var own_speaker_str = JSON.stringify(own_speaker_obj);
+        gapi.hangout.data.submitDelta({"speaker_status":own_speaker_str});
+      }else{
+        speaker_fireobj[MixideaSetting.own_user_id] = speaker_obj;
+        speaker_fireobj.$save();
+        speaker_ref_own.onDisconnect().set(null);
+      }    
+      
+  }
+
+
+
+  SpeechStatus_object.complete_speech = function(){
+
+      if(MixideaSetting.hangout_execution){
+        gapi.hangout.data.clearValue("speaker_status");
+        gapi.hangout.data.clearValue("poi_taken");
+      }else{
+        speaker_fireobj.$remove();
+        poi_taken_fireobj.$remove();
+      }
+      poi_candidate_fireobj.$remove();
+
+  }
+
+
+/**/
+
+
+
+
+  SpeechStatus_object.poi = function(role){
+
+    var own_group = ParticipantMgrService.own_group;
+    poi_candidate_fireobj_own.$value = own_group;
+    poi_candidate_fireobj_own.$save();
+    poi_candidate_ref_own.onDisconnect().set(null);
+    poi_taken_ref_own.onDisconnect().set(null);
+
+  }
+  SpeechStatus_object.finish_poi = function(){
+
+    if(MixideaSetting.hangout_execution){
+      gapi.hangout.data.clearValue("poi_taken");
+    }else{
+      poi_fireobj.$remove()
+    }
+    poi_candidate_fireobj.$remove();
+
+  }
+
+
+
+  poi_candidate_ref.on("value", function(snapshot){
+    var poi_obj = snapshot.val();
+    var previous_num = SpeechStatus_object.poi_candidate_userobj_array.length;
+    var new_num = 0;
+    SpeechStatus_object.poi_candidate_userobj_array.length=0;
+    for (var key in poi_obj){
+      var obj = {id: key, group:poi_obj[key]};
+      SpeechStatus_object.poi_candidate_userobj_array.push(obj);
+      new_num++;
+    }; 
+    if(new_num - previous_num > 0){
+      SoundPlayService.Poi();
+    }
+    $timeout(function() {}); 
+  });
+
+
+
+
+  SpeechStatus_object.cancel_poi = function(){
+    poi_candidate_fireobj_own.$remove();
+  }
+
+  SpeechStatus_object.take_poi = function(user_id, group){
+
+
+    if(MixideaSetting.hangout_execution){
+      var poi_taken_obj = new Object();
+      poi_taken_obj[user_id] = group
+      var poi_taken_str = JSON.stringify(poi_taken_obj);
+      gapi.hangout.data.submitDelta({"poi_taken":poi_taken_str});
+    }else{
+      poi_taken_fireobj[user_id] = group;
+      poi_taken_fireobj.$save();
+    }
+    poi_candidate_fireobj.$remove();
+  }
+
+
+
+
+ 
+
+  var hangout_status_poitaken = function(){
+
+    var poitaken_status_str = gapi.hangout.data.getValue("poi_taken");
+    console.log("hangout poitaken status : " + poitaken_status_str);
+    var poitaken_obj = new Object();
+
+    if(poitaken_status_str){
+      poitaken_obj = JSON.parse(poitaken_status_str);
+    }
+    update_syncdata_poi_taken(poitaken_obj);
+  }
+
+
+  var update_syncdata_poi_taken = function(updated_poitaken_obj){
+
+      var key = Object.keys(updated_poitaken_obj)[0];
+      var speaker_changed = false;
+
+      if(!key){
+        if(SpeechStatus_object.poi_speaker_obj && SpeechStatus_object.poi_speaker_obj.id){
+          speaker_changed = true;
+        }
+        for(var key in SpeechStatus_object.poi_speaker_obj){
+          delete SpeechStatus_object.poi_speaker_obj[key];  
+        }
+      }else{
+          if(SpeechStatus_object.poi_speaker_obj.id != key){
+            var poi_user_id = key;
+            var poi_user_group = updated_poitaken_obj[poi_user_id];
+            SpeechStatus_object.poi_speaker_obj.id = poi_user_id;
+            SpeechStatus_object.poi_speaker_obj.speaker_group = 'Poi from ' + poi_user_group; 
+            speaker_changed = true;
+          }
+      }
+      if(speaker_changed){
+        SpeechStatus_object.watch_counter++; 
+        $timeout(function() {});
+      }
+  }
+
+
+  // clear all the data but listener is still working
+  SpeechStatus_object.Clear_AllSpeechData = function(){
+      if(MixideaSetting.hangout_execution){
+        gapi.hangout.data.clearValue("speaker_status");
+        gapi.hangout.data.clearValue("poi_taken");
+      }
+      speaker_fireobj.$remove();
+      poi_taken_fireobj.$remove();
+      poi_candidate_fireobj.$remove();
+  }
+
+
+  // Service itself remained as a singleton but data and lisnter is removed
+  SpeechStatus_object.Finalize_Service = function(){
+      if(MixideaSetting.hangout_execution){
+        gapi.hangout.data.clearValue("speaker_status");
+        gapi.hangout.data.clearValue("poi_taken");
+        gapi.hangout.data.onStateChanged.remove(hangout_status_speaker);
+        gapi.hangout.data.onStateChanged.remove(hangout_status_poitaken);
+        gapi.hangout.onParticipantsRemoved.remove(hangout_participant_removed);
+      }
+      speaker_fireobj.$remove();
+      poi_taken_fireobj.$remove();
+      speaker_fireobj_unwatch();
+      poitaken_fireobj_unwatch();
+      
+      poi_candidate_fireobj.$remove();
+      poi_candidate_ref.off("value");
+
+  }
+  //initial_execution();
+
+
+
+  return SpeechStatus_object;
+
+  }]);
+
+'use strict';
+
+/**
+ * @ngdoc service
  * @name angularFireHangoutApp.StatusMgrService
  * @description
  * # StatusMgrService
@@ -4008,8 +4358,8 @@ angular.module('angularFireHangoutApp')
   var StatusMgr_Object = new Object()
   StatusMgr_Object.game_status = null;
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
-  var game_status_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
+  //var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var game_status_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
   game_status_ref.on("value", function(snapshot) {
 
     var value = snapshot.val();
@@ -4053,8 +4403,8 @@ angular.module('angularFireHangoutApp')
     title_obj.motion_screen = null;
     title_obj.style = null;
 
-    var root_ref = new Firebase(MixideaSetting.firebase_url);
-    var title_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/motion")
+   // var root_ref = new Firebase(MixideaSetting.firebase_url);
+    var title_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/motion")
 
 
     title_ref.on("value", function(snapshot) {
@@ -4230,8 +4580,8 @@ angular.module('angularFireHangoutApp')
 	var third_query_value = "main";
 
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var hangoutlist_team_ref = root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/main");
+	//var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var hangoutlist_team_ref = global_firebase_root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/main");
 	hangoutlist_team_ref.on("value", function(snapshot) {
 		$timeout(function() {
 			var hangout_url = snapshot.val();
@@ -4280,9 +4630,9 @@ angular.module('angularFireHangoutApp')
 
   var event_id_val = MixideaSetting.event_id;
   var deb_style_val = null;
-  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+ //var root_ref = new Firebase("https://mixidea.firebaseio.com/");
 
-  var deb_style_ref = root_ref.child("event_related/game/" + event_id_val + "/deb_style")
+  var deb_style_ref = global_firebase_root_ref.child("event_related/game/" + event_id_val + "/deb_style")
   deb_style_ref.on("value", function(snapshot) {
     deb_style_val  = snapshot.val();
     construct_discussion_note();
@@ -4296,7 +4646,7 @@ angular.module('angularFireHangoutApp')
 
 	var argument_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
 				+ deb_style_val + "/" + team_val + "/arguments";
-	$scope.argument_id_ref = root_ref.child(argument_id_path);
+	$scope.argument_id_ref = global_firebase_root_ref.child(argument_id_path);
 	$scope.argument_id_ref.on("child_added", function(snapshot, previousKey){
 		var arg_id_key = snapshot.key();
 		$timeout(function(){
@@ -4322,7 +4672,7 @@ angular.module('angularFireHangoutApp')
 
 	var defintro_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
 				+ deb_style_val + "/" + team_val + "/def_intro";
-	$scope.defintro_id_ref = root_ref.child(defintro_id_path);
+	$scope.defintro_id_ref = global_firebase_root_ref.child(defintro_id_path);
 	$scope.defintro_id_ref.on("child_added", function(snapshot, previousKey){
 		var defintro_id_key = snapshot.key();
 		$timeout(function(){
@@ -4350,7 +4700,7 @@ angular.module('angularFireHangoutApp')
 	    var parent_height = window.innerHeight;
 	    var expected_height = parent_height - main_position - 10;
 
-	    var argument_layout_element = document.getElementById("argument_container");
+	    var argument_layout_element = document.getElementById("teamdiscuss_argument_container");
 	    var argument_layout_current_height = argument_layout_element.offsetHeight;
 
 	    var diff_height = expected_height - argument_layout_current_height;
@@ -4377,7 +4727,7 @@ angular.module('angularFireHangoutApp')
 	if(MixideaSetting.room_type == "team_discussion"){
 		set_pain_size();
 		setTimeout(set_pain_size,1000);
-		var argument_layout_element = document.getElementById("argument_container");
+		var argument_layout_element = document.getElementById("teamdiscuss_argument_container");
 		argument_layout_element.onscroll = function(){
 			set_pain_size();
 		}

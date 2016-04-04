@@ -13,8 +13,8 @@ angular.module('angularFireHangoutApp')
 	$scope.prep_time = "start preparation";
 	var start_time = null;
 
-	var root_ref = new Firebase("https://mixidea.firebaseio.com/");
-	var preptime_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
+	//var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+	var preptime_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/preparation_timer/")
 	preptime_ref.on("value", function(snapshot){
 		start_time = snapshot.val();
 	}, function(){

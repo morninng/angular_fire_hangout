@@ -8,7 +8,7 @@
  * Factory in the angularFireHangoutApp.
  */
 angular.module('angularFireHangoutApp')
-.factory('ParticipantMgrService',['MixideaSetting','$timeout', function (MixideaSetting, $timeout) {
+.factory('ParticipantMgrService',['MixideaSetting','$timeout','$firebaseObject', function (MixideaSetting, $timeout, $firebaseObject) {
 
 
   var ParticipantMgr_Object = new Object();
@@ -35,24 +35,49 @@ angular.module('angularFireHangoutApp')
   var game_role_obj_all_style = new Object();
   var full_participants_object = new Object();
   var mapping_object = new Object();
+  var accumulate_mapping_object = new Object();
   var total_number_participants = 0;
   var role_group_name_mappin = new Object();
+  var debate_style_fireobj = null;
 
 //debate style
 
-  var deb_style_ref = root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
+  var deb_style_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/deb_style")
+  debate_style_fireobj = $firebaseObject(deb_style_ref);
+
+  debate_style_fireobj.$watch(function() {
+    ParticipantMgr_Object.debate_style = debate_style_fireobj.$value;
+    update_ParticipantMgr_Object();
+  });
+
+  /*
+  debate_style_fireobj.$save().then(function(deb_style_ref) {
+    ParticipantMgr_Object.debate_style = debate_style_fireobj.$value;
+    update_ParticipantMgr_Object();
+  });
+*/
+/*
   deb_style_ref.on("value", function(snapshot) {
     var style_val  = snapshot.val();
     console.log("style update event : " + style_val);
     ParticipantMgr_Object.debate_style = style_val;
-    update_ParticipantMgr_Object();
+    
 
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
+*/
+
+
 
   ParticipantMgr_Object.set_style = function(value){
-    deb_style_ref.set(value);
+    debate_style_fireobj.$value = value;
+    debate_style_fireobj.$save()
+    /*
+    debate_style_fireobj.$save().then(
+          function(data){console.log(data);}, 
+          function(error){console.log(error)}
+          );*/
   }
 
 // full participants
@@ -113,8 +138,8 @@ angular.module('angularFireHangoutApp')
 
 
 
-  var root_ref = new Firebase(MixideaSetting.firebase_url);
-  var mapping_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
+ // var root_ref = new Firebase(MixideaSetting.firebase_url);
+  var mapping_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/mapping_data");
   mapping_ref.on("value", function(snapshot) {
     console.log("mapping data updated");
     var value  = snapshot.val();
@@ -122,6 +147,7 @@ angular.module('angularFireHangoutApp')
     var key  = snapshot.key();
     if(value){
       mapping_object = value;
+      accumulate_mapping_user();
     }else{
       mapping_object = new Object();
     }
@@ -134,6 +160,14 @@ angular.module('angularFireHangoutApp')
 
   });
 
+  var accumulate_mapping_user = function(){
+
+    for(var key in mapping_object){
+      accumulate_mapping_object[key] = mapping_object[key];
+    }
+
+  }
+
 
   window.addEventListener("online", 
     function(){
@@ -143,6 +177,15 @@ angular.module('angularFireHangoutApp')
     }
   );
 
+ParticipantMgr_Object.getUserid_fromHangoutid = function(hangout_id){
+  
+
+    for(var key in accumulate_mapping_object){
+      if(hangout_id == accumulate_mapping_object[key]){
+        return key;
+      }
+    }
+}
 
 
 
@@ -209,7 +252,7 @@ angular.module('angularFireHangoutApp')
 
 // game role
 
-  var game_role_ref = root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
+  var game_role_ref = global_firebase_root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/game_role/");
   game_role_ref.on("value", function(snapshot) {
     var value  = snapshot.val();
     if(value){
@@ -223,8 +266,6 @@ angular.module('angularFireHangoutApp')
     console.log("The read failed: " + errorObject.code);
 
   });
-
-
 
 
 

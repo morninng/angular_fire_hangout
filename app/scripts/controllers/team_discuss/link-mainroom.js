@@ -20,8 +20,8 @@ angular.module('angularFireHangoutApp')
 	var third_query_value = "main";
 
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var hangoutlist_team_ref = root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/main");
+	//var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var hangoutlist_team_ref = global_firebase_root_ref.child("event_related/game_hangout_obj_list/" + MixideaSetting.event_id + "/main");
 	hangoutlist_team_ref.on("value", function(snapshot) {
 		$timeout(function() {
 			var hangout_url = snapshot.val();

@@ -76,7 +76,7 @@ angular.module('angularFireHangoutApp')
 
 
 
-    SocketStream_Object.resume_record = function(in_file_name){
+    SocketStream_Object.resume_record = function(in_file_name, sample_rate_value){
 
 		if(!this.socket_available ){
 			return;

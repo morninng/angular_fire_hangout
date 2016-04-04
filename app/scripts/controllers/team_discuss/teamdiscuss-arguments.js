@@ -26,9 +26,9 @@ angular.module('angularFireHangoutApp')
 
   var event_id_val = MixideaSetting.event_id;
   var deb_style_val = null;
-  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+ //var root_ref = new Firebase("https://mixidea.firebaseio.com/");
 
-  var deb_style_ref = root_ref.child("event_related/game/" + event_id_val + "/deb_style")
+  var deb_style_ref = global_firebase_root_ref.child("event_related/game/" + event_id_val + "/deb_style")
   deb_style_ref.on("value", function(snapshot) {
     deb_style_val  = snapshot.val();
     construct_discussion_note();
@@ -42,7 +42,7 @@ angular.module('angularFireHangoutApp')
 
 	var argument_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
 				+ deb_style_val + "/" + team_val + "/arguments";
-	$scope.argument_id_ref = root_ref.child(argument_id_path);
+	$scope.argument_id_ref = global_firebase_root_ref.child(argument_id_path);
 	$scope.argument_id_ref.on("child_added", function(snapshot, previousKey){
 		var arg_id_key = snapshot.key();
 		$timeout(function(){
@@ -68,7 +68,7 @@ angular.module('angularFireHangoutApp')
 
 	var defintro_id_path = "event_related/Article_Context/" + event_id_val + "/identifier/" 
 				+ deb_style_val + "/" + team_val + "/def_intro";
-	$scope.defintro_id_ref = root_ref.child(defintro_id_path);
+	$scope.defintro_id_ref = global_firebase_root_ref.child(defintro_id_path);
 	$scope.defintro_id_ref.on("child_added", function(snapshot, previousKey){
 		var defintro_id_key = snapshot.key();
 		$timeout(function(){
@@ -96,7 +96,7 @@ angular.module('angularFireHangoutApp')
 	    var parent_height = window.innerHeight;
 	    var expected_height = parent_height - main_position - 10;
 
-	    var argument_layout_element = document.getElementById("argument_container");
+	    var argument_layout_element = document.getElementById("teamdiscuss_argument_container");
 	    var argument_layout_current_height = argument_layout_element.offsetHeight;
 
 	    var diff_height = expected_height - argument_layout_current_height;
@@ -123,7 +123,7 @@ angular.module('angularFireHangoutApp')
 	if(MixideaSetting.room_type == "team_discussion"){
 		set_pain_size();
 		setTimeout(set_pain_size,1000);
-		var argument_layout_element = document.getElementById("argument_container");
+		var argument_layout_element = document.getElementById("teamdiscuss_argument_container");
 		argument_layout_element.onscroll = function(){
 			set_pain_size();
 		}

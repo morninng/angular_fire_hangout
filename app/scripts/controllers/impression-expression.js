@@ -14,8 +14,8 @@ angular.module('angularFireHangoutApp')
 
   	$scope.hearhear_users_array = new Array();
   	$scope.booboo_users_array = new Array();
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var impression_ref = root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/impression_expression");
+	// var root_ref = new Firebase(MixideaSetting.firebase_url);
+	var impression_ref = global_firebase_root_ref.child("event_related/hangout_dynamic/" + MixideaSetting.event_id + "/impression_expression");
 	var hearhear_ref = impression_ref.child("hearhear");
 	var hearhear_own_ref = hearhear_ref.child(MixideaSetting.own_user_id)
 	var booboo_ref = impression_ref.child("booboo");

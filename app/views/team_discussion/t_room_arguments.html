@@ -1,10 +1,10 @@
 
-<div id="argument_container" ng-style="layout_style">
+<div id="teamdiscuss_argument_container" ng-style="layout_style">
 
 	<div class="add_arg_button">
 		<input type="button" value="add argument" ng-click="add_argument()">
 	</div>
-	<div>
+	<div class="argument_elements_parent">
 		<div ng-repeat="def in defintro_list" class="argument_element">
 			<one-defintro arg-id="def"></one-defintro>
 		</div>

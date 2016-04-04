@@ -25,10 +25,10 @@ angular.module('angularFireHangoutApp')
         scope.others_writing_title = false;
         scope.others_writing_content = false;
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        //var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_content_path = "event_related/Article_Context/" + event_id + "/context/" 
         				+ arg_id;
-        var argument_content_ref = root_ref.child(argument_content_path);
+        var argument_content_ref = global_firebase_root_ref.child(argument_content_path);
 
 
         var title_ref = argument_content_ref.child("title");
@@ -83,10 +83,10 @@ angular.module('angularFireHangoutApp')
 
 
 
-        var root_ref = new Firebase(MixideaSetting.firebase_url);
+        //var root_ref = new Firebase(MixideaSetting.firebase_url);
         var argument_focused_path = "event_related/Article_Context/" + event_id + "/focused/" 
                 + arg_id;
-        var argument_focused_ref = root_ref.child(argument_focused_path);
+        var argument_focused_ref = global_firebase_root_ref.child(argument_focused_path);
 
 
         var title_focused_ref = argument_focused_ref.child("title");
@@ -154,7 +154,7 @@ angular.module('angularFireHangoutApp')
 
         var one_argument_id_path = "event_related/Article_Context/" + event_id + "/identifier/" 
                 + deb_style + "/" + team + "/arguments/" + arg_id;
-        var one_argument_id_ref = root_ref.child(one_argument_id_path);
+        var one_argument_id_ref = global_firebase_root_ref.child(one_argument_id_path);
         scope.remove_argument = function(){
           one_argument_id_ref.set(null);
         }

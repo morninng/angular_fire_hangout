@@ -642,11 +642,17 @@ textarea {
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_layout\.scss}line{font-family:\0000337}}
-.add_arg_button {
-  width: 100%;
+#teamdiscuss_argument_container .argument_elements_parent {
+  display: table-row;
+  background-color: #E0FFFF;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_layout\.scss}line{font-family:\0000339}}
-.add_arg_button input {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_layout\.scss}line{font-family:\0000342}}
+#teamdiscuss_argument_container .add_arg_button {
+  width: 100%;
+  float: right;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/morninng\/Angular\/angular_fire_hangout\/app\/sass\/_t_layout\.scss}line{font-family:\0000346}}
+#teamdiscuss_argument_container .add_arg_button input {
   margin-top: 10px;
   margin-bottom: 5px;
   margin-right: 30px;

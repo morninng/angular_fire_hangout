@@ -14,7 +14,7 @@ angular.module('angularFireHangoutApp')
     var under_recording = false;
     var available=true;
     var short_split_id_value=null;
-    var root_ref = new Firebase(MixideaSetting.firebase_url);
+    //var root_ref = new Firebase(MixideaSetting.firebase_url);
     var transcription_ref = null;
     var speech_type=null;
     var speech_start_time = 0;
@@ -49,7 +49,7 @@ angular.module('angularFireHangoutApp')
       	short_split_id_value = Date.now();
     	
     	speech_type = type;
-    	transcription_ref = root_ref.child("event_related/audio_transcript/" + 
+    	transcription_ref = global_firebase_root_ref.child("event_related/audio_transcript/" + 
     						MixideaSetting.event_id + "/" + deb_style + "/" + speaker_role + 
     						"/" + String(speech_start_time) + "/spech_context/" + short_split_id_value);
 
