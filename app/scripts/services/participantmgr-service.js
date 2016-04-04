@@ -679,16 +679,6 @@ ParticipantMgr_Object.getUserid_fromHangoutid = function(hangout_id){
   }
 
 
-  ParticipantMgr_Object.get_hangout_id = function(user_id){
-
-  }
-
-  ParticipantMgr_Object.get_user_info = function(user_id){
-
-  }
-  ParticipantMgr_Object.get_user_pict = function(user_id){
-    ParticipantMgr_Object.user_object_data[user_id].profile_pict;
-  }
 
   function check_object_length(obj){
     var len = 0;
