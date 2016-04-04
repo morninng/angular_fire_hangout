@@ -212,22 +212,22 @@ angular.module('angularFireHangoutApp')
       var deb_style = $scope.participant_mgr.debate_style;
 
       if(speaker_id == MixideaSetting.own_user_id){
-        RecognitionService.start(deb_style, type, $scope.speech_status.current_speaker  ,$scope.speech_status.speech_start_time);
-        RecordingService.record_start_api(type, $scope.speech_status.current_speaker, $scope.speech_status.speech_start_time);
+        RecognitionService.start(deb_style, type, $scope.speech_status.speaker_obj.role  ,$scope.speech_status.speaker_obj.speech_start_time);
+        RecordingService.record_start_api(type, $scope.speech_status.speaker_obj.role, $scope.speech_status.speaker_obj.speech_start_time);
         HangoutService.enable_microphone();
 
       }else if(speaker_id){
         RecognitionService.stop();
-        RecordingService.record_finish_api("other",deb_style, $scope.speech_status.current_speaker, $scope.speech_status.speech_start_time);
+        RecordingService.record_finish_api("other",deb_style);
         HangoutService.disable_microphone();
 
       }else{
         RecognitionService.stop();
-        RecordingService.record_finish_api("break",deb_style, $scope.speech_status.current_speaker, $scope.speech_status.speech_start_time);
+        RecordingService.record_finish_api("break",deb_style);
         HangoutService.enable_microphone();
 
       }
-      //$scope.current_speaker == speaker_id;
+      //current_speaker_id == speaker_id;
 
     }
 

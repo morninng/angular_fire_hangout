@@ -17,15 +17,17 @@ angular.module('angularFireHangoutApp')
 	var sample_rate_value = null;
 	var scriptNode = null;
     var under_recording = false;
+    var stored_speaker_role_name = null;
 
     this.record_start_api = function(type, speaker_role_name, speech_id){
 
 		if(!audio_available || !SocketStreamsService.socket_available){
 			return;
 		}
+		stored_speaker_role_name = speaker_role_name;
 
 		under_recording = true;
-		var file_name = MixideaSetting.event_id + "_" + speaker_role_name + "_" + speech_id;
+		var file_name = MixideaSetting.event_id + "_" + stored_speaker_role_name + "_" + speech_id;
 		switch(type){
 			case "speech":
 				if(stored_speech_id == speech_id){
@@ -42,16 +44,16 @@ angular.module('angularFireHangoutApp')
 
     }
 
-    this.record_finish_api = function(type,deb_style, speaker_role_name, speech_id){
+    this.record_finish_api = function(type,deb_style){
 		if(!audio_available || !SocketStreamsService.socket_available || !under_recording){
 			return;
 		}
 		under_recording = false;
 		
-		var file_name = MixideaSetting.event_id + "_" + speaker_role_name + "_" + speech_id;
+		var file_name = MixideaSetting.event_id + "_" + stored_speaker_role_name + "_" + stored_speech_id;
 		switch(type){
 			case "break":
-				SocketStreamsService.stop_record_save(file_name,deb_style, speaker_role_name, speech_id);
+				SocketStreamsService.stop_record_save(file_name,deb_style, stored_speaker_role_name, stored_speech_id);
 			break;
 			case "other":
 				SocketStreamsService.suspend_record(file_name);

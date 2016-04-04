@@ -14,8 +14,8 @@ angular.module('angularFireHangoutApp')
   var SpeechStatus_object = new Object();
   SpeechStatus_object.speaker_obj = new Object();
   SpeechStatus_object.poi_speaker_obj = new Object();
-  SpeechStatus_object.current_speaker = null
-  SpeechStatus_object.speech_start_time = 0;
+ // SpeechStatus_object.current_speaker = null
+  SpeechStatus_object.speaker_obj.speech_start_time = 0;
   SpeechStatus_object.watch_counter = 0;
   SpeechStatus_object.poi_candidate_userobj_array = new Array();
 
@@ -143,17 +143,17 @@ angular.module('angularFireHangoutApp')
         for(var key in SpeechStatus_object.speaker_obj){
           delete SpeechStatus_object.speaker_obj[key]
         }
-        SpeechStatus_object.current_speaker = null;
-        SpeechStatus_object.speech_start_time = 0;
+        //SpeechStatus_object.current_speaker = null;
+        SpeechStatus_object.speaker_obj.speech_start_time = 0;
       }else{
         if(SpeechStatus_object.speaker_obj.id != key){
           SpeechStatus_object.speaker_obj.id = key;
           SpeechStatus_object.speaker_obj.name = updated_speaker_obj[key].name;
           SpeechStatus_object.speaker_obj.role = updated_speaker_obj[key].role;
-          SpeechStatus_object.current_speaker = updated_speaker_obj[key].role;
+          //SpeechStatus_object.current_speaker = updated_speaker_obj[key].role;
           SpeechStatus_object.speaker_obj.side = updated_speaker_obj[key].side;
           SpeechStatus_object.speaker_obj.full_role_name = updated_speaker_obj[key].full_role_name;
-          SpeechStatus_object.speech_start_time = updated_speaker_obj[key].speech_start_time;
+          SpeechStatus_object.speaker_obj.speech_start_time = updated_speaker_obj[key].speech_start_time;
           speaker_changed = true;
         }
       }
@@ -184,11 +184,10 @@ angular.module('angularFireHangoutApp')
         own_speaker_obj[MixideaSetting.own_user_id] = speaker_obj;
         var own_speaker_str = JSON.stringify(own_speaker_obj);
         gapi.hangout.data.submitDelta({"speaker_status":own_speaker_str});
-      }else{
-        speaker_fireobj[MixideaSetting.own_user_id] = speaker_obj;
-        speaker_fireobj.$save();
-        speaker_ref_own.onDisconnect().set(null);
-      }    
+      }
+      speaker_fireobj[MixideaSetting.own_user_id] = speaker_obj;
+      speaker_fireobj.$save();
+      speaker_ref_own.onDisconnect().set(null);    
       
   }
 
@@ -199,10 +198,10 @@ angular.module('angularFireHangoutApp')
       if(MixideaSetting.hangout_execution){
         gapi.hangout.data.clearValue("speaker_status");
         gapi.hangout.data.clearValue("poi_taken");
-      }else{
-        speaker_fireobj.$remove();
-        poi_taken_fireobj.$remove();
       }
+      speaker_fireobj.$remove();
+      poi_taken_fireobj.$remove();
+      
       poi_candidate_fireobj.$remove();
 
   }
@@ -213,7 +212,7 @@ angular.module('angularFireHangoutApp')
 
 
 
-  SpeechStatus_object.poi = function(role){
+  SpeechStatus_object.poi = function(){
 
     var own_group = ParticipantMgrService.own_group;
     poi_candidate_fireobj_own.$value = own_group;
@@ -226,9 +225,8 @@ angular.module('angularFireHangoutApp')
 
     if(MixideaSetting.hangout_execution){
       gapi.hangout.data.clearValue("poi_taken");
-    }else{
-      poi_fireobj.$remove()
     }
+    poi_fireobj.$remove();
     poi_candidate_fireobj.$remove();
 
   }
@@ -266,10 +264,10 @@ angular.module('angularFireHangoutApp')
       poi_taken_obj[user_id] = group
       var poi_taken_str = JSON.stringify(poi_taken_obj);
       gapi.hangout.data.submitDelta({"poi_taken":poi_taken_str});
-    }else{
-      poi_taken_fireobj[user_id] = group;
-      poi_taken_fireobj.$save();
     }
+    poi_taken_fireobj[user_id] = group;
+    poi_taken_fireobj.$save();
+    
     poi_candidate_fireobj.$remove();
   }
 

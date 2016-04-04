@@ -54,6 +54,9 @@ angular.module('angularFireHangoutApp')
   });
   function hangout_status_debstyle(){
     var updated_deb_style = gapi.hangout.data.getValue("deb_style"); 
+    if(!updated_deb_style){
+      return;
+    }
     update_debstyle(updated_deb_style);
   }
   function update_debstyle(updated_deb_style){
@@ -80,7 +83,6 @@ angular.module('angularFireHangoutApp')
     /* hangout status sync*/
     gapi.hangout.data.submitDelta({"deb_style":value});
   }
-
 
 
 
