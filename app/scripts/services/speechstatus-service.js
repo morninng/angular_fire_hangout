@@ -50,22 +50,13 @@ angular.module('angularFireHangoutApp')
 
     // in case of hangout both firebase and hangout synchronization execute
     // update_syncdata_XXX function filter
+    
     if(MixideaSetting.hangout_execution){
       gapi.hangout.onApiReady.add(function(e){
         if(e.isApiReady){
-          /*
-          gapi.hangout.data.onStateChanged.add(function(event) {
-            hangout_status_speaker();
-            hangout_status_poitaken();
-          });
-          */
+ 
           gapi.hangout.data.onStateChanged.add(hangout_status_speaker);
           gapi.hangout.data.onStateChanged.add(hangout_status_poitaken);
-
-
-        //  gapi.hangout.onParticipantsRemoved.add(function(removed_participant_array) {
-        //    hangout_participant_removed(removed_participant_array);
-        //  });
           gapi.hangout.onParticipantsRemoved.add(hangout_participant_removed);
           hangout_status_speaker();
           hangout_status_poitaken();

@@ -1123,6 +1123,7 @@ angular.module('angularFireHangoutApp')
   var game_status_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
   
 
+
   $scope.update_status = function(new_status){
 
   	if(new_status == "preparation"){
@@ -1136,6 +1137,14 @@ angular.module('angularFireHangoutApp')
 	  } else {
 	  }
 	});
+
+/*hangout status here*/
+	if(MixideaSetting.hangout_execution){
+		gapi.hangout.data.submitDelta({"game_status":new_status});
+	}
+/********************/
+
+
   }
 
 
@@ -4057,22 +4066,13 @@ angular.module('angularFireHangoutApp')
 
     // in case of hangout both firebase and hangout synchronization execute
     // update_syncdata_XXX function filter
+    
     if(MixideaSetting.hangout_execution){
       gapi.hangout.onApiReady.add(function(e){
         if(e.isApiReady){
-          /*
-          gapi.hangout.data.onStateChanged.add(function(event) {
-            hangout_status_speaker();
-            hangout_status_poitaken();
-          });
-          */
+ 
           gapi.hangout.data.onStateChanged.add(hangout_status_speaker);
           gapi.hangout.data.onStateChanged.add(hangout_status_poitaken);
-
-
-        //  gapi.hangout.onParticipantsRemoved.add(function(removed_participant_array) {
-        //    hangout_participant_removed(removed_participant_array);
-        //  });
           gapi.hangout.onParticipantsRemoved.add(hangout_participant_removed);
           hangout_status_speaker();
           hangout_status_poitaken();
@@ -4377,11 +4377,41 @@ angular.module('angularFireHangoutApp')
   var StatusMgr_Object = new Object()
   StatusMgr_Object.game_status = null;
 
+/*hangout status will be added*/
+
+  if(MixideaSetting.hangout_execution){
+    gapi.hangout.onApiReady.add(function(e){
+      if(e.isApiReady){
+        gapi.hangout.data.onStateChanged.add(hangout_game_status);
+      }
+    });
+  }
+  function hangout_game_status(){
+    var game_status_str = gapi.hangout.data.getValue("game_status");
+    console.log("game status from hangout : " + game_status_str);
+    if(!game_status_str){
+      return;
+    }
+    update_ui_router(game_status_str);
+  }
+
+/*********************/
+
+
   //var root_ref = new Firebase(MixideaSetting.firebase_url);
   var game_status_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
   game_status_ref.on("value", function(snapshot) {
 
     var value = snapshot.val();
+    update_ui_router(value);
+
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+
+
+  function update_ui_router(value){
+
     if(value !=StatusMgr_Object.game_status){
       StatusMgr_Object.game_status = value;
       if(value=="reflection"){
@@ -4389,16 +4419,12 @@ angular.module('angularFireHangoutApp')
       }else{
         $state.go('main.' + value);
       }
-
       if(value =='reflection' || value=='complete'){
         HangoutService.set_video_visible(false);
       }
       SoundPlayService.Cursol();
     }
-  }, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
-
-  });
+  }
 
 
   return StatusMgr_Object;

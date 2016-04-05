@@ -15,6 +15,7 @@ angular.module('angularFireHangoutApp')
   var game_status_ref = global_firebase_root_ref.child("event_related/game/" + MixideaSetting.event_id + "/game_status")
   
 
+
   $scope.update_status = function(new_status){
 
   	if(new_status == "preparation"){
@@ -28,6 +29,14 @@ angular.module('angularFireHangoutApp')
 	  } else {
 	  }
 	});
+
+/*hangout status here*/
+	if(MixideaSetting.hangout_execution){
+		gapi.hangout.data.submitDelta({"game_status":new_status});
+	}
+/********************/
+
+
   }
 
 
