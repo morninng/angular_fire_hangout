@@ -1846,7 +1846,8 @@ var global_firebase_root_ref = null;
 
 angular.module('angularFireHangoutApp')
   .constant('MixideaSetting', {
-  	firebase_url: "https://mixidea.firebaseio.com/",
+ // 	firebase_url: "https://mixidea.firebaseio.com/",
+    firebase_url: "https://mixidea-test.firebaseio.com/",
   	source_domain: 'https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/',
   	own_user_id: global_own_user_id,
   	event_id: global_event_id,
@@ -1861,7 +1862,8 @@ angular.module('angularFireHangoutApp')
 function set_mapping_data(user_id, hangout_id)
 {
   
-  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+ // var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+  var root_ref = new Firebase("https://mixidea-test.firebaseio.com/");
   var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + global_event_id + "/mapping_data/" + global_own_user_id)
   mapping_data_ref.set(hangout_id, function(error) {
     if (error) {
@@ -4073,6 +4075,7 @@ angular.module('angularFireHangoutApp')
  
           gapi.hangout.data.onStateChanged.add(hangout_status_speaker);
           gapi.hangout.data.onStateChanged.add(hangout_status_poitaken);
+          gapi.hangout.data.onStateChanged.add(hangout_status_poitcandidate);          
           gapi.hangout.onParticipantsRemoved.add(hangout_participant_removed);
           hangout_status_speaker();
           hangout_status_poitaken();
@@ -4118,6 +4121,9 @@ angular.module('angularFireHangoutApp')
 
         }else if(SpeechStatus_object.poi_speaker_obj && (removed_user_id == SpeechStatus_object.poi_speaker_obj.id)){
           SpeechStatus_object.finish_poi();
+        }else if(SpeechStatus_object.poi_candidate_userobj_array != 0){
+          // poi user related part
+          remove_poi_candidate(removed_user_id);
         }
       }
     }
@@ -4194,8 +4200,7 @@ angular.module('angularFireHangoutApp')
       }
       speaker_fireobj[MixideaSetting.own_user_id] = speaker_obj;
       speaker_fireobj.$save();
-      speaker_ref_own.onDisconnect().set(null);    
-      
+      //speaker_ref_own.onDisconnect().set(null);   
   }
 
 
@@ -4205,12 +4210,11 @@ angular.module('angularFireHangoutApp')
       if(MixideaSetting.hangout_execution){
         gapi.hangout.data.clearValue("speaker_status");
         gapi.hangout.data.clearValue("poi_taken");
+        gapi.hangout.data.clearValue("poi_candidate");
       }
       speaker_fireobj.$remove();
       poi_taken_fireobj.$remove();
-      
       poi_candidate_fireobj.$remove();
-
   }
 
 
@@ -4224,24 +4228,90 @@ angular.module('angularFireHangoutApp')
     var own_group = ParticipantMgrService.own_group;
     poi_candidate_fireobj_own.$value = own_group;
     poi_candidate_fireobj_own.$save();
-    poi_candidate_ref_own.onDisconnect().set(null);
-    poi_taken_ref_own.onDisconnect().set(null);
-
-  }
-  SpeechStatus_object.finish_poi = function(){
+    //poi_candidate_ref_own.onDisconnect().set(null);
+    //poi_taken_ref_own.onDisconnect().set(null);
 
     if(MixideaSetting.hangout_execution){
-      gapi.hangout.data.clearValue("poi_taken");
+
+      var poi_candidate_str = gapi.hangout.data.getValue("poi_candidate");
+      var poi_candidate_obj = new Object();
+      if(poi_candidate_str){
+        poi_candidate_obj = JSON.parse(poi_candidate_str);
+      }
+      poi_candidate_obj[MixideaSetting.own_user_id] = own_group;
+      var poi_candidate_str = JSON.stringify(poi_candidate_obj);
+      gapi.hangout.data.submitDelta({"poi_candidate":poi_candidate_str});
+
     }
-    poi_fireobj.$remove();
-    poi_candidate_fireobj.$remove();
 
   }
 
+
+  var hangout_status_poitcandidate = function(){
+
+    var poi_candidate_str = gapi.hangout.data.getValue("poi_candidate");
+    var poi_candidate_obj = new Object();
+    if(poi_candidate_str){
+      poi_candidate_obj = JSON.parse(poi_candidate_str);
+    }
+    update_syncdata_poi_candidate(poi_candidate_obj);
+  }
 
 
   poi_candidate_ref.on("value", function(snapshot){
-    var poi_obj = snapshot.val();
+    var poi_candidate_obj = snapshot.val();
+    update_syncdata_poi_candidate(poi_candidate_obj);
+
+  });
+
+  var update_syncdata_poi_candidate = function(poi_candidate_obj){
+
+    var update_exist = false;
+
+    // add if not
+
+    for( var key in poi_candidate_obj){
+      var key_exist = false;
+      for(var i=0; i<SpeechStatus_object.poi_candidate_userobj_array.length; i++){
+        if(key == SpeechStatus_object.poi_candidate_userobj_array[i].id){
+          key_exist = true;
+        }
+      }
+      if(!key_exist){
+        var obj = {id: key, group:poi_candidate_obj[key]};
+        SpeechStatus_object.poi_candidate_userobj_array.push(obj);
+        update_exist = true;
+        SoundPlayService.Poi();
+      }
+    }
+
+    // delete if it does not exist
+
+    for(var i=0; i<SpeechStatus_object.poi_candidate_userobj_array.length; i++){
+
+      var user_id = SpeechStatus_object.poi_candidate_userobj_array[i].id;
+      var user_id_exist = false;
+
+      for( var key in poi_candidate_obj){
+        if(poi_candidate_obj[user_id]){
+          user_id_exist = true;
+        }
+      }
+      if(!user_id_exist){
+        SpeechStatus_object.poi_candidate_userobj_array.splice(i,1);
+        update_exist = true;
+      }
+
+    }
+
+    if(update_exist){
+      $timeout(function() {}); 
+    }
+
+
+/////////////////////////
+
+/*
     var previous_num = SpeechStatus_object.poi_candidate_userobj_array.length;
     var new_num = 0;
     SpeechStatus_object.poi_candidate_userobj_array.length=0;
@@ -4254,23 +4324,54 @@ angular.module('angularFireHangoutApp')
       SoundPlayService.Poi();
     }
     $timeout(function() {}); 
-  });
+*/
+
+  }
+
+  var remove_poi_candidate = function(removed_user_id){
 
 
+    var poi_candidate_str = gapi.hangout.data.getValue("poi_candidate");
+    if(!poi_candidate_str){
+      return;
+    }
+    var poi_candidate_obj = JSON.parse(poi_candidate_str);
+ 
+    var remove_user_exist = false;
+
+    for( var key in poi_candidate_obj){
+      if(key == removed_user_id){
+        delete poi_candidate_obj[key];
+        var poi_candidate_remove_ref = video_status_ref.child("poi/candidate/" + removed_user_id);
+        poi_candidate_remove_ref.set(null);
+        remove_user_exist = true
+      }
+    }
+    if(remove_user_exist){
+      var poi_candidate_str = JSON.stringify(poi_candidate_obj);
+      gapi.hangout.data.submitDelta({"poi_candidate":poi_candidate_str});
+    }
+
+
+  }
 
 
   SpeechStatus_object.cancel_poi = function(){
     poi_candidate_fireobj_own.$remove();
+
+    if(MixideaSetting.hangout_execution){
+      remove_poi_candidate(MixideaSetting.own_user_id);
+    }
   }
 
   SpeechStatus_object.take_poi = function(user_id, group){
-
 
     if(MixideaSetting.hangout_execution){
       var poi_taken_obj = new Object();
       poi_taken_obj[user_id] = group
       var poi_taken_str = JSON.stringify(poi_taken_obj);
       gapi.hangout.data.submitDelta({"poi_taken":poi_taken_str});
+      gapi.hangout.data.clearValue("poi_candidate");
     }
     poi_taken_fireobj[user_id] = group;
     poi_taken_fireobj.$save();
@@ -4279,7 +4380,16 @@ angular.module('angularFireHangoutApp')
   }
 
 
+  SpeechStatus_object.finish_poi = function(){
 
+    if(MixideaSetting.hangout_execution){
+      gapi.hangout.data.clearValue("poi_taken");
+      gapi.hangout.data.clearValue("poi_candidate");
+    }
+    poi_fireobj.$remove();
+    poi_candidate_fireobj.$remove();
+
+  }
 
  
 
@@ -4329,6 +4439,7 @@ angular.module('angularFireHangoutApp')
       if(MixideaSetting.hangout_execution){
         gapi.hangout.data.clearValue("speaker_status");
         gapi.hangout.data.clearValue("poi_taken");
+        gapi.hangout.data.clearValue("poi_candidate");
       }
       speaker_fireobj.$remove();
       poi_taken_fireobj.$remove();
@@ -4341,6 +4452,7 @@ angular.module('angularFireHangoutApp')
       if(MixideaSetting.hangout_execution){
         gapi.hangout.data.clearValue("speaker_status");
         gapi.hangout.data.clearValue("poi_taken");
+        gapi.hangout.data.clearValue("poi_candidate");
         gapi.hangout.data.onStateChanged.remove(hangout_status_speaker);
         gapi.hangout.data.onStateChanged.remove(hangout_status_poitaken);
         gapi.hangout.onParticipantsRemoved.remove(hangout_participant_removed);

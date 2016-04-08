@@ -70,7 +70,8 @@ var global_firebase_root_ref = null;
 
 angular.module('angularFireHangoutApp')
   .constant('MixideaSetting', {
-  	firebase_url: "https://mixidea.firebaseio.com/",
+ // 	firebase_url: "https://mixidea.firebaseio.com/",
+    firebase_url: "https://mixidea-test.firebaseio.com/",
   	source_domain: 'https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/',
   	own_user_id: global_own_user_id,
   	event_id: global_event_id,
@@ -85,7 +86,8 @@ angular.module('angularFireHangoutApp')
 function set_mapping_data(user_id, hangout_id)
 {
   
-  var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+ // var root_ref = new Firebase("https://mixidea.firebaseio.com/");
+  var root_ref = new Firebase("https://mixidea-test.firebaseio.com/");
   var mapping_data_ref = root_ref.child("event_related/hangout_dynamic/" + global_event_id + "/mapping_data/" + global_own_user_id)
   mapping_data_ref.set(hangout_id, function(error) {
     if (error) {
