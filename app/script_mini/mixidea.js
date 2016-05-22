@@ -20,7 +20,7 @@ angular
 
 
 angular.module('angularFireHangoutApp')
-  .run(['$state','MixideaSetting','$window', function($state, MixideaSetting, $window) {
+  .run(['$state','MixideaSetting','$window','$http', function($state, MixideaSetting, $window, $http) {
 
   	global_firebase_root_ref = new $window.Firebase(MixideaSetting.firebase_url);
 
@@ -30,23 +30,74 @@ angular.module('angularFireHangoutApp')
 	 var event_id = MixideaSetting.event_id;
 	 var room_type = MixideaSetting.room_type;
 
-  if(room_type == "main"){
+	if(room_type == "main"){
 
-	var root_ref = new Firebase(MixideaSetting.firebase_url);
-	var game_status_ref = root_ref.child("event_related/game/" + event_id + "/game_status");
+	var game_status_ref = global_firebase_root_ref.child("event_related/game/" + event_id + "/game_status");
 	game_status_ref.once("value", function(snapshot){
 		var game_status = snapshot.val();
 		goto_state(room_type, game_status);
 	}, function(error_obj){
 		alert("event is corrupted, please confirm with mixidea administrator");
 	});
-  } else if (room_type == "team_discussion"){
+	} else if (room_type == "team_discussion"){
 
-  	console.log("team_discuss_team_side : " + MixideaSetting.team_discuss_team_side);
-  	console.log("team_discuss_own_team : " + MixideaSetting.team_discuss_own_team);
+		console.log("team_discuss_team_side : " + MixideaSetting.team_discuss_team_side);
+		console.log("team_discuss_own_team : " + MixideaSetting.team_discuss_own_team);
 
 	$state.go('team_discussion.room');
-  }
+	}
+  	notify_enter_hangout();
+
+
+	function notify_enter_hangout(){
+
+		var post_message = null;
+		if(room_type == "main"){
+			post_message = {
+				userid: MixideaSetting.own_user_id,
+				event_id:"-KFDNjQPWg9zAZE9f2B_",
+				room_type:"main",
+			}
+		}else if( room_type == "team_discussion"){
+			post_message = {
+				userid: MixideaSetting.own_user_id,
+				event_id:"-KFDNjQPWg9zAZE9f2B_",
+				room_type:"team_discussion",
+				room_team: MixideaSetting.team_discuss_team_side
+			}	
+		}else{
+			return;
+		}
+		console.log("notify enter hangout");
+		console.log(post_message);
+
+        var api_gateway_enter_hangout = MixideaSetting.ApiGateway_url + "/enter-hangout";
+
+
+   	    $http({
+          url: api_gateway_enter_hangout,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: post_message
+        }).then(function successCallback(response){
+
+          if(response.data.errorMessage){
+            console.log(response.data.errorMessage);
+          }else{
+            console.log(response.data);
+            console.log("success to send notification through lambda")
+          }
+
+        }, function errorCallback(response){
+          console.log("fail to send notification on lambda")
+          console.log(response);
+        });
+	}
+
+
+
 
 	function goto_state(room_type, game_status){
 		switch(room_type){
@@ -75,6 +126,23 @@ angular.module('angularFireHangoutApp')
 			break;
 		}
 	}
+
+
+  (function () {
+    var participants_status_root_ref = global_firebase_root_ref.child("event_related/participants/" + MixideaSetting.event_id + "/status");
+    
+
+    if(room_type =="team_discussion"){
+
+    	var room_side = MixideaSetting.team_discuss_team_side;
+    	var participants_status_ref = participants_status_root_ref.child(room_type + "/" + room_side + "/" + MixideaSetting.own_user_id);
+	    participants_status_ref.set(true);
+	}else{
+    	var participants_status_ref = participants_status_root_ref.child(room_type + "/" + MixideaSetting.own_user_id);
+	    participants_status_ref.set(true);	
+	}
+    participants_status_ref.onDisconnect().set(null);
+  })();
 
 }]);
  
@@ -1856,7 +1924,8 @@ angular.module('angularFireHangoutApp')
     team_discuss_team_side: global_team_side,
     team_discuss_own_team: global_own_team_side,
     recording_domain: 'https://recording.mixidea.org:3000/',
-    hangout_execution: true
+    hangout_execution: true,
+    ApiGateway_url:'https://jqiokf5mp9.execute-api.us-east-1.amazonaws.com/1/'
   });
 
 function set_mapping_data(user_id, hangout_id)
@@ -4108,6 +4177,15 @@ angular.module('angularFireHangoutApp')
 
   }
 
+/*disconnection is only catched by hangout api
+  It can be also ditected by firebase but 
+   the firebase disconnection is triggered by the person who is disconnected
+  it lead to the mismatch between other user and the person who is disconnected
+  because sometimes that is triggered to only the person who is disconnected but
+   not triggered to others and only the person who is disconnected have different status
+   That is why this management is done only by hangout api.
+   
+*/
   var hangout_participant_removed = function(Removed_obj){
 
     var removed_participants_array = Removed_obj.removedParticipants;

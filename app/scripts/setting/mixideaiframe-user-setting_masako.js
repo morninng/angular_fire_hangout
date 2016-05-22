@@ -45,7 +45,8 @@ angular.module('angularFireHangoutApp')
     team_discuss_team_side: global_team_side,
     team_discuss_own_team: global_own_team_side,
     recording_domain: 'https://recording.mixidea.org:3000/',
-    hangout_execution: false
+    hangout_execution: false,
+    ApiGateway_url:'https://jqiokf5mp9.execute-api.us-east-1.amazonaws.com/1/'
   });
 
 
