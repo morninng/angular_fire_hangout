@@ -81,7 +81,7 @@
         <script src="https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/scripts/services/title-service.js"></script>
         <script src="https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/scripts/services/socketstreams-service.js"></script>
         <script src="https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/scripts/services/speechstatus-service.js"></script>
-
+        <script src="https://s3.amazonaws.com/mixideahangoutsource/angular_fire_hangout/app/scripts/controllers/teamchat.js"></script>
 
 
 

@@ -17,7 +17,7 @@ var global_firebase_root_ref = null;
 
 (function () {
 
-  global_event_id = "-KEof5h75HXrxrMnd-ed";
+  global_event_id = "-KFDNjQPWg9zAZE9f2B_";
   global_own_user_id = "facebook:1023172297758186";
   //global_room_type = "team_discussion";
   global_room_type = "main";

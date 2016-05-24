@@ -243,6 +243,10 @@ angular.module('angularFireHangoutApp')
 			"absolute_pain_1":{
 			templateUrl: MixideaSetting.source_domain + 'views/main/debater_bar.html',
 			controller: 'DebaterbarCtrl'
+			},
+			"absolute_pain_2":{
+			templateUrl: MixideaSetting.source_domain + 'views/common/team_chat.html',
+			controller: 'TeamchatCtrl'
 			}
 		}
 	})

@@ -1,0 +1,44 @@
+<div id="team_chat">
+
+      <div class="msg_head" ng-click="click_header()">
+        <div class="chat_title" > Chat among {{participant_mgr.own_group}} members</div>
+        <div class="chat_button" ng-if="show_body">
+          <img src="https://s3.amazonaws.com/mixidea/minimize.png">
+        </div>
+        <div class="chat_button" ng-if="!show_body">
+          <img src="https://s3.amazonaws.com/mixidea/maximize.png">
+        </div>     
+      </div>
+
+      <div id="msg_wrap" ng-if="show_body">
+        <div class="msg_body">
+
+          <ul>
+            <li ng-repeat="message in chat_message_array">
+
+              <div ng-class="message.position">
+                <div class="message_container">
+                  <div class="sender_img">
+                    <img ng-src={{participant_mgr.user_object_data[message.user].profile_pict}}>
+                  </div>
+                  <div class="message_box">
+                    <div class="message">
+                      <span class="chat_sender_name">{{participant_mgr.user_object_data[message.user].first_name}}</span>
+                      <span class="chat_message">{{message.context}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </li>
+          </ul>
+
+        </div>
+        <div class="msg_footer">
+          <textarea ng-model="chat_text_input.message" ng-keyup="chat_keyup($event)" class="msg_input" rows="2">
+          </textarea>
+        </div>
+      </div>
+
+</div>
+
